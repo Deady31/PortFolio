@@ -1,0 +1,17 @@
+{
+  "name": "riyan-portfolio",
+  "version": "2.4.0",
+  "private": true,
+  "description": "Riyan Besseghir's portfolio — single-file React/Babel site, minified before deploy",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-react": "^7.24.0",
+    "html-minifier-terser": "^7.2.0",
+    "terser": "^5.31.0"
+  }
+}

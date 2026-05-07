@@ -3,6 +3,11 @@ uploads/*.docx
 uploads/*.doc
 uploads/DETAIL*.pdf
 
+# Build output and dependencies (only published via GitHub Actions, never committed)
+node_modules/
+dist/
+package-lock.json
+
 # Old versions
 portfolio.html
 portfolio-print.html
