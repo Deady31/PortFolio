@@ -50,6 +50,10 @@ button{font-family:'Inter',sans-serif}
 @keyframes iconPulse{0%,100%{transform:scale(1)}40%{transform:scale(1.1)}70%{transform:scale(1.04)}}
 /* Roadmap dotted-path flow */
 @keyframes dashFlow{from{stroke-dashoffset:0}to{stroke-dashoffset:-1200}}
+/* Custom luminous cursor — hide native cursor everywhere */
+html,body,*,*::before,*::after{cursor:none !important}
+/* But keep text caret visible inside inputs/textareas */
+input,textarea{cursor:text !important}
 /* Scroll reveal */
 .reveal{opacity:0;transform:translateY(36px);transition:opacity .75s cubic-bezier(.22,.68,0,1.2),transform .75s cubic-bezier(.22,.68,0,1.2)}
 .reveal.vis{opacity:1;transform:translateY(0)}
@@ -460,7 +464,7 @@ function FinderWindow({title,children,style={},onMD,onClose,statusText=''}){
             {bg:'#FFBD2E',hover:'#E0A826',cb:null},
             {bg:'#28C840',hover:'#20A834',cb:null}].map((dot,i)=>(
             <div key={i} data-h={dot.cb?true:undefined}
-              style={{width:14,height:14,borderRadius:'50%',background:dot.bg,flexShrink:0,cursor:dot.cb?'none':'default',display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:900,color:'rgba(0,0,0,0)',transition:'color .1s,background .1s'}}
+              style={{width:14,height:14,borderRadius:'50%',background:dot.bg,flexShrink:0,cursor:dot.cb?'pointer':'default',display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:900,color:'rgba(0,0,0,0)',transition:'color .1s,background .1s'}}
               onClick={dot.cb||undefined}
               onMouseEnter={e=>{if(dot.cb){e.currentTarget.style.color='rgba(100,0,0,.7)';e.currentTarget.style.background=dot.hover;}}}
               onMouseLeave={e=>{e.currentTarget.style.color='rgba(0,0,0,0)';e.currentTarget.style.background=dot.bg;}}>
@@ -913,7 +917,7 @@ function SectionWindow({title,children,style={},onMD,onClose,accent='#ff6b4a'}){
         <div style={{display:'flex',gap:8,alignItems:'center',width:80}}>
           {[{bg:'#FF5F57',hover:'#E04E45',cb:onClose},{bg:'#FFBD2E',hover:'#E0A826',cb:null},{bg:'#28C840',hover:'#20A834',cb:null}].map((dot,i)=>(
             <div key={i} data-h={dot.cb?true:undefined}
-              style={{width:13,height:13,borderRadius:'50%',background:dot.bg,flexShrink:0,cursor:dot.cb?'none':'default',display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:900,color:'rgba(0,0,0,0)',transition:'color .1s,background .1s'}}
+              style={{width:13,height:13,borderRadius:'50%',background:dot.bg,flexShrink:0,cursor:dot.cb?'pointer':'default',display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:900,color:'rgba(0,0,0,0)',transition:'color .1s,background .1s'}}
               onClick={dot.cb||undefined}
               onMouseEnter={e=>{if(dot.cb){e.currentTarget.style.color='rgba(100,0,0,.7)';e.currentTarget.style.background=dot.hover;}}}
               onMouseLeave={e=>{e.currentTarget.style.color='rgba(0,0,0,0)';e.currentTarget.style.background=dot.bg;}}>
@@ -1848,11 +1852,74 @@ function ProjectModal({p,onClose}){
 }
 
 /* ── APP ─────────────────────────────────────────────── */
+/* ── CURSOR GLOW ─ orange luminous halo following the cursor ── */
+function CursorGlow(){
+  const dotRef=useRef(null);
+  const haloRef=useRef(null);
+  const ringRef=useRef(null);
+  const tgt=useRef({x:-200,y:-200});
+  const cur=useRef({x:-200,y:-200});
+  const ringPos=useRef({x:-200,y:-200});
+  const isHover=useRef(false);
+  const isDown=useRef(false);
+  useEffect(()=>{
+    const onMove=e=>{
+      tgt.current.x=e.clientX;tgt.current.y=e.clientY;
+      const t=e.target;
+      isHover.current=!!(t&&t.closest&&(t.closest('[data-h]')||t.closest('button')||t.closest('a')||t.closest('[role=button]')||t.tagName==='BUTTON'||t.tagName==='A'||t.tagName==='INPUT'||t.tagName==='TEXTAREA'));
+    };
+    const onDown=()=>{isDown.current=true;};
+    const onUp=()=>{isDown.current=false;};
+    window.addEventListener('mousemove',onMove,{passive:true});
+    window.addEventListener('mousedown',onDown);
+    window.addEventListener('mouseup',onUp);
+    let raf;
+    const tick=()=>{
+      // Inner dot follows tightly (snappy)
+      cur.current.x+=(tgt.current.x-cur.current.x)*0.42;
+      cur.current.y+=(tgt.current.y-cur.current.y)*0.42;
+      // Outer ring trails with a soft lag
+      ringPos.current.x+=(tgt.current.x-ringPos.current.x)*0.16;
+      ringPos.current.y+=(tgt.current.y-ringPos.current.y)*0.16;
+      const dot=dotRef.current,halo=haloRef.current,ring=ringRef.current;
+      const dotScale=isDown.current?0.55:(isHover.current?1.4:1);
+      const ringScale=isDown.current?0.85:(isHover.current?1.55:1);
+      const haloScale=isDown.current?0.8:(isHover.current?1.8:1);
+      if(dot)dot.style.transform=`translate3d(${cur.current.x}px,${cur.current.y}px,0) translate(-50%,-50%) scale(${dotScale})`;
+      if(halo)halo.style.transform=`translate3d(${cur.current.x}px,${cur.current.y}px,0) translate(-50%,-50%) scale(${haloScale})`;
+      if(ring)ring.style.transform=`translate3d(${ringPos.current.x}px,${ringPos.current.y}px,0) translate(-50%,-50%) scale(${ringScale})`;
+      raf=requestAnimationFrame(tick);
+    };
+    raf=requestAnimationFrame(tick);
+    // Hide native cursor on the document body
+    const prev=document.body.style.cursor;
+    document.body.style.cursor='none';
+    return()=>{
+      cancelAnimationFrame(raf);
+      window.removeEventListener('mousemove',onMove);
+      window.removeEventListener('mousedown',onDown);
+      window.removeEventListener('mouseup',onUp);
+      document.body.style.cursor=prev;
+    };
+  },[]);
+  return(
+    <>
+      {/* Soft outer glow halo */}
+      <div ref={haloRef} style={{position:'fixed',top:0,left:0,width:90,height:90,borderRadius:'50%',background:'radial-gradient(circle,rgba(255,138,90,.55) 0%,rgba(255,107,74,.32) 35%,rgba(255,107,74,0) 70%)',pointerEvents:'none',zIndex:99997,mixBlendMode:'screen',filter:'blur(2px)',willChange:'transform'}}/>
+      {/* Trailing ring */}
+      <div ref={ringRef} style={{position:'fixed',top:0,left:0,width:34,height:34,borderRadius:'50%',border:'1.5px solid rgba(255,107,74,.65)',pointerEvents:'none',zIndex:99998,boxShadow:'0 0 18px rgba(255,107,74,.55), inset 0 0 8px rgba(255,107,74,.25)',willChange:'transform',transition:'border-color .15s,box-shadow .15s'}}/>
+      {/* Inner luminous dot */}
+      <div ref={dotRef} style={{position:'fixed',top:0,left:0,width:10,height:10,borderRadius:'50%',background:'radial-gradient(circle,#fff 0%,#ffb89a 40%,#ff6b4a 100%)',pointerEvents:'none',zIndex:99999,boxShadow:'0 0 14px rgba(255,107,74,.95),0 0 28px rgba(255,107,74,.55)',willChange:'transform'}}/>
+    </>
+  );
+}
+
 function App(){
   const [phase,setPhase]=useState('loader'); // loader → welcome → desktop → done
   const [showTooltip,setShowTooltip]=useState(false);
   return(
     <>
+      <CursorGlow/>
       {phase==='loader'&&<Loader onDone={()=>setPhase('welcome')}/>}
       {phase==='welcome'&&<WelcomeFlow onComplete={()=>{setPhase('desktop');setShowTooltip(true);}}/>}
       <div style={{opacity:phase==='desktop'||phase==='done'?1:0,transition:'opacity .8s ease .1s'}}>
