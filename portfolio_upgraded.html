@@ -48,6 +48,8 @@ button{font-family:'Inter',sans-serif}
 @keyframes wfFadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 /* Desktop icon pulse (pro zone) */
 @keyframes iconPulse{0%,100%{transform:scale(1)}40%{transform:scale(1.1)}70%{transform:scale(1.04)}}
+/* Roadmap dotted-path flow */
+@keyframes dashFlow{from{stroke-dashoffset:0}to{stroke-dashoffset:-1200}}
 /* Scroll reveal */
 .reveal{opacity:0;transform:translateY(36px);transition:opacity .75s cubic-bezier(.22,.68,0,1.2),transform .75s cubic-bezier(.22,.68,0,1.2)}
 .reveal.vis{opacity:1;transform:translateY(0)}
@@ -166,12 +168,12 @@ const SKILLS_DATA=[
 
 const TL_EVENTS=[
   {year:'2007',title:'Premier PC',text:'Découverte de la tech et des jeux vidéo. Le premier "pourquoi ça marche ?" qui ne s\'est jamais arrêté.',emoji:'💻',color:'#6b5f56',detail:'L\'accès à un PC à 5 ans a tout déclenché. Curiosité infinie pour la technologie, les interfaces, comment les choses fonctionnent sous le capot.'},
-  {year:'2012',title:'League of Legends',text:'Début d\'une longue aventure. Le jeu qui m\'a appris la stratégie et le travail en équipe.',emoji:'⚔️',color:'#C89B3C',detail:'14 ans de LoL, c\'est une école de la rigueur. Gestion de l\'égo, communication sous pression, adaptabilité tactique.'},
-  {year:'2016',title:'Overwatch',text:'Jeu compétitif ultra-rapide qui forge l\'adaptabilité et booste l\'anglais.',emoji:'🎮',color:'#F99E1A',detail:'Overwatch m\'a donné mon niveau d\'anglais C1. En cherchant à progresser, j\'ai consommé des heures de contenu anglophone.'},
-  {year:'2022',title:'Première app shipée',text:'Premier produit livré. Beaucoup d\'erreurs, encore plus d\'apprentissages.',emoji:'🚀',color:C.coral,detail:'Compris que le code seul ≠ produit. La friction utilisateur, la valeur perçue, le design — tout ça compte autant que la technique.'},
-  {year:'2023',title:'CinéApp · Fooder',text:'Premiers vrais utilisateurs, vrais feedbacks, vrais pivots.',emoji:'🎬',color:'#22C55E',detail:'TMDB API, itérations rapides, swipe UX. Première fois que des inconnus utilisent quelque chose que j\'ai construit.'},
-  {year:'2024–25',title:'Shippingbo PM/PO',text:'9 mois, une feature team IA pilotée end-to-end. −30% tickets Tier 1.',emoji:'💼',color:'#6366F1',detail:'Coordination front/back, user stories, DoD, sprints 2 semaines. Agent IA logistique de 0 à la prod. Intégration TikTok Shop API.'},
-  {year:'2026',title:'Open to work →',text:'À la recherche de la prochaine aventure 0→1.',emoji:'🌅',color:C.green,detail:'PM/PO junior disponible. Full-time, freelance, Toulouse, Paris, Remote, Hybrid. Prêt à builder des choses qui comptent.'},
+  {year:'Juin 2018',title:'BAC STMG — Gestion & Finance',text:'Mention Très Bien. Premier contact sérieux avec la comptabilité, l\'économie et le management.',emoji:'🎓',color:'#22C55E',detail:'Découverte des mécaniques d\'entreprise : gestion, finance, mercatique, droit. Une base solide qui m\'a donné le goût des systèmes business — comprendre comment une boîte fonctionne avant même d\'y travailler.'},
+  {year:'Juin 2021',title:'Licence AES — Toulouse',text:'Licence Administration Économique et Sociale. Couteau-suisse académique : éco, droit, socio, gestion.',emoji:'📚',color:'#6366F1',detail:'Cursus pluridisciplinaire qui couvre macroéconomie, microéconomie, droit civil et commercial, sociologie, sciences politiques, gestion d\'entreprise et statistiques. M\'a donné des bases solides pour comprendre les organisations sous tous leurs angles — exactement ce qui sert au quotidien en Product Management.'},
+  {year:'Juin 2025',title:'Master AES — Gouvernance des Entreprises',text:'Master Administration Économique et Sociale, option Gouvernance des Entreprises.',emoji:'🎓',color:'#7C5CE7',detail:'Programme dense et appliqué : gestion de projet, informatique (SQL, data, Power BI), comptabilité, management lean, communication (création de plans de communication), marketing (création de campagnes), droit des sociétés, macroéconomie, microéconomie. La fusion parfaite entre business, tech et stratégie.'},
+  {year:'Juillet 2025',title:'Shippingbo — Product Manager',text:'Début chez Shippingbo (SaaS B2B logistique) en tant que PM. Feature team IA, 137 tickets, −30% T1.',emoji:'💼',color:C.coral,detail:'9 mois en feature team autonome. Coordination front/back, user stories, DoD, sprints 2 semaines. Agent IA logistique livré de 0 à la production. Intégration TikTok Shop API en partenariat officiel. Refonte d\'interface legacy. Page modules headless CMS.'},
+  {year:'Octobre 2025',title:'CinéApp — première app personnelle',text:'Première application perso shippée : agréger toutes les plateformes pour décider quoi regarder.',emoji:'🎬',color:'#E50914',detail:'TMDB API, React, filtres temps réel par plateforme/genre/durée. 3 redesigns du système de filtres avant product-market fit. Compris que le code seul ≠ produit — la friction utilisateur, la valeur perçue et le design comptent autant que la technique.'},
+  {year:'Avril 2026 →',title:'Recherche intensive + Product Builder',text:'Recherche active d\'emploi tout en me formant à l\'évolution naturelle du PM : Product Builder.',emoji:'🚀',color:C.green,detail:'Le métier de Product Builder est l\'évolution naturelle du Product Manager : un PM qui prototype lui-même, fait ses maquettes Figma solo, code assez pour comprendre les devs, et ship des POCs en 30 minutes. Pendant cette période de transition, je me forme intensivement aux outils (Cursor, Claude, Figma AI), aux frameworks 0→1, et je multiplie les projets persos pour incarner ce rôle.'},
 ];
 
 /* ── HOOKS ───────────────────────────────────────────── */
@@ -659,15 +661,16 @@ function ZebraFolderSVG({open=false,size=72}){
 }
 
 /* ── GAMES FOLDER ───────────────────────────────────── */
-function GamesFolder({onOpen,pos}){
+function GamesFolder({onOpen,pos,subtle=false}){
   const [hov,setHov]=useState(false);
   const peekGames=[
     {label:'LoL',color:'#C89B3C',emoji:'⚔️'},
     {label:'OW',color:'#F99E1A',emoji:'🎮'},
     {label:'P5R',color:'#E42E2E',emoji:'🎭'},
   ];
+  const sz=subtle?78:114;
   return(
-    <div style={{position:'absolute',left:pos.x,top:pos.y,display:'flex',flexDirection:'column',alignItems:'center',gap:8,cursor:'pointer',zIndex:12,width:140}} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)} onClick={onOpen} data-h>
+    <div style={{position:'absolute',left:pos.x,top:pos.y,display:'flex',flexDirection:'column',alignItems:'center',gap:8,cursor:'pointer',zIndex:12,width:subtle?102:140,opacity:subtle&&!hov?.78:1,transition:'opacity .2s'}} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)} onClick={onOpen} data-h>
       {/* Peek games on hover */}
       {hov&&(
         <div style={{position:'absolute',bottom:'calc(100% + 10px)',left:'50%',transform:'translateX(-50%)',display:'flex',gap:8,zIndex:20}}>
@@ -680,9 +683,9 @@ function GamesFolder({onOpen,pos}){
         </div>
       )}
       <div style={{transform:hov?'scale(1.1) translateY(-4px) rotate(-4deg)':'scale(1)',transition:'all .25s cubic-bezier(.22,.68,0,1.2)',filter:hov?'drop-shadow(0 12px 24px rgba(200,150,14,.5))':'drop-shadow(0 4px 8px rgba(0,0,0,.2))'}}>
-        <ZebraFolderSVG open={hov} size={114}/>
+        <ZebraFolderSVG open={hov} size={sz}/>
       </div>
-      <div style={{fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif",fontSize:12,fontWeight:600,color:hov?C.coral:'#1a1614',background:'rgba(255,255,255,.82)',padding:'3px 10px',borderRadius:6,backdropFilter:'blur(6px)',transition:'color .2s',whiteSpace:'nowrap',boxShadow:'0 1px 3px rgba(0,0,0,.08)'}}>Jeux de ma vie</div>
+      <div style={{fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif",fontSize:subtle?10:12,fontWeight:600,color:hov?C.coral:(subtle?C.muted:'#1a1614'),background:'rgba(255,255,255,.82)',padding:'3px 10px',borderRadius:6,backdropFilter:'blur(6px)',transition:'color .2s',whiteSpace:'nowrap',boxShadow:'0 1px 3px rgba(0,0,0,.08)'}}>Jeux de ma vie</div>
     </div>
   );
 }
@@ -930,12 +933,12 @@ function SectionWindow({title,children,style={},onMD,onClose,accent='#ff6b4a'}){
 
 /* ── BIO WINDOW CONTENT ─────────────────────────────── */
 const BENTO=[
-  {emoji:'☕',text:'Toujours un café à portée',hover:'Flat white, pas de sucre. Sine qua non.',color:'#D4853A'},
-  {emoji:'💪',text:'Muscu & nutrition — la discipline au quotidien',hover:'Consistance, rigueur, résultats mesurables. Les mêmes ingrédients que pour un bon produit.',color:'#00875a'},
-  {emoji:'🎬',text:'Cinéphile convaincu',hover:'Top 5 : Babylon, Whiplash, Goodfellas, Irishman, Taxi Driver.',color:'#E50914'},
-  {emoji:'🌙',text:'Énergie communicative',hover:'Calme et précis en réunion, dynamique avec l\'équipe — toujours authentique.',color:'#6366F1'},
-  {emoji:'🔬',text:'Product = hypothèse à tester',hover:'Pas une spec à rédiger. Les données parlent.',color:'#ff6b4a'},
-  {emoji:'🇯🇵',text:'Amoureux du Japon',hover:'Langue, culture, anime. Un rêve qui se construit.',color:'#C42847'},
+  {emoji:'📚',text:'Toujours envie d\'apprendre',hover:'Chaque projet est une école, chaque erreur un raccourci. Je n\'arrête jamais de creuser : nouveaux outils, frameworks, métiers adjacents.',color:'#6366F1'},
+  {emoji:'💪',text:'Muscu & nutrition — discipline au quotidien',hover:'Consistance, rigueur, résultats mesurables. Les mêmes ingrédients que pour un bon produit.',color:'#00875a'},
+  {emoji:'🎬',text:'Cinéphile convaincu',hover:'Top 5 : Babylon, Whiplash, Goodfellas, Irishman, Taxi Driver. La narration qui claque, l\'image qui dit tout.',color:'#E50914'},
+  {emoji:'🌙',text:'Énergie communicative',hover:'Calme et précis en réunion, dynamique avec l\'équipe — toujours authentique.',color:'#7C5CE7'},
+  {emoji:'🔬',text:'Product = hypothèse à tester',hover:'Pas une spec à rédiger. Les données parlent, les users tranchent, les itérations valident.',color:'#ff6b4a'},
+  {emoji:'🇯🇵',text:'Amoureux du Japon',hover:'Langue, culture, anime. Un rêve qui se construit — vivre et travailler là-bas, un jour.',color:'#C42847'},
 ];
 function BentoCard({emoji,text,hover,color}){
   const [h,setH]=useState(false);
@@ -951,33 +954,63 @@ function BentoCard({emoji,text,hover,color}){
 }
 function BioContent(){
   return(
-    <div style={{padding:32,display:'grid',gridTemplateColumns:'1fr 320px',gap:28}}>
+    <div style={{padding:28,display:'grid',gridTemplateColumns:'320px 1fr 280px',gap:22,alignItems:'start'}}>
+      {/* LEFT: Bio + links */}
+      <div style={{background:'linear-gradient(180deg,rgba(255,107,74,.05),rgba(248,249,251,.9))',border:'1px solid rgba(255,107,74,.18)',borderRadius:16,padding:'22px'}}>
+        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:10}}>Bio · riyan.world</div>
+        <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:24,fontWeight:800,letterSpacing:'-.04em',marginBottom:14,lineHeight:1.05,color:'#1a1614'}}>Riyan, 24 ans,<br/><span style={{color:C.coral,fontStyle:'italic'}}>Product Builder</span>.</h2>
+        <p style={{fontSize:12,color:'#5b5048',lineHeight:1.75,marginBottom:10}}>
+          PM &amp; <strong style={{color:'#1a1614'}}>Builder</strong> basé à Toulouse. Pas juste un chef de produit — quelqu'un qui prototype des POCs en <strong style={{color:'#1a1614'}}>30 minutes</strong> avant d'écrire une spec.
+        </p>
+        <p style={{fontSize:12,color:'#5b5048',lineHeight:1.75,marginBottom:10}}>
+          Maquettes <strong style={{color:'#1a1614'}}>Figma solo</strong> avant d'impliquer le designer. Je code assez pour comprendre les devs. Je ship, j'apprends, je recommence.
+        </p>
+        <p style={{fontSize:12,color:'#5b5048',lineHeight:1.75,marginBottom:14}}>
+          Obsession : <strong style={{color:'#1a1614'}}>0→1</strong>. Transformer une friction en produit qui ship.
+        </p>
+        <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:14}}>
+          {['FR natif','EN C1','ES B2'].map(t=>(
+            <span key={t} style={{padding:'3px 9px',border:'1px solid rgba(0,0,0,.1)',borderRadius:100,fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",background:'rgba(0,0,0,.03)'}}>{t}</span>
+          ))}
+        </div>
+        <div style={{display:'flex',gap:6,flexDirection:'column'}}>
+          <a href="https://github.com/Deady31" target="_blank" data-h style={{padding:'9px 14px',background:'#1a1614',color:'#fff',borderRadius:10,fontSize:11,fontWeight:600,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'transform .2s'}} onMouseEnter={e=>e.currentTarget.style.transform='translateX(3px)'} onMouseLeave={e=>e.currentTarget.style.transform='translateX(0)'}>
+            <span>⌥ GitHub — /Deady31</span><span>↗</span>
+          </a>
+          <a href="https://www.linkedin.com/in/riyan-besseghir-8514a425b/" target="_blank" data-h style={{padding:'9px 14px',background:'#0A66C2',color:'#fff',borderRadius:10,fontSize:11,fontWeight:600,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'transform .2s'}} onMouseEnter={e=>e.currentTarget.style.transform='translateX(3px)'} onMouseLeave={e=>e.currentTarget.style.transform='translateX(0)'}>
+            <span>💼 LinkedIn</span><span>↗</span>
+          </a>
+          <a href="uploads/CV%20RIYAN%20PM%20FR.pdf" download data-h style={{padding:'9px 14px',background:C.coral,color:'#fff',borderRadius:10,fontSize:11,fontWeight:700,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'transform .2s',boxShadow:'0 4px 14px rgba(255,107,74,.3)'}} onMouseEnter={e=>e.currentTarget.style.transform='translateX(3px)'} onMouseLeave={e=>e.currentTarget.style.transform='translateX(0)'}>
+            <span>📄 Télécharger mon CV</span><span>↓</span>
+          </a>
+        </div>
+      </div>
+
+      {/* CENTER: 6 anecdote cards */}
       <div>
-        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:12}}>Qui je suis</div>
-        <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:32,fontWeight:800,letterSpacing:'-.04em',marginBottom:20,lineHeight:1.05,color:'#1a1614'}}>Riyan, 24 ans,<br/><span style={{color:C.coral,fontStyle:'italic'}}>Product Builder</span>.</h2>
+        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:10}}>Qui je suis vraiment</div>
+        <h3 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:18,fontWeight:800,letterSpacing:'-.03em',marginBottom:14,color:'#1a1614'}}>6 traits qui me définissent</h3>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
           {BENTO.map((b,i)=><BentoCard key={i} {...b}/>)}
         </div>
       </div>
-      <div style={{background:'rgba(248,249,251,.9)',border:'1px solid rgba(0,0,0,.08)',borderRadius:16,padding:'22px'}}>
-        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.coral,letterSpacing:'.15em',textTransform:'uppercase',marginBottom:12}}>Bio · riyan.world</div>
-        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.8,marginBottom:12}}>
-          PM & <strong style={{color:'#1a1614'}}>Builder</strong> basé à Toulouse. Pas juste un chef de produit — quelqu'un qui prototype des POCs en <strong style={{color:'#1a1614'}}>30 minutes</strong> pour tester une hypothèse avant d'écrire une spec.
-        </p>
-        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.8,marginBottom:12}}>
-          Je fais mes maquettes <strong style={{color:'#1a1614'}}>Figma solo</strong> avant d'impliquer le designer. Je code assez pour comprendre ce que je demande aux devs. Je ship, j'apprends, je recommence.
-        </p>
-        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.8,marginBottom:16}}>
-          Mon obsession : l'étape <strong style={{color:'#1a1614'}}>0→1</strong>. Transformer une friction réelle en produit qui ship. Apprentissage constant — chaque projet est une école, chaque erreur un raccourci.
-        </p>
-        <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:14}}>
-          {['FR natif','EN C1','ES B2'].map(t=>(
-            <span key={t} style={{padding:'3px 10px',border:'1px solid rgba(0,0,0,.1)',borderRadius:100,fontSize:10,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",background:'rgba(0,0,0,.03)'}}>{t}</span>
-          ))}
+
+      {/* RIGHT: Photo */}
+      <div style={{position:'sticky',top:0}}>
+        <div style={{borderRadius:16,overflow:'hidden',boxShadow:'0 16px 40px rgba(0,0,0,.18)',border:'1px solid rgba(0,0,0,.08)',aspectRatio:'3/4',background:'linear-gradient(135deg,rgba(255,107,74,.15),rgba(124,92,231,.1))',position:'relative'}}>
+          <img src="uploads/Photo%20Pro%20Riyan%202.jpg" alt="Riyan Besseghir" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} onError={e=>{e.currentTarget.style.display='none';e.currentTarget.nextSibling.style.display='flex';}}/>
+          <div style={{display:'none',position:'absolute',inset:0,alignItems:'center',justifyContent:'center',flexDirection:'column',gap:10,color:'#5b5048'}}>
+            <div style={{fontSize:64}}>👤</div>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,letterSpacing:'.1em',textTransform:'uppercase'}}>Photo à venir</div>
+          </div>
+          <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'14px 16px',background:'linear-gradient(0deg,rgba(0,0,0,.75),transparent)',color:'#fff'}}>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:800,letterSpacing:'-.02em'}}>Riyan Besseghir</div>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,letterSpacing:'.08em',opacity:.85,marginTop:2}}>PM · BUILDER · TOULOUSE</div>
+          </div>
         </div>
-        <div style={{display:'flex',gap:8}}>
-          <a href="https://github.com/Deady31" target="_blank" data-h style={{padding:'7px 14px',background:'#1a1614',color:'#fff',borderRadius:100,fontSize:11,fontWeight:600,fontFamily:"'JetBrains Mono',monospace"}}>GitHub ↗</a>
-          <a href="https://www.linkedin.com/in/riyan-besseghir-8514a425b/" target="_blank" data-h style={{padding:'7px 14px',background:'#0A66C2',color:'#fff',borderRadius:100,fontSize:11,fontWeight:600,fontFamily:"'JetBrains Mono',monospace"}}>LinkedIn ↗</a>
+        <div style={{marginTop:10,padding:'10px 12px',background:'rgba(0,135,90,.08)',border:'1px solid rgba(0,135,90,.2)',borderRadius:10,display:'flex',alignItems:'center',gap:8}}>
+          <span style={{width:7,height:7,borderRadius:'50%',background:C.green,animation:'pulse 2s ease-in-out infinite'}}/>
+          <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.green,fontWeight:700,letterSpacing:'.06em'}}>OPEN TO WORK</span>
         </div>
       </div>
     </div>
@@ -1026,26 +1059,40 @@ function ImpactContent(){
 function SkillsContent(){
   const [active,setActive]=useState(null);
   return(
-    <div style={{padding:32}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:12}}>Compétences</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:30,fontWeight:800,letterSpacing:'-.04em',marginBottom:8,lineHeight:1.05,color:'#1a1614'}}>Mes <span style={{color:C.coral}}>Skills</span></h2>
-      <p style={{fontSize:13,color:'#5b5048',marginBottom:24,lineHeight:1.6,maxWidth:480}}>Pas de barres ni de niveaux arbitraires — voici ce avec quoi je travaille vraiment.</p>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:12}}>
-        {SKILLS_DATA.map((cat,i)=>{
-          const isA=active===i;
-          return(
-            <div key={i} data-h style={{background:isA?'#fff':'rgba(248,249,251,.9)',border:`1.5px solid ${isA?cat.color+'66':'rgba(0,0,0,.08)'}`,borderRadius:14,padding:'18px',transition:'all .3s cubic-bezier(.22,.68,0,1.2)',transform:isA?'translateY(-3px)':'none',boxShadow:isA?`0 14px 32px rgba(0,0,0,.08),0 0 0 1px ${cat.color}22`:'none',cursor:'pointer'}}
-              onMouseEnter={()=>setActive(i)} onMouseLeave={()=>setActive(null)}>
-              <div style={{fontSize:24,marginBottom:8}}>{cat.icon}</div>
-              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:800,letterSpacing:'-.02em',color:'#1a1614',marginBottom:10}}>{cat.cat}</div>
-              <div style={{display:'flex',flexWrap:'wrap',gap:5}}>
-                {cat.items.map(item=>(
-                  <span key={item} style={{padding:'3px 9px',borderRadius:100,background:isA?cat.color+'18':'rgba(0,0,0,.04)',border:`1px solid ${isA?cat.color+'44':'rgba(0,0,0,.06)'}`,fontSize:10,color:isA?cat.color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",fontWeight:isA?600:400}}>{item}</span>
-                ))}
+    <div style={{padding:'24px 28px',height:'100%',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+      <div style={{flexShrink:0,marginBottom:16}}>
+        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Compétences</div>
+        <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between',gap:14,flexWrap:'wrap'}}>
+          <div>
+            <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:28,fontWeight:800,letterSpacing:'-.04em',marginBottom:4,lineHeight:1.05,color:'#1a1614'}}>Mes <span style={{color:C.coral}}>Skills</span></h2>
+            <p style={{fontSize:12,color:'#5b5048',lineHeight:1.55,maxWidth:520}}>Pas de barres ni de niveaux arbitraires — voici ce avec quoi je travaille vraiment au quotidien.</p>
+          </div>
+          <div style={{padding:'6px 12px',background:'rgba(255,107,74,.12)',borderRadius:100,fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.coral,fontWeight:700,letterSpacing:'.08em'}}>↓ SCROLL POUR + DE SKILLS</div>
+        </div>
+      </div>
+      <div style={{flex:1,overflowY:'auto',paddingRight:8,marginRight:-8}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:14,paddingBottom:20}}>
+          {SKILLS_DATA.map((cat,i)=>{
+            const isA=active===i;
+            return(
+              <div key={i} data-h style={{background:isA?'#fff':'rgba(248,249,251,.9)',border:`1.5px solid ${isA?cat.color+'66':'rgba(0,0,0,.08)'}`,borderRadius:16,padding:'22px',transition:'all .3s cubic-bezier(.22,.68,0,1.2)',transform:isA?'translateY(-3px)':'none',boxShadow:isA?`0 18px 40px rgba(0,0,0,.10),0 0 0 1px ${cat.color}22`:'none',cursor:'pointer',minHeight:220,display:'flex',flexDirection:'column'}}
+                onMouseEnter={()=>setActive(i)} onMouseLeave={()=>setActive(null)}>
+                <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:14}}>
+                  <div style={{width:46,height:46,borderRadius:12,background:isA?cat.color+'18':cat.color+'10',display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,border:`1px solid ${cat.color}33`}}>{cat.icon}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:16,fontWeight:800,letterSpacing:'-.02em',color:'#1a1614'}}>{cat.cat}</div>
+                    <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:cat.color,letterSpacing:'.1em',fontWeight:700,marginTop:2}}>{cat.items.length} OUTILS</div>
+                  </div>
+                </div>
+                <div style={{display:'flex',flexWrap:'wrap',gap:6,flex:1,alignContent:'flex-start'}}>
+                  {cat.items.map(item=>(
+                    <span key={item} style={{padding:'5px 11px',borderRadius:100,background:isA?cat.color+'18':'rgba(0,0,0,.04)',border:`1px solid ${isA?cat.color+'44':'rgba(0,0,0,.06)'}`,fontSize:11,color:isA?cat.color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",fontWeight:isA?600:400,transition:'all .25s'}}>{item}</span>
+                  ))}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -1083,29 +1130,49 @@ function TimelineContent(){
 /* ── FUTURE WINDOW CONTENT ──────────────────────────── */
 function FutureContent(){
   return(
-    <div style={{padding:32}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.purple,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:12}}>Vision</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:30,fontWeight:800,letterSpacing:'-.04em',marginBottom:20,lineHeight:1.05,color:'#1a1614'}}>Mon <span style={{color:C.purple}}>Futur</span></h2>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 280px',gap:24,alignItems:'start'}}>
-        <div>
-          <p style={{fontSize:14,color:'#1a1614',lineHeight:1.8,marginBottom:14,fontWeight:500}}>Je me vois bâtisseur de produits qui changent des vies. Pas juste livrer des features — créer des applications qui s'intègrent dans le quotidien et l'améliorent concrètement.</p>
-          <p style={{fontSize:13,color:'#5b5048',lineHeight:1.8,marginBottom:14}}>Des projets ambitieux, portés par une vision claire, une obsession du détail, et une vraie connexion avec les utilisateurs. Des choses qui comptent.</p>
-          <p style={{fontSize:13,color:'#5b5048',lineHeight:1.8,marginBottom:18}}>Prendre la parole. Inspirer des équipes. Construire avec les meilleures personnes. Et un jour, être sur scène pour partager ce chemin.</p>
-          <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+    <div style={{padding:32,height:'100%',display:'flex',flexDirection:'column'}}>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.purple,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:12,flexShrink:0}}>Vision</div>
+      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:32,fontWeight:800,letterSpacing:'-.04em',marginBottom:24,lineHeight:1.05,color:'#1a1614',flexShrink:0}}>Mon <span style={{color:C.purple}}>Futur</span></h2>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:32,alignItems:'stretch',flex:1}}>
+        <div style={{display:'flex',flexDirection:'column',gap:14}}>
+          <p style={{fontSize:15,color:'#1a1614',lineHeight:1.75,fontWeight:500,margin:0}}>Je me vois <strong style={{color:C.purple}}>bâtisseur de produits</strong> qui changent des vies. Pas juste livrer des features — créer des applications qui s'intègrent dans le quotidien et l'améliorent concrètement.</p>
+          <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,margin:0}}>Des projets ambitieux, portés par une vision claire, une obsession du détail, et une vraie connexion avec les utilisateurs. <strong style={{color:'#1a1614'}}>Des choses qui comptent.</strong></p>
+          <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,margin:0}}>Prendre la parole. Inspirer des équipes. Construire avec les meilleures personnes. Et un jour, être sur scène pour partager ce chemin.</p>
+
+          {/* 3 piliers */}
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8,marginTop:8}}>
+            {[
+              {emoji:'🏗️',label:'Build',desc:'Des produits qui durent'},
+              {emoji:'🎤',label:'Speak',desc:'Inspirer & former'},
+              {emoji:'🇯🇵',label:'Japon',desc:'Vivre là-bas'},
+            ].map(p=>(
+              <div key={p.label} style={{padding:'12px 10px',background:'rgba(124,92,231,.05)',border:'1px solid rgba(124,92,231,.18)',borderRadius:11,textAlign:'center'}}>
+                <div style={{fontSize:22,marginBottom:5}}>{p.emoji}</div>
+                <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:800,color:C.purple,marginBottom:2}}>{p.label}</div>
+                <div style={{fontSize:10,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",lineHeight:1.4}}>{p.desc}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{display:'flex',gap:6,flexWrap:'wrap',marginTop:'auto'}}>
             {['Builder de produits impactants','Speaker','Créateur de valeur','Entrepreneur','Japon 🇯🇵'].map(t=>(
-              <span key={t} style={{padding:'4px 11px',border:`1.5px solid ${C.purple}55`,borderRadius:100,fontSize:11,color:C.purple,fontFamily:"'JetBrains Mono',monospace",background:'rgba(124,92,231,.06)',fontWeight:600}}>{t}</span>
+              <span key={t} style={{padding:'5px 12px',border:`1.5px solid ${C.purple}55`,borderRadius:100,fontSize:11,color:C.purple,fontFamily:"'JetBrains Mono',monospace",background:'rgba(124,92,231,.06)',fontWeight:600}}>{t}</span>
             ))}
           </div>
         </div>
-        <div style={{position:'relative'}}>
-          <div style={{borderRadius:14,overflow:'hidden',boxShadow:'0 16px 40px rgba(0,0,0,.18)',border:'1px solid rgba(0,0,0,.08)'}}>
-            <img src="uploads/Logo%20divers/Image%20de%20Moi%20sur%20sc%C3%A8ne%20%C3%A0%20ins%C3%A9rer.jpg" alt="Vision" style={{width:'100%',display:'block',objectFit:'cover',minHeight:280}} onError={e=>{e.currentTarget.style.display='none';e.currentTarget.nextSibling.style.display='flex';}}/>
-            <div style={{display:'none',height:280,background:'linear-gradient(135deg,rgba(124,92,231,.15),rgba(255,107,74,.1))',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:10}}>
-              <CrystalBallSVG size={64}/>
+        <div style={{position:'relative',display:'flex',flexDirection:'column'}}>
+          <div style={{borderRadius:18,overflow:'hidden',boxShadow:'0 20px 50px rgba(124,92,231,.25)',border:'1px solid rgba(0,0,0,.08)',flex:1,position:'relative',minHeight:420}}>
+            <img src="uploads/Logo%20divers/Image%20de%20Moi%20sur%20sc%C3%A8ne%20%C3%A0%20ins%C3%A9rer.jpg" alt="Vision" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',position:'absolute',inset:0}} onError={e=>{e.currentTarget.style.display='none';e.currentTarget.nextSibling.style.display='flex';}}/>
+            <div style={{display:'none',position:'absolute',inset:0,background:'linear-gradient(135deg,rgba(124,92,231,.15),rgba(255,107,74,.1))',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:10}}>
+              <CrystalBallSVG size={84}/>
               <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#5b5048',letterSpacing:'.1em',textTransform:'uppercase'}}>Image à venir</div>
             </div>
+            <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'18px 20px',background:'linear-gradient(0deg,rgba(0,0,0,.78),transparent)',color:'#fff'}}>
+              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,letterSpacing:'.18em',opacity:.85,textTransform:'uppercase',marginBottom:5}}>Sur scène — bientôt</div>
+              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:18,fontWeight:800,letterSpacing:'-.02em'}}>Inspirer la prochaine génération de builders</div>
+            </div>
           </div>
-          <div style={{position:'absolute',bottom:-12,right:-10,background:C.purple,color:'#fff',borderRadius:12,padding:'8px 14px',fontFamily:"'Space Grotesk',sans-serif",fontSize:11,fontWeight:700,boxShadow:'0 6px 18px rgba(124,92,231,.4)'}}>
+          <div style={{position:'absolute',top:-10,right:-10,background:C.purple,color:'#fff',borderRadius:100,padding:'10px 18px',fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,boxShadow:'0 8px 22px rgba(124,92,231,.45)',transform:'rotate(-3deg)'}}>
             🔮 Le futur s'écrit maintenant
           </div>
         </div>
@@ -1143,8 +1210,9 @@ function ContactContent(){
             {icon:'✉️',name:'riyan.besseghir@gmail.com',href:'mailto:riyan.besseghir@gmail.com'},
             {icon:'💼',name:'LinkedIn — /riyan-besseghir',href:'https://www.linkedin.com/in/riyan-besseghir-8514a425b/'},
             {icon:'⌥',name:'GitHub — /Deady31',href:'https://github.com/Deady31'},
+            {icon:'📄',name:'Télécharger mon CV (PDF)',href:'uploads/CV%20RIYAN%20PM%20FR.pdf',download:true},
           ].map(l=>(
-            <a key={l.name} href={l.href} target="_blank" data-h style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',border:'1px solid rgba(0,0,0,.08)',borderRadius:11,cursor:'pointer',transition:'all .2s',background:'rgba(248,249,251,.9)',color:'inherit',textDecoration:'none'}}
+            <a key={l.name} href={l.href} {...(l.download?{download:true}:{target:"_blank"})} data-h style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',border:'1px solid rgba(0,0,0,.08)',borderRadius:11,cursor:'pointer',transition:'all .2s',background:'rgba(248,249,251,.9)',color:'inherit',textDecoration:'none'}}
               onMouseEnter={e=>{e.currentTarget.style.borderColor=C.coral+'55';e.currentTarget.style.background='rgba(255,107,74,.05)';e.currentTarget.style.transform='translateX(4px)'}}
               onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(0,0,0,.08)';e.currentTarget.style.background='rgba(248,249,251,.9)';e.currentTarget.style.transform='translateX(0)'}}>
               <div style={{display:'flex',alignItems:'center',gap:10}}>
@@ -1190,17 +1258,29 @@ function ContactContent(){
 function ProjectMiniCard({p,onOpen}){
   const [h,setH]=useState(false);
   return(
-    <div data-h onClick={()=>onOpen(p)} style={{background:h?'#fff':'rgba(248,249,251,.9)',border:`1px solid ${h?p.color+'55':'rgba(0,0,0,.08)'}`,borderRadius:14,overflow:'hidden',cursor:'pointer',transition:'all .3s cubic-bezier(.22,.68,0,1.2)',transform:h?'translateY(-4px)':'none',boxShadow:h?`0 18px 40px rgba(0,0,0,.10),0 0 0 1px ${p.color}22`:'none'}}
+    <div data-h onClick={()=>onOpen(p)} style={{background:h?'#fff':'rgba(248,249,251,.9)',border:`1.5px solid ${h?p.color+'66':'rgba(0,0,0,.08)'}`,borderRadius:16,overflow:'hidden',cursor:'pointer',transition:'all .3s cubic-bezier(.22,.68,0,1.2)',transform:h?'translateY(-4px)':'none',boxShadow:h?`0 22px 48px rgba(0,0,0,.12),0 0 0 1px ${p.color}22`:'none',display:'flex',flexDirection:'column',minHeight:280}}
       onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}>
-      <div style={{position:'relative',height:128,overflow:'hidden',background:p.colorBg}}>
+      <div style={{position:'relative',height:170,overflow:'hidden',background:p.colorBg,flexShrink:0}}>
         {p.img&&<img src={p.img} style={{width:'100%',height:'100%',objectFit:'cover',transform:h?'scale(1.05)':'scale(1)',transition:'transform .4s'}} alt={p.name} onError={e=>e.currentTarget.style.display='none'}/>}
-        <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,transparent 50%,rgba(255,255,255,.92))'}}></div>
-        <span style={{position:'absolute',top:10,left:10,padding:'3px 9px',background:'rgba(255,255,255,.95)',color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:9,borderRadius:4,letterSpacing:'.08em',fontWeight:700,border:`1px solid ${p.color}44`}}>{p.badge}</span>
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,transparent 50%,rgba(255,255,255,.95))'}}></div>
+        <span style={{position:'absolute',top:12,left:12,padding:'4px 10px',background:'rgba(255,255,255,.95)',color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:9,borderRadius:5,letterSpacing:'.08em',fontWeight:700,border:`1px solid ${p.color}44`}}>{p.badge}</span>
+        <span style={{position:'absolute',top:12,right:12,fontSize:24,filter:'drop-shadow(0 2px 6px rgba(0,0,0,.2))'}}>{p.emoji}</span>
       </div>
-      <div style={{padding:'12px 16px 14px'}}>
-        <h3 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800,letterSpacing:'-.02em',marginBottom:3,color:'#1a1614'}}>{p.name}</h3>
-        <p style={{fontSize:11,color:'#5b5048',fontStyle:'italic',marginBottom:8,lineHeight:1.4}}>{p.tagline}</p>
-        <div style={{fontSize:10,color:p.color,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.06em'}}>Voir détail →</div>
+      <div style={{padding:'16px 20px 18px',flex:1,display:'flex',flexDirection:'column'}}>
+        <h3 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:18,fontWeight:800,letterSpacing:'-.02em',marginBottom:4,color:'#1a1614'}}>{p.name}</h3>
+        <div style={{fontSize:10,color:p.color,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.08em',marginBottom:8,fontWeight:600}}>{p.cat}</div>
+        <p style={{fontSize:12,color:'#5b5048',fontStyle:'italic',marginBottom:10,lineHeight:1.5}}>{p.tagline}</p>
+        <p style={{fontSize:11,color:'#7b6e65',lineHeight:1.55,marginBottom:10}}>{p.problem}</p>
+        <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:10}}>
+          {p.stack.slice(0,3).map(s=>(
+            <span key={s} style={{padding:'2px 8px',background:'rgba(0,0,0,.04)',border:'1px solid rgba(0,0,0,.06)',borderRadius:100,fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace"}}>{s}</span>
+          ))}
+        </div>
+        <div style={{marginTop:'auto',padding:'9px 12px',background:`${p.color}10`,borderRadius:9,borderLeft:`2.5px solid ${p.color}`}}>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.12em',textTransform:'uppercase',fontWeight:700,marginBottom:3}}>→ Résultat</div>
+          <p style={{fontSize:11,color:'#1a1614',lineHeight:1.5,margin:0,fontWeight:500}}>{p.outcome}</p>
+        </div>
+        <div style={{fontSize:10,color:p.color,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.06em',marginTop:10,fontWeight:600}}>Cliquer pour le détail complet →</div>
       </div>
     </div>
   );
@@ -1208,17 +1288,19 @@ function ProjectMiniCard({p,onOpen}){
 function ProFeatureCard({p,onOpen}){
   const [h,setH]=useState(false);
   return(
-    <div data-h onClick={()=>onOpen(p)} style={{
+    <div data-h style={{
       background:h?'#fff':'rgba(248,249,251,.9)',
       border:`1.5px solid ${h?p.color+'66':'rgba(0,0,0,.08)'}`,
-      borderRadius:14,padding:'16px 18px',cursor:'pointer',
+      borderRadius:16,padding:'20px',
       transition:'all .3s cubic-bezier(.22,.68,0,1.2)',
       transform:h?'translateY(-3px)':'none',
-      boxShadow:h?`0 18px 40px rgba(0,0,0,.10),0 0 0 1px ${p.color}22`:'none'
+      boxShadow:h?`0 18px 40px rgba(0,0,0,.10),0 0 0 1px ${p.color}22`:'none',
+      display:'flex',flexDirection:'column',gap:12
     }}
     onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}>
-      <div style={{display:'flex',alignItems:'flex-start',gap:12,marginBottom:10}}>
-        <div style={{width:44,height:44,borderRadius:10,background:p.colorBg,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,flexShrink:0,border:`1px solid ${p.color}33`,overflow:'hidden'}}>
+      {/* Header: emoji + name + badge */}
+      <div style={{display:'flex',alignItems:'flex-start',gap:14}}>
+        <div style={{width:52,height:52,borderRadius:12,background:p.colorBg,display:'flex',alignItems:'center',justifyContent:'center',fontSize:28,flexShrink:0,border:`1px solid ${p.color}33`,overflow:'hidden'}}>
           {p.img&&p.id==='shippingbo_tiktok'
             ?<img src={p.img} style={{width:'100%',height:'100%',objectFit:'cover'}} onError={e=>{e.currentTarget.style.display='none';e.currentTarget.parentNode.innerHTML=p.emoji;}}/>
             :<span>{p.emoji}</span>
@@ -1226,14 +1308,34 @@ function ProFeatureCard({p,onOpen}){
         </div>
         <div style={{flex:1,minWidth:0}}>
           <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4,flexWrap:'wrap'}}>
-            <span style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:800,color:'#1a1614',letterSpacing:'-.02em'}}>{p.name}</span>
-            <span style={{padding:'2px 8px',background:`${p.color}15`,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:8,borderRadius:100,fontWeight:700,border:`1px solid ${p.color}33`,whiteSpace:'nowrap'}}>{p.badge.split(' · ').slice(1).join(' · ')||p.badge}</span>
+            <span style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:16,fontWeight:800,color:'#1a1614',letterSpacing:'-.02em'}}>{p.name}</span>
+            <span style={{padding:'2px 9px',background:`${p.color}15`,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:8,borderRadius:100,fontWeight:700,border:`1px solid ${p.color}33`,whiteSpace:'nowrap'}}>{p.cat}</span>
           </div>
-          <p style={{fontSize:11,color:'#5b5048',fontStyle:'italic',lineHeight:1.4}}>{p.tagline}</p>
+          <p style={{fontSize:12,color:'#5b5048',fontStyle:'italic',lineHeight:1.45}}>{p.tagline}</p>
         </div>
       </div>
-      <div style={{fontSize:11,color:'#7b6e65',lineHeight:1.6,paddingTop:8,borderTop:`1px solid ${p.color}18`}}>
-        <span style={{color:p.color,fontWeight:700}}>→</span> {p.outcome.split('.')[0]}.
+
+      {/* Problem / Build / Outcome — full inline */}
+      <div style={{display:'grid',gridTemplateColumns:'1fr',gap:8}}>
+        <div style={{padding:'9px 12px',background:`${p.color}08`,borderRadius:9,borderLeft:`2.5px solid ${p.color}66`}}>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.14em',textTransform:'uppercase',fontWeight:700,marginBottom:3}}>Problème</div>
+          <p style={{fontSize:11,color:'#5b5048',lineHeight:1.55,margin:0}}>{p.problem}</p>
+        </div>
+        <div style={{padding:'9px 12px',background:`${p.color}08`,borderRadius:9,borderLeft:`2.5px solid ${p.color}66`}}>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.14em',textTransform:'uppercase',fontWeight:700,marginBottom:3}}>Ce que j'ai fait</div>
+          <p style={{fontSize:11,color:'#5b5048',lineHeight:1.55,margin:0}}>{p.build}</p>
+        </div>
+        <div style={{padding:'9px 12px',background:`${p.color}14`,borderRadius:9,border:`1px solid ${p.color}33`}}>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.14em',textTransform:'uppercase',fontWeight:700,marginBottom:3}}>→ Résultat</div>
+          <p style={{fontSize:11,color:'#1a1614',lineHeight:1.55,margin:0,fontWeight:500}}>{p.outcome}</p>
+        </div>
+      </div>
+
+      {/* Stack tags */}
+      <div style={{display:'flex',gap:5,flexWrap:'wrap',paddingTop:4}}>
+        {p.stack.slice(0,6).map(s=>(
+          <span key={s} style={{padding:'3px 9px',background:'rgba(0,0,0,.04)',border:'1px solid rgba(0,0,0,.06)',borderRadius:100,fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace"}}>{s}</span>
+        ))}
       </div>
     </div>
   );
@@ -1241,9 +1343,9 @@ function ProFeatureCard({p,onOpen}){
 function ProjectsContent({onOpen}){
   const [tab,setTab]=useState('pro');
   return(
-    <div style={{padding:28}}>
+    <div style={{padding:'24px 28px',height:'100%',display:'flex',flexDirection:'column',overflow:'hidden'}}>
       {/* Tab switcher — très distinctif visuellement */}
-      <div style={{display:'flex',gap:0,marginBottom:24,background:'rgba(240,235,226,.7)',borderRadius:12,padding:4}}>
+      <div style={{display:'flex',gap:0,marginBottom:18,background:'rgba(240,235,226,.7)',borderRadius:12,padding:4,flexShrink:0}}>
         <button data-h onClick={()=>setTab('pro')} style={{
           flex:1,padding:'10px 0',borderRadius:9,cursor:'pointer',border:'none',
           background:tab==='pro'?'linear-gradient(135deg,#ff6b4a,#e8553a)':'transparent',
@@ -1265,9 +1367,9 @@ function ProjectsContent({onOpen}){
       </div>
 
       {tab==='pro'&&(
-        <div>
+        <div style={{flex:1,overflowY:'auto',paddingRight:8,marginRight:-8}}>
           {/* En-tête Shippingbo */}
-          <div style={{display:'flex',alignItems:'center',gap:14,padding:'14px 18px',background:'linear-gradient(135deg,rgba(255,107,74,.06),rgba(99,102,241,.04))',border:'1.5px solid rgba(255,107,74,.18)',borderRadius:14,marginBottom:18}}>
+          <div style={{display:'flex',alignItems:'center',gap:14,padding:'14px 18px',background:'linear-gradient(135deg,rgba(255,107,74,.06),rgba(99,102,241,.04))',border:'1.5px solid rgba(255,107,74,.18)',borderRadius:14,marginBottom:14,position:'sticky',top:0,zIndex:5,backdropFilter:'blur(8px)'}}>
             <img src="uploads/Logo%20divers/Shippingbo%20logo.jfif" style={{width:42,height:42,borderRadius:8,objectFit:'contain',background:'#fff',padding:4,border:'1px solid rgba(0,0,0,.08)',flexShrink:0}} alt="Shippingbo" onError={e=>e.currentTarget.style.display='none'}/>
             <div style={{flex:1}}>
               <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800,color:'#1a1614',letterSpacing:'-.02em'}}>Shippingbo — SaaS B2B Logistique</div>
@@ -1282,22 +1384,23 @@ function ProjectsContent({onOpen}){
               ))}
             </div>
           </div>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:12}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:14,paddingBottom:20}}>
             {PROJECTS_PRO.map(p=><ProFeatureCard key={p.id} p={p} onOpen={onOpen}/>)}
           </div>
         </div>
       )}
 
       {tab==='perso'&&(
-        <div>
-          <div style={{display:'flex',alignItems:'center',gap:10,padding:'12px 16px',background:'rgba(124,92,231,.04)',border:'1.5px solid rgba(124,92,231,.14)',borderRadius:12,marginBottom:18}}>
+        <div style={{flex:1,overflowY:'auto',paddingRight:8,marginRight:-8}}>
+          <div style={{display:'flex',alignItems:'center',gap:10,padding:'12px 16px',background:'rgba(124,92,231,.04)',border:'1.5px solid rgba(124,92,231,.14)',borderRadius:12,marginBottom:14,position:'sticky',top:0,zIndex:5,backdropFilter:'blur(8px)'}}>
             <span style={{fontSize:22}}>🚀</span>
-            <div>
-              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:800,color:'#1a1614'}}>5 projets personnels — 0→1 à chaque fois</div>
+            <div style={{flex:1}}>
+              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:800,color:'#1a1614'}}>{PROJECTS_PERSO.length} projets personnels — 0→1 à chaque fois</div>
               <div style={{fontSize:11,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",marginTop:2}}>Web · Mobile · AI · TikTok · Initiés et pilotés en solo</div>
             </div>
+            <div style={{padding:'6px 12px',background:'rgba(124,92,231,.12)',borderRadius:100,fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'#7C5CE7',fontWeight:700,letterSpacing:'.08em'}}>↓ SCROLL</div>
           </div>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:14}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:16,paddingBottom:20}}>
             {PROJECTS_PERSO.map(p=><ProjectMiniCard key={p.id} p={p} onOpen={onOpen}/>)}
           </div>
         </div>
@@ -1412,25 +1515,31 @@ function QuickProfileWindow({onClose,onImpact,onProjects,onContact}){
 }
 
 /* ── DESKTOP ICON — fixed position, single-click ─────── */
-function DesktopIconPro({children,label,onOpen,pos,size=116,pulse=false}){
+function DesktopIconPro({children,label,onOpen,pos,size=116,pulse=false,priority=null,subtle=false}){
   const [hov,setHov]=useState(false);
   const [showTip,setShowTip]=useState(false);
   let tipTimer=useRef(null);
   const handleMouseEnter=()=>{setHov(true);tipTimer.current=setTimeout(()=>setShowTip(true),500);};
   const handleMouseLeave=()=>{setHov(false);clearTimeout(tipTimer.current);setShowTip(false);};
+  const isPri=priority!==null;
   return(
     <div onClick={onOpen}
       onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
-      style={{position:'absolute',left:pos.x,top:pos.y,width:size+24,display:'flex',flexDirection:'column',alignItems:'center',gap:5,cursor:'pointer',userSelect:'none',zIndex:10,padding:'8px 4px',borderRadius:14,transition:'background .15s',background:hov?'rgba(255,107,74,.07)':'transparent'}}>
-      <div style={{
+      style={{position:'absolute',left:pos.x,top:pos.y,width:size+24,display:'flex',flexDirection:'column',alignItems:'center',gap:5,cursor:'pointer',userSelect:'none',zIndex:10,padding:'8px 4px',borderRadius:14,transition:'background .15s',background:hov?'rgba(255,107,74,.07)':'transparent',opacity:subtle&&!hov?.78:1}}>
+      <div style={{position:'relative',
         transform:hov?'scale(1.1) translateY(-4px)':'scale(1)',
         transition:'transform .22s cubic-bezier(.22,.68,0,1.2)',
-        filter:hov?'drop-shadow(0 12px 24px rgba(255,107,74,.35))':'drop-shadow(0 4px 8px rgba(0,0,0,.18))',
+        filter:hov?'drop-shadow(0 12px 24px rgba(255,107,74,.35))':(isPri?'drop-shadow(0 6px 14px rgba(255,107,74,.28))':'drop-shadow(0 4px 8px rgba(0,0,0,.18))'),
         animation:pulse?'iconPulse 1.8s ease-in-out 3':'none'
       }}>
         {children}
+        {isPri&&(
+          <div style={{position:'absolute',top:-6,right:-6,width:26,height:26,borderRadius:'50%',background:'linear-gradient(135deg,#ff6b4a,#e8553a)',color:'#fff',fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:800,display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 4px 12px rgba(255,107,74,.45),0 0 0 2.5px #f8f3ea',border:'1px solid rgba(255,255,255,.6)',zIndex:2}}>
+            {priority}
+          </div>
+        )}
       </div>
-      <span style={{fontSize:11,color:hov?C.coral:C.text,fontFamily:"'Inter',sans-serif",fontWeight:hov?700:500,textAlign:'center',lineHeight:1.2,maxWidth:size+20,wordBreak:'break-word',textShadow:'0 1px 4px rgba(248,243,234,.95)',transition:'color .15s',letterSpacing:'-.01em'}}>
+      <span style={{fontSize:subtle?10:11,color:hov?C.coral:(subtle?C.muted:C.text),fontFamily:"'Inter',sans-serif",fontWeight:hov?700:(isPri?600:500),textAlign:'center',lineHeight:1.2,maxWidth:size+20,wordBreak:'break-word',textShadow:'0 1px 4px rgba(248,243,234,.95)',transition:'color .15s',letterSpacing:'-.01em'}}>
         {label}
       </span>
       {showTip&&(
@@ -1475,16 +1584,45 @@ function HeroSection(){
 
   const handleInteract=()=>{};
 
-  /* ── Circular icon layout ── */
-  const N=11;
-  const R=288;
-  const ICON_SZ=116;
-  const CX=Math.round(window.innerWidth/2);
-  const CY=Math.round(28+(window.innerHeight-28)*0.5);
-  const cPos=i=>{
-    const a=(i*2*Math.PI/N)-Math.PI/2;
-    return{x:Math.round(CX+R*Math.cos(a)-(ICON_SZ+24)/2),y:Math.round(CY+R*Math.sin(a)-(ICON_SZ+24)/2)};
+  /* ── Roadmap icon layout — priority zigzag + optional bottom row ── */
+  const VW=Math.max(window.innerWidth,1280);
+  const VH=window.innerHeight;
+  const PRI_SZ=100;
+  const OPT_SZ=78;
+
+  // 8 PRIORITY icons (recruiter must-see): zigzag treasure-map path
+  const PAD_L=110;
+  const PAD_R=110;
+  const TOP_Y=130;
+  const ZIG_AMP=170;       // height of the zigzag
+  const N_PRI=8;
+  const STEP=(VW-PAD_L-PAD_R)/(N_PRI-1);
+  const priPos=i=>{
+    const x=PAD_L+i*STEP;
+    const y=TOP_Y+(i%2===0?0:ZIG_AMP);
+    return{x:Math.round(x-(PRI_SZ+24)/2),y:Math.round(y)};
   };
+  // Center of each priority icon (for SVG path)
+  const priCx=i=>PAD_L+i*STEP;
+  const priCy=i=>TOP_Y+(i%2===0?0:ZIG_AMP)+PRI_SZ/2;
+
+  // 3 OPTIONAL icons (curiosités) — bottom row centered
+  const OPT_Y=TOP_Y+ZIG_AMP+PRI_SZ+150;
+  const N_OPT=3;
+  const OPT_GAP=180;
+  const OPT_TOTAL=(N_OPT-1)*OPT_GAP;
+  const OPT_START=(VW-OPT_TOTAL)/2;
+  const optPos=i=>{
+    const x=OPT_START+i*OPT_GAP;
+    return{x:Math.round(x-(OPT_SZ+24)/2),y:OPT_Y};
+  };
+
+  // Build dotted SVG path between consecutive priority icons
+  const pathD=Array.from({length:N_PRI-1},(_,i)=>{
+    const x1=priCx(i),y1=priCy(i),x2=priCx(i+1),y2=priCy(i+1);
+    const mx=(x1+x2)/2;
+    return `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`;
+  }).join(' ');
 
   const closedWindows=[
     !showTerminal&&{label:'Terminal',icon:'🖥️',action:()=>setShowTerminal(true)},
@@ -1512,71 +1650,80 @@ function HeroSection(){
       {showSpotify&&<SpotifyWidget onClose={()=>setShowSpotify(false)}/>}
       {showSticky&&<StickyNote onClose={()=>setShowSticky(false)}/>}
 
-      {/* ── CERCLE D'ICÔNES — 11 icônes en cercle, clic simple ── */}
-      {/* Anneau décoratif */}
-      <div style={{position:'absolute',left:CX-R-20,top:CY-R-20,width:(R+20)*2,height:(R+20)*2,borderRadius:'50%',border:'1px solid rgba(255,107,74,.07)',pointerEvents:'none',zIndex:8}}/>
-      <div style={{position:'absolute',left:CX-R+40,top:CY-R+40,width:(R-40)*2,height:(R-40)*2,borderRadius:'50%',border:'1px solid rgba(255,107,74,.04)',pointerEvents:'none',zIndex:8}}/>
+      {/* ── ROADMAP — 8 priority icons (zigzag) + 3 optional (bottom) ── */}
+      {/* SVG dotted path connecting priority icons (treasure-map style) */}
+      <svg style={{position:'absolute',left:0,top:0,width:'100%',height:OPT_Y+OPT_SZ+60,pointerEvents:'none',zIndex:7}} viewBox={`0 0 ${VW} ${OPT_Y+OPT_SZ+60}`} preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="pathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#ff6b4a" stopOpacity="0.7"/>
+            <stop offset="50%" stopColor="#ff8a6a" stopOpacity="0.55"/>
+            <stop offset="100%" stopColor="#ff6b4a" stopOpacity="0.7"/>
+          </linearGradient>
+        </defs>
+        <path d={pathD} fill="none" stroke="url(#pathGrad)" strokeWidth="3" strokeLinecap="round" strokeDasharray="2 10" style={{animation:'dashFlow 30s linear infinite'}}/>
+        {/* Step circles at each priority node */}
+        {Array.from({length:N_PRI},(_,i)=>(
+          <circle key={i} cx={priCx(i)} cy={priCy(i)} r="6" fill="#ff6b4a" stroke="#fff" strokeWidth="2.5"/>
+        ))}
+      </svg>
 
-      {/* 0 – Projets 📁 */}
-      <DesktopIconPro label="Projets" pos={cPos(0)} onOpen={()=>setOpenProj(true)} size={ICON_SZ} pulse={pulseActive}>
-        <div style={{fontSize:98}}>📁</div>
+      {/* "PARCOURS RECRUTEUR" header — start of priority path */}
+      <div style={{position:'absolute',left:24,top:TOP_Y-58,zIndex:9,display:'flex',alignItems:'center',gap:10,padding:'8px 16px',background:'linear-gradient(135deg,#ff6b4a,#e8553a)',color:'#fff',borderRadius:100,fontFamily:"'Space Grotesk',sans-serif",fontSize:11,fontWeight:800,letterSpacing:'.06em',textTransform:'uppercase',boxShadow:'0 8px 22px rgba(255,107,74,.35)'}}>
+        <span style={{fontSize:14}}>⭐</span>
+        <span>Parcours recommandé pour recruteurs</span>
+        <span style={{display:'inline-block',width:1,height:14,background:'rgba(255,255,255,.4)'}}/>
+        <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,opacity:.92}}>1 → 8</span>
+      </div>
+
+      {/* "+POUR ME CONNAITRE" label — start of optional row */}
+      <div style={{position:'absolute',left:'50%',top:OPT_Y-52,transform:'translateX(-50%)',zIndex:9,display:'flex',alignItems:'center',gap:10,padding:'7px 14px',background:'rgba(255,255,255,.85)',backdropFilter:'blur(8px)',color:C.muted,borderRadius:100,fontFamily:"'JetBrains Mono',monospace",fontSize:10,fontWeight:600,letterSpacing:'.14em',textTransform:'uppercase',border:`1px solid ${C.border2}`,boxShadow:'0 4px 12px rgba(0,0,0,.05)'}}>
+        <span style={{width:18,height:1,background:C.muted,opacity:.5}}/>
+        <span>En bonus — pour mieux me connaître</span>
+        <span style={{width:18,height:1,background:C.muted,opacity:.5}}/>
+      </div>
+
+      {/* PRIORITY ICONS — 1: Bio, 2: Projets, 3: Exp Pro, 4: Skills, 5: Parcours, 6: Impact, 7: Mon Futur, 8: Contact */}
+      <DesktopIconPro label="1 · Bio" pos={priPos(0)} onOpen={()=>setOpenBio(true)} size={PRI_SZ} pulse={pulseActive} priority={1}>
+        <div style={{fontSize:84}}>👤</div>
+      </DesktopIconPro>
+      <DesktopIconPro label="2 · Projets" pos={priPos(1)} onOpen={()=>setOpenProj(true)} size={PRI_SZ} pulse={pulseActive} priority={2}>
+        <div style={{fontSize:84}}>📁</div>
+      </DesktopIconPro>
+      <DesktopIconPro label="3 · Expérience Pro" pos={priPos(2)} onOpen={()=>setOpenProj(true)} size={PRI_SZ} pulse={pulseActive} priority={3}>
+        <div style={{fontSize:84}}>💼</div>
+      </DesktopIconPro>
+      <DesktopIconPro label="4 · Skills" pos={priPos(3)} onOpen={()=>setOpenSkills(true)} size={PRI_SZ} pulse={pulseActive} priority={4}>
+        <div style={{fontSize:84}}>🎨</div>
+      </DesktopIconPro>
+      <DesktopIconPro label="5 · Parcours" pos={priPos(4)} onOpen={()=>setOpenTimeline(true)} size={PRI_SZ} pulse={pulseActive} priority={5}>
+        <div style={{fontSize:84}}>🛤️</div>
+      </DesktopIconPro>
+      <DesktopIconPro label="6 · Impact" pos={priPos(5)} onOpen={()=>setOpenImpact(true)} size={PRI_SZ} pulse={pulseActive} priority={6}>
+        <div style={{fontSize:84}}>🎯</div>
+      </DesktopIconPro>
+      <DesktopIconPro label="7 · Mon Futur" pos={priPos(6)} onOpen={()=>setOpenFuture(true)} size={PRI_SZ} pulse={pulseActive} priority={7}>
+        <CrystalBallSVG size={78}/>
+      </DesktopIconPro>
+      <DesktopIconPro label="8 · Contact" pos={priPos(7)} onOpen={()=>setOpenContact(true)} size={PRI_SZ} pulse={pulseActive} priority={8}>
+        <div style={{fontSize:84}}>✉️</div>
       </DesktopIconPro>
 
-      {/* 1 – Expérience Pro 💼 */}
-      <DesktopIconPro label="Expérience Pro" pos={cPos(1)} onOpen={()=>setOpenProj(true)} size={ICON_SZ} pulse={pulseActive}>
-        <div style={{fontSize:98}}>💼</div>
+      {/* OPTIONAL ICONS — Letterboxd, Jeux, TikTok */}
+      <DesktopIconPro label="Letterboxd" pos={optPos(0)} onOpen={()=>setLbOpen(true)} size={OPT_SZ} subtle>
+        <div style={{fontSize:64}}>🎬</div>
       </DesktopIconPro>
-
-      {/* 2 – Skills 🎨 */}
-      <DesktopIconPro label="Skills" pos={cPos(2)} onOpen={()=>setOpenSkills(true)} size={ICON_SZ} pulse={pulseActive}>
-        <div style={{fontSize:98}}>🎨</div>
-      </DesktopIconPro>
-
-      {/* 3 – Impact 🎯 */}
-      <DesktopIconPro label="Impact" pos={cPos(3)} onOpen={()=>setOpenImpact(true)} size={ICON_SZ} pulse={pulseActive}>
-        <div style={{fontSize:98}}>🎯</div>
-      </DesktopIconPro>
-
-      {/* 4 – Parcours 🛤️ */}
-      <DesktopIconPro label="Parcours" pos={cPos(4)} onOpen={()=>setOpenTimeline(true)} size={ICON_SZ} pulse={pulseActive}>
-        <div style={{fontSize:98}}>🛤️</div>
-      </DesktopIconPro>
-
-      {/* 5 – Contact ✉️ */}
-      <DesktopIconPro label="Contact" pos={cPos(5)} onOpen={()=>setOpenContact(true)} size={ICON_SZ} pulse={pulseActive}>
-        <div style={{fontSize:98}}>✉️</div>
-      </DesktopIconPro>
-
-      {/* 6 – TikTok 📱 */}
-      <DesktopIconPro label="TikTok" pos={cPos(6)} onOpen={()=>setOpenTikTok(true)} size={ICON_SZ}>
-        <div style={{fontSize:98}}>📱</div>
-      </DesktopIconPro>
-
-      {/* 7 – Letterboxd 🎬 */}
-      <DesktopIconPro label="Letterboxd" pos={cPos(7)} onOpen={()=>setLbOpen(true)} size={ICON_SZ}>
-        <div style={{fontSize:98}}>🎬</div>
-      </DesktopIconPro>
-
-      {/* 8 – Jeux de ma vie */}
-      <GamesFolder onOpen={()=>setGamesOpen(true)} pos={cPos(8)}/>
-
-      {/* 9 – Mon Futur */}
-      <DesktopIconPro label="Mon Futur" pos={cPos(9)} onOpen={()=>setOpenFuture(true)} size={ICON_SZ}>
-        <CrystalBallSVG size={92}/>
-      </DesktopIconPro>
-
-      {/* 10 – Bio 👤 */}
-      <DesktopIconPro label="Bio" pos={cPos(10)} onOpen={()=>setOpenBio(true)} size={ICON_SZ}>
-        <div style={{fontSize:98}}>👤</div>
+      <GamesFolder onOpen={()=>setGamesOpen(true)} pos={optPos(1)} subtle/>
+      <DesktopIconPro label="TikTok" pos={optPos(2)} onOpen={()=>setOpenTikTok(true)} size={OPT_SZ} subtle>
+        <div style={{fontSize:64}}>📱</div>
       </DesktopIconPro>
 
       {/* WINDOWS */}
       {openProj&&<DragWin title="Projets — riyan.world" w={1200} h={860} ix={60} iy={40} onClose={()=>setOpenProj(false)}><ProjectsContent onOpen={p=>setActiveProject(p)}/></DragWin>}
-      {openBio&&<DragWin title="Bio — Riyan" w={1080} h={680} ix={90} iy={50} onClose={()=>setOpenBio(false)}><BioContent/></DragWin>}
+      {openBio&&<DragWin title="Bio — Riyan" w={1180} h={560} ix={70} iy={50} onClose={()=>setOpenBio(false)}><BioContent/></DragWin>}
       {openSkills&&<DragWin title="Skills" w={980} h={760} ix={120} iy={50} onClose={()=>setOpenSkills(false)}><SkillsContent/></DragWin>}
       {openImpact&&<DragWin title="Impact · Métriques" w={960} h={780} ix={120} iy={50} onClose={()=>setOpenImpact(false)}><ImpactContent/></DragWin>}
       {openTimeline&&<DragWin title="Parcours" w={880} h={780} ix={150} iy={50} onClose={()=>setOpenTimeline(false)}><TimelineContent/></DragWin>}
-      {openFuture&&<DragWin title="Mon Futur" w={1040} h={620} ix={100} iy={70} onClose={()=>setOpenFuture(false)}><FutureContent/></DragWin>}
+      {openFuture&&<DragWin title="Mon Futur" w={1240} h={780} ix={70} iy={40} onClose={()=>setOpenFuture(false)}><FutureContent/></DragWin>}
       {openContact&&<DragWin title="Contact — On parle ?" w={1040} h={680} ix={120} iy={60} onClose={()=>setOpenContact(false)}><ContactContent/></DragWin>}
       {openTikTok&&<DragWin title="TikTok — @deady" w={920} h={780} ix={140} iy={50} onClose={()=>setOpenTikTok(false)}><TikTokContent/></DragWin>}
       {gamesOpen&&<GamesWindow onClose={()=>setGamesOpen(false)} onGameClick={g=>setActiveGame(g)}/>}

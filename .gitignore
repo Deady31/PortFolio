@@ -1,7 +1,7 @@
-# CVs — not in repo
-uploads/*.pdf
+# CV — only the FR PM CV is downloadable from the site
 uploads/*.docx
 uploads/*.doc
+uploads/DETAIL*.pdf
 
 # Old versions
 portfolio.html
