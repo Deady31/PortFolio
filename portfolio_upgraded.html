@@ -608,7 +608,7 @@ function SpotifyWidget({onClose}){
 
 /* ── STICKY NOTE ────────────────────────────────────── */
 function StickyNote({onClose}){
-  const {pos,onMD}=useDraggable({x:430,y:268});
+  const {pos,onMD}=useDraggable({x:340,y:Math.max(window.innerHeight-280,520)});
   return(
     <div data-drag style={{position:'absolute',left:pos.x,top:pos.y,width:210,background:'#fef08a',color:'#1a1a1a',padding:'18px 20px',borderRadius:5,boxShadow:'0 8px 32px rgba(0,0,0,.18),2px 3px 0 rgba(0,0,0,.08)',transform:'rotate(-1.5deg)',zIndex:10,fontFamily:"'JetBrains Mono',monospace",fontSize:12,lineHeight:1.75,userSelect:'none',cursor:'pointer'}} onMouseDown={onMD}>
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
@@ -1102,26 +1102,42 @@ function SkillsContent(){
 function TimelineContent(){
   const [active,setActive]=useState(null);
   return(
-    <div style={{padding:32}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:12}}>Parcours</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:30,fontWeight:800,letterSpacing:'-.04em',marginBottom:24,lineHeight:1.05,color:'#1a1614'}}>Mon <span style={{color:C.coral}}>histoire</span></h2>
-      <div style={{display:'flex',flexDirection:'column',gap:10}}>
-        {TL_EVENTS.map((e,i)=>{
-          const isA=active===i;
-          return(
-            <div key={i} data-h onClick={()=>setActive(isA?null:i)} style={{display:'flex',gap:14,padding:'14px',background:isA?'#fff':'rgba(248,249,251,.9)',border:`1px solid ${isA?e.color+'55':'rgba(0,0,0,.08)'}`,borderRadius:12,cursor:'pointer',transition:'all .25s',boxShadow:isA?`0 10px 28px rgba(0,0,0,.08)`:'none'}}>
-              <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:5,flexShrink:0,width:60}}>
-                <div style={{fontSize:24}}>{e.emoji}</div>
-                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:e.color,fontWeight:700,letterSpacing:'.08em'}}>{e.year}</div>
+    <div style={{padding:'28px 32px',height:'100%',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+      <div style={{flexShrink:0,marginBottom:18}}>
+        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Parcours · 2007 → 2026</div>
+        <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:30,fontWeight:800,letterSpacing:'-.04em',lineHeight:1.05,color:'#1a1614'}}>Mon <span style={{color:C.coral}}>histoire</span></h2>
+        <p style={{fontSize:12,color:'#5b5048',marginTop:6,lineHeight:1.6}}>Cliquez sur une étape pour voir le détail.</p>
+      </div>
+      <div style={{flex:1,overflowY:'auto',paddingRight:8,marginRight:-8,position:'relative'}}>
+        {/* Vertical timeline line */}
+        <div style={{position:'absolute',left:55,top:0,bottom:0,width:2,background:'linear-gradient(180deg,rgba(255,107,74,.25),rgba(124,92,231,.15))',zIndex:0}}/>
+        <div style={{display:'flex',flexDirection:'column',gap:14,paddingBottom:20,position:'relative'}}>
+          {TL_EVENTS.map((e,i)=>{
+            const isA=active===i;
+            return(
+              <div key={i} data-h onClick={()=>setActive(isA?null:i)} style={{display:'flex',gap:18,alignItems:'flex-start',cursor:'pointer'}}>
+                {/* Date column — generous, breathable */}
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:8,flexShrink:0,width:96,position:'relative',zIndex:1,paddingTop:6}}>
+                  <div style={{width:48,height:48,borderRadius:'50%',background:isA?e.color:'#fff',border:`2.5px solid ${e.color}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,boxShadow:isA?`0 8px 22px ${e.color}55`:'0 4px 10px rgba(0,0,0,.08)',transition:'all .25s'}}>
+                    {e.emoji}
+                  </div>
+                  <div style={{textAlign:'center',padding:'4px 8px',background:`${e.color}12`,borderRadius:8,border:`1px solid ${e.color}28`,minWidth:78}}>
+                    <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:e.color,fontWeight:800,letterSpacing:'.04em',lineHeight:1.3,whiteSpace:'nowrap'}}>{e.year}</div>
+                  </div>
+                </div>
+                {/* Content card */}
+                <div style={{flex:1,padding:'16px 20px',background:isA?'#fff':'rgba(248,249,251,.9)',border:`1px solid ${isA?e.color+'55':'rgba(0,0,0,.08)'}`,borderRadius:14,transition:'all .25s',boxShadow:isA?`0 12px 32px rgba(0,0,0,.08),0 0 0 1px ${e.color}22`:'none',position:'relative'}}>
+                  {/* Connector arrow */}
+                  <div style={{position:'absolute',left:-6,top:24,width:12,height:12,background:isA?'#fff':'rgba(248,249,251,.9)',borderLeft:`1px solid ${isA?e.color+'55':'rgba(0,0,0,.08)'}`,borderBottom:`1px solid ${isA?e.color+'55':'rgba(0,0,0,.08)'}`,transform:'rotate(45deg)'}}/>
+                  <div style={{fontSize:15,fontWeight:800,color:'#1a1614',marginBottom:5,fontFamily:"'Space Grotesk',sans-serif",letterSpacing:'-.02em'}}>{e.title}</div>
+                  <p style={{fontSize:12.5,color:'#5b5048',lineHeight:1.65,margin:0}}>{e.text}</p>
+                  {isA&&<p style={{fontSize:12,color:'#5b5048',lineHeight:1.75,marginTop:12,padding:'12px 14px',background:`${e.color}10`,borderRadius:10,borderLeft:`2.5px solid ${e.color}`}}>{e.detail}</p>}
+                  {!isA&&<div style={{fontSize:10,color:e.color,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.06em',marginTop:8,fontWeight:600,opacity:.75}}>+ détails →</div>}
+                </div>
               </div>
-              <div style={{flex:1}}>
-                <div style={{fontSize:13,fontWeight:700,color:'#1a1614',marginBottom:3}}>{e.title}</div>
-                <p style={{fontSize:12,color:'#5b5048',lineHeight:1.6}}>{e.text}</p>
-                {isA&&<p style={{fontSize:12,color:'#5b5048',lineHeight:1.7,marginTop:8,padding:'10px',background:`${e.color}10`,borderRadius:8,borderLeft:`2px solid ${e.color}`}}>{e.detail}</p>}
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -1584,17 +1600,17 @@ function HeroSection(){
 
   const handleInteract=()=>{};
 
-  /* ── Roadmap icon layout — priority zigzag + optional bottom row ── */
+  /* ── Roadmap icon layout — priority zigzag (centered) + optional bottom row ── */
   const VW=Math.max(window.innerWidth,1280);
   const VH=window.innerHeight;
   const PRI_SZ=100;
   const OPT_SZ=78;
 
-  // 8 PRIORITY icons (recruiter must-see): zigzag treasure-map path
+  // 8 PRIORITY icons (recruiter must-see): zigzag treasure-map path — centered vertically
   const PAD_L=110;
   const PAD_R=110;
-  const TOP_Y=130;
-  const ZIG_AMP=170;       // height of the zigzag
+  const TOP_Y=Math.round(VH*0.22);   // descend la priorité — plus centrée verticalement
+  const ZIG_AMP=170;
   const N_PRI=8;
   const STEP=(VW-PAD_L-PAD_R)/(N_PRI-1);
   const priPos=i=>{
@@ -1606,8 +1622,8 @@ function HeroSection(){
   const priCx=i=>PAD_L+i*STEP;
   const priCy=i=>TOP_Y+(i%2===0?0:ZIG_AMP)+PRI_SZ/2;
 
-  // 3 OPTIONAL icons (curiosités) — bottom row centered
-  const OPT_Y=TOP_Y+ZIG_AMP+PRI_SZ+150;
+  // 3 OPTIONAL icons (curiosités) — bottom row, lower
+  const OPT_Y=Math.max(TOP_Y+ZIG_AMP+PRI_SZ+170,Math.round(VH*0.78));
   const N_OPT=3;
   const OPT_GAP=180;
   const OPT_TOTAL=(N_OPT-1)*OPT_GAP;
@@ -1683,28 +1699,28 @@ function HeroSection(){
       </div>
 
       {/* PRIORITY ICONS — 1: Bio, 2: Projets, 3: Exp Pro, 4: Skills, 5: Parcours, 6: Impact, 7: Mon Futur, 8: Contact */}
-      <DesktopIconPro label="1 · Bio" pos={priPos(0)} onOpen={()=>setOpenBio(true)} size={PRI_SZ} pulse={pulseActive} priority={1}>
+      <DesktopIconPro label="Bio" pos={priPos(0)} onOpen={()=>setOpenBio(true)} size={PRI_SZ} pulse={pulseActive} priority={1}>
         <div style={{fontSize:84}}>👤</div>
       </DesktopIconPro>
-      <DesktopIconPro label="2 · Projets" pos={priPos(1)} onOpen={()=>setOpenProj(true)} size={PRI_SZ} pulse={pulseActive} priority={2}>
+      <DesktopIconPro label="Projets" pos={priPos(1)} onOpen={()=>setOpenProj(true)} size={PRI_SZ} pulse={pulseActive} priority={2}>
         <div style={{fontSize:84}}>📁</div>
       </DesktopIconPro>
-      <DesktopIconPro label="3 · Expérience Pro" pos={priPos(2)} onOpen={()=>setOpenProj(true)} size={PRI_SZ} pulse={pulseActive} priority={3}>
+      <DesktopIconPro label="Expérience Pro" pos={priPos(2)} onOpen={()=>setOpenProj(true)} size={PRI_SZ} pulse={pulseActive} priority={3}>
         <div style={{fontSize:84}}>💼</div>
       </DesktopIconPro>
-      <DesktopIconPro label="4 · Skills" pos={priPos(3)} onOpen={()=>setOpenSkills(true)} size={PRI_SZ} pulse={pulseActive} priority={4}>
+      <DesktopIconPro label="Skills" pos={priPos(3)} onOpen={()=>setOpenSkills(true)} size={PRI_SZ} pulse={pulseActive} priority={4}>
         <div style={{fontSize:84}}>🎨</div>
       </DesktopIconPro>
-      <DesktopIconPro label="5 · Parcours" pos={priPos(4)} onOpen={()=>setOpenTimeline(true)} size={PRI_SZ} pulse={pulseActive} priority={5}>
+      <DesktopIconPro label="Parcours" pos={priPos(4)} onOpen={()=>setOpenTimeline(true)} size={PRI_SZ} pulse={pulseActive} priority={5}>
         <div style={{fontSize:84}}>🛤️</div>
       </DesktopIconPro>
-      <DesktopIconPro label="6 · Impact" pos={priPos(5)} onOpen={()=>setOpenImpact(true)} size={PRI_SZ} pulse={pulseActive} priority={6}>
+      <DesktopIconPro label="Impact" pos={priPos(5)} onOpen={()=>setOpenImpact(true)} size={PRI_SZ} pulse={pulseActive} priority={6}>
         <div style={{fontSize:84}}>🎯</div>
       </DesktopIconPro>
-      <DesktopIconPro label="7 · Mon Futur" pos={priPos(6)} onOpen={()=>setOpenFuture(true)} size={PRI_SZ} pulse={pulseActive} priority={7}>
+      <DesktopIconPro label="Mon Futur" pos={priPos(6)} onOpen={()=>setOpenFuture(true)} size={PRI_SZ} pulse={pulseActive} priority={7}>
         <CrystalBallSVG size={78}/>
       </DesktopIconPro>
-      <DesktopIconPro label="8 · Contact" pos={priPos(7)} onOpen={()=>setOpenContact(true)} size={PRI_SZ} pulse={pulseActive} priority={8}>
+      <DesktopIconPro label="Contact" pos={priPos(7)} onOpen={()=>setOpenContact(true)} size={PRI_SZ} pulse={pulseActive} priority={8}>
         <div style={{fontSize:84}}>✉️</div>
       </DesktopIconPro>
 
