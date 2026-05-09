@@ -69,6 +69,32 @@ input,textarea{cursor:text!important}
 /* Scroll reveal */
 .reveal{opacity:0;transform:translateY(36px);transition:opacity .75s cubic-bezier(.22,.68,0,1.2),transform .75s cubic-bezier(.22,.68,0,1.2)}
 .reveal.vis{opacity:1;transform:translateY(0)}
+/* Liquid metal button */
+@property --wf_rot{syntax:"<angle>";initial-value:0deg;inherits:false}
+.wf-metal{
+  --wf_rot:0deg;--bw:3px;
+  border:var(--bw) solid transparent!important;
+  background:
+    linear-gradient(135deg,#1e1b2e 0%,#252035 55%,#1a1828 100%) padding-box,
+    conic-gradient(from var(--wf_rot),
+      #606070 0%,#c0c0d0 16%,#e8e8f4 32%,#a0a0b8 48%,#f2f2ff 64%,#8888a0 80%,#d0d0e4 92%,#606070 100%
+    ) border-box;
+  animation:wfMetalSpin 5s linear infinite;
+  position:relative;overflow:visible;
+}
+.wf-metal::before{
+  content:"";position:absolute;
+  inset:calc(-1 * var(--bw) - 3px);border-radius:50%;z-index:-1;
+  background:conic-gradient(from var(--wf_rot),
+    rgba(255,255,255,.0),rgba(200,200,255,.6),rgba(255,255,255,.0),rgba(180,180,255,.5),rgba(255,255,255,.0)
+  );
+  animation:wfMetalSpin 3.5s linear infinite reverse;
+  filter:blur(5px);
+}
+@keyframes wfMetalSpin{
+  from{--wf_rot:0deg}
+  to{--wf_rot:360deg}
+}
 /* Nav */
 /* Section */
 .section-pad{padding:88px 56px}
@@ -343,9 +369,10 @@ function WelcomeFlow({onComplete}){
               <textPath href="#wfCircle">DÉCOUVRIR • EXPLORER • CLIQUER •&nbsp;&nbsp;</textPath>
             </text>
           </svg>
-          {/* Bouton central 3D */}
+          {/* Bouton central — Liquid Metal */}
           <button
             data-h
+            className="wf-metal"
             onClick={enter}
             onMouseEnter={()=>setHov(true)}
             onMouseLeave={()=>{setHov(false);setDown(false);}}
@@ -354,19 +381,14 @@ function WelcomeFlow({onComplete}){
             style={{
               position:'absolute',top:'50%',left:'50%',
               transform:`translate(-50%,-50%) ${down?'scale(0.93) translateY(3px)':(hov?'scale(1.07)':'scale(1)')}`,
-              width:106,height:106,borderRadius:'50%',border:'none',
-              background:down
-                ?'linear-gradient(160deg,#e8553a 0%,#d44a2a 100%)'
-                :(hov
-                  ?'linear-gradient(160deg,#ff8060 0%,#ff6b4a 60%,#e8553a 100%)'
-                  :'linear-gradient(160deg,#ff7558 0%,#ff6b4a 55%,#e05030 100%)'),
-              color:'#fff',
+              width:106,height:106,borderRadius:'50%',
+              color:hov?'#ffffff':'#d8d8f0',
               fontFamily:"'Space Grotesk',sans-serif",
               boxShadow:down
-                ?'0 2px 8px rgba(255,107,74,.35),inset 0 3px 10px rgba(0,0,0,.22)'
+                ?'0 2px 10px rgba(80,80,160,.5),inset 0 4px 12px rgba(0,0,0,.45)'
                 :(hov
-                  ?'0 16px 44px rgba(255,107,74,.6),0 4px 12px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.32)'
-                  :'0 10px 32px rgba(255,107,74,.45),0 4px 10px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.25),inset 0 -2px 6px rgba(0,0,0,.12)'),
+                  ?'0 0 40px rgba(160,160,255,.55),0 8px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.28)'
+                  :'0 0 22px rgba(130,130,220,.35),0 6px 16px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.18)'),
               transition:'all .22s cubic-bezier(.22,.68,0,1.2)',
               display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:5,
               cursor:'pointer'
@@ -1569,6 +1591,13 @@ function ContactContent(){
   const [form,setForm]=useState({name:'',email:'',msg:''});
   const [sent,setSent]=useState(false);
   const [sending,setSending]=useState(false);
+  const [copied,setCopied]=useState(false);
+  const copyEmail=()=>{
+    navigator.clipboard.writeText('riyan.besseghir@gmail.com').then(()=>{
+      setCopied(true);
+      setTimeout(()=>setCopied(false),2400);
+    }).catch(()=>{});
+  };
   const [error,setError]=useState('');
   const handleSubmit=async e=>{
     e.preventDefault();
@@ -1612,8 +1641,22 @@ function ContactContent(){
         <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:36,fontWeight:800,letterSpacing:'-.04em',marginBottom:20,lineHeight:.95,color:'#1a1614'}}>On <span style={{color:C.coral,fontStyle:'italic'}}>parle</span> ?</h2>
         <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,marginBottom:18}}>PM/PO junior disponible — Toulouse, Paris, Remote, Hybrid. Full-time ou freelance.</p>
         <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:16}}>
+          {/* Email — copy to clipboard */}
+          <div data-h onClick={copyEmail}
+            style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',
+              border:`1px solid ${copied?'rgba(0,135,90,.45)':'rgba(0,0,0,.08)'}`,borderRadius:11,cursor:'pointer',
+              transition:'all .2s',background:copied?'rgba(0,135,90,.06)':'rgba(248,249,251,.9)',
+              transform:'translateX(0)'}}
+            onMouseEnter={e=>{if(!copied){e.currentTarget.style.borderColor='rgba(255,107,74,.35)';e.currentTarget.style.background='rgba(255,107,74,.05)';e.currentTarget.style.transform='translateX(4px)'}}}
+            onMouseLeave={e=>{if(!copied){e.currentTarget.style.borderColor='rgba(0,0,0,.08)';e.currentTarget.style.background='rgba(248,249,251,.9)';e.currentTarget.style.transform='translateX(0)'}}}>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <div style={{fontSize:14,width:30,height:30,background:copied?'rgba(0,135,90,.12)':'rgba(0,0,0,.06)',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',transition:'all .2s'}}>{copied?'✓':'✉️'}</div>
+              <div style={{fontSize:12,fontWeight:600,color:copied?'#00875a':'#1a1614',transition:'color .2s'}}>{copied?'Copié dans le presse-papier !':'riyan.besseghir@gmail.com'}</div>
+            </div>
+            <span style={{color:copied?'#00875a':'#5b5048',fontSize:12,fontWeight:copied?700:400,transition:'all .2s'}}>{copied?'✓':'📋'}</span>
+          </div>
+          {/* Other links */}
           {[
-            {icon:'✉️',name:'riyan.besseghir@gmail.com',href:'mailto:riyan.besseghir@gmail.com'},
             {icon:'💼',name:'LinkedIn — /riyan-besseghir',href:'https://www.linkedin.com/in/riyan-besseghir-8514a425b/'},
             {icon:'⌥',name:'GitHub — /Deady31',href:'https://github.com/Deady31'},
             {icon:'📄',name:'Télécharger mon CV (PDF)',href:'uploads/CV%20RIYAN%20PM%20FR.pdf',download:true},
