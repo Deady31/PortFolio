@@ -1097,6 +1097,7 @@ function BalloonParticle({b}){
 function BalloonEasterEgg(){
   const [balloons,setBalloons]=useState([]);
   const [popped,setPopped]=useState(false);
+  const [hov,setHov]=useState(false);
   const colors=['#ff6b4a','#7c5ce7','#00875a','#e8a800','#6366F1','#FF0050','#22C55E','#0A66C2','#E50914','#F99E1A','#c41e3a','#d4a843'];
   const launch=useCallback(()=>{
     if(popped)return;
@@ -1118,17 +1119,23 @@ function BalloonEasterEgg(){
   return(
     <>
       {balloons.map(b=><BalloonParticle key={b.id} b={b}/>)}
-      <button data-h onClick={launch} title="🎈" style={{
-        position:'fixed',top:0,left:'50%',transform:'translateX(-50%)',
-        zIndex:19,padding:'2px 18px 5px',
-        background:'rgba(255,255,255,.0)',border:'none',
-        fontFamily:"'JetBrains Mono',monospace",fontSize:14,
-        cursor:'pointer',color:'transparent',letterSpacing:'.2em',
-        transition:'all .25s ease',borderRadius:'0 0 8px 8px',
-        userSelect:'none',
-      }}
-      onMouseEnter={e=>{e.currentTarget.style.background='rgba(255,255,255,.72)';e.currentTarget.style.color='rgba(26,22,20,.45)';e.currentTarget.style.backdropFilter='blur(8px)';}}
-      onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,.0)';e.currentTarget.style.color='transparent';e.currentTarget.style.backdropFilter='none';}}>
+      <button data-h onClick={e=>{e.stopPropagation();launch();}}
+        onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+        style={{
+          position:'fixed',bottom:80,right:24,zIndex:19,
+          width:46,height:46,
+          background:hov?'rgba(255,255,255,.96)':'rgba(255,255,255,.82)',
+          backdropFilter:'blur(12px)',
+          border:`1.5px solid rgba(0,0,0,${hov?.1:.06})`,
+          borderRadius:'50%',
+          boxShadow:hov?'0 8px 24px rgba(0,0,0,.14)':'0 3px 10px rgba(0,0,0,.08)',
+          cursor:'pointer',
+          fontSize:22,
+          display:'flex',alignItems:'center',justifyContent:'center',
+          transition:'all .2s ease',
+          transform:hov?'scale(1.12) translateY(-2px)':'scale(1)',
+          userSelect:'none',
+        }}>
         🎈
       </button>
     </>
@@ -2032,8 +2039,9 @@ function HeroSection(){
   // 8 PRIORITY icons (recruiter must-see): zigzag treasure-map path — centered vertically
   const PAD_L=Math.round(110*SCALE);
   const PAD_R=Math.round(110*SCALE);
-  const TOP_Y=Math.round(Math.max(VH*0.18, 90));
-  const ZIG_AMP=Math.round(Math.min(170,VH*0.22)*SCALE);
+  const ZIG_AMP=Math.round(Math.min(160,VH*0.21)*SCALE);
+  // Centre le bloc d'icônes verticalement dans la page
+  const TOP_Y=Math.round(Math.max(VH*0.5-(ZIG_AMP+PRI_SZ)*0.5, 70));
   const N_PRI=8;
   const STEP=(VW-PAD_L-PAD_R)/(N_PRI-1);
   const priPos=i=>{
@@ -2117,15 +2125,29 @@ function HeroSection(){
         <span style={{width:18,height:1,background:C.muted,opacity:.5}}/>
       </div>
 
-      {/* PRIORITY ICONS — 3D folders */}
-      <DesktopFolder3D label="Bio" pos={priPos(0)} onOpen={()=>setOpenBio(true)} size={PRI_SZ} pulse={pulseActive} priority={1}/>
-      <DesktopFolder3D label="Expérience Pro" pos={priPos(1)} onOpen={()=>setOpenProjPro(true)} size={PRI_SZ} pulse={pulseActive} priority={2}/>
+      {/* PRIORITY ICONS — emoji icons sauf Projets Persos (dossier 3D) */}
+      <DesktopIconPro label="Bio" pos={priPos(0)} onOpen={()=>setOpenBio(true)} size={PRI_SZ} pulse={pulseActive} priority={1}>
+        <div style={{fontSize:EMO_SZ}}>👤</div>
+      </DesktopIconPro>
+      <DesktopIconPro label="Expérience Pro" pos={priPos(1)} onOpen={()=>setOpenProjPro(true)} size={PRI_SZ} pulse={pulseActive} priority={2}>
+        <div style={{fontSize:EMO_SZ}}>💼</div>
+      </DesktopIconPro>
       <DesktopFolder3D label="Projets Persos" pos={priPos(2)} onOpen={()=>setOpenProj(true)} size={PRI_SZ} pulse={pulseActive} priority={3}/>
-      <DesktopFolder3D label="Skills" pos={priPos(3)} onOpen={()=>setOpenSkills(true)} size={PRI_SZ} pulse={pulseActive} priority={4}/>
-      <DesktopFolder3D label="Parcours" pos={priPos(4)} onOpen={()=>setOpenTimeline(true)} size={PRI_SZ} pulse={pulseActive} priority={5}/>
-      <DesktopFolder3D label="Impact" pos={priPos(5)} onOpen={()=>setOpenImpact(true)} size={PRI_SZ} pulse={pulseActive} priority={6}/>
-      <DesktopFolder3D label="Mon Futur" pos={priPos(6)} onOpen={()=>setOpenFuture(true)} size={PRI_SZ} pulse={pulseActive} priority={7}/>
-      <DesktopFolder3D label="Contact" pos={priPos(7)} onOpen={()=>setOpenContact(true)} size={PRI_SZ} pulse={pulseActive} priority={8}/>
+      <DesktopIconPro label="Skills" pos={priPos(3)} onOpen={()=>setOpenSkills(true)} size={PRI_SZ} pulse={pulseActive} priority={4}>
+        <div style={{fontSize:EMO_SZ}}>🎨</div>
+      </DesktopIconPro>
+      <DesktopIconPro label="Parcours" pos={priPos(4)} onOpen={()=>setOpenTimeline(true)} size={PRI_SZ} pulse={pulseActive} priority={5}>
+        <div style={{fontSize:EMO_SZ}}>🛤️</div>
+      </DesktopIconPro>
+      <DesktopIconPro label="Impact" pos={priPos(5)} onOpen={()=>setOpenImpact(true)} size={PRI_SZ} pulse={pulseActive} priority={6}>
+        <div style={{fontSize:EMO_SZ}}>🎯</div>
+      </DesktopIconPro>
+      <DesktopIconPro label="Mon Futur" pos={priPos(6)} onOpen={()=>setOpenFuture(true)} size={PRI_SZ} pulse={pulseActive} priority={7}>
+        <CrystalBallSVG size={Math.round(EMO_SZ*0.92)}/>
+      </DesktopIconPro>
+      <DesktopIconPro label="Contact" pos={priPos(7)} onOpen={()=>setOpenContact(true)} size={PRI_SZ} pulse={pulseActive} priority={8}>
+        <div style={{fontSize:EMO_SZ}}>✉️</div>
+      </DesktopIconPro>
 
       {/* OPTIONAL ICONS — Letterboxd, Jeux, TikTok */}
       <DesktopIconPro label="Letterboxd" pos={optPos(0)} onOpen={()=>setLbOpen(true)} size={OPT_SZ} subtle>
