@@ -63,6 +63,9 @@ html,body,*{cursor:inherit}
 body{cursor:default}
 [data-h],button,a,label,[role=button]{cursor:pointer!important}
 input,textarea{cursor:text!important}
+/* Balloon easter egg */
+@keyframes balloonFloat{0%{transform:translateY(0) rotate(0deg);opacity:0}8%{opacity:1}85%{opacity:.9}100%{transform:translateY(-105vh) rotate(22deg);opacity:0}}
+@keyframes balloonSway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
 /* Scroll reveal */
 .reveal{opacity:0;transform:translateY(36px);transition:opacity .75s cubic-bezier(.22,.68,0,1.2),transform .75s cubic-bezier(.22,.68,0,1.2)}
 .reveal.vis{opacity:1;transform:translateY(0)}
@@ -164,6 +167,11 @@ const FILMS=[
 ];
 
 const CHANGELOG=[
+  {version:'v2.6',date:'09 Mai 2026',items:[
+    'Icônes → dossiers 3D animés : hover ouvre le dossier avec 3 mini-cards qui s\'envolent (perspective CSS)',
+    'Skills cards : hover plus doux (5° au lieu de 11°), items en bullet points lisibles',
+    'Easter egg 🎈 : zone invisible en haut de l\'écran, hover la révèle, clic lance des ballons',
+  ]},
   {version:'v2.5',date:'09 Mai 2026',items:[
     'Icônes responsives — taille adaptée à la hauteur d\'écran (plus de débordement sur petits écrans)',
     'Séparation Expérience Pro / Projets Persos — deux fenêtres distinctes',
@@ -989,6 +997,144 @@ function CrystalBallSVG({size=68}){
   );
 }
 
+/* ── FOLDER MINI-CARD DATA ───────────────────────────── */
+const FOLDER_ITEMS={
+  'Bio':          [{e:'🎓',c:'#22C55E'},{e:'🎮',c:'#7c5ce7'},{e:'💼',c:'#ff6b4a'}],
+  'Expérience Pro':[{e:'🤖',c:'#ff6b4a'},{e:'📦',c:'#FF0050'},{e:'🧩',c:'#6366F1'}],
+  'Projets Persos':[{e:'🎬',c:'#E50914'},{e:'🍜',c:'#22C55E'},{e:'🤖',c:'#7c5ce7'}],
+  'Skills':       [{e:'🎯',c:'#ff6b4a'},{e:'🎨',c:'#7c5ce7'},{e:'🤖',c:'#00875a'}],
+  'Parcours':     [{e:'🎓',c:'#22C55E'},{e:'💻',c:'#6366F1'},{e:'🚀',c:'#ff6b4a'}],
+  'Impact':       [{e:'📊',c:'#ff6b4a'},{e:'🎯',c:'#7C5CE7'},{e:'📝',c:'#00875a'}],
+  'Mon Futur':    [{e:'🔮',c:'#7c5ce7'},{e:'🚀',c:'#00875a'},{e:'⚡',c:'#e8a800'}],
+  'Contact':      [{e:'✉️',c:'#6366F1'},{e:'💼',c:'#0A66C2'},{e:'💬',c:'#22C55E'}],
+};
+const FOLDER_COLORS={
+  'Bio':'#c4884a','Expérience Pro':'#ff6b4a','Projets Persos':'#7c5ce7',
+  'Skills':'#00875a','Parcours':'#6366F1','Impact':'#ff6b4a',
+  'Mon Futur':'#5a3fad','Contact':'#e8a800',
+};
+
+/* ── 3D FOLDER DESKTOP ICON ─────────────────────────── */
+function DesktopFolder3D({label,onOpen,pos,size=100,pulse=false,priority=null,subtle=false}){
+  const [hov,setHov]=useState(false);
+  const fc=FOLDER_COLORS[label]||'#c4884a';
+  const items=FOLDER_ITEMS[label]||[{e:'📁',c:'#888'},{e:'📄',c:'#aaa'},{e:'🗂',c:'#bbb'}];
+  const fw=Math.round(size*0.8);
+  const fh=Math.round(size*0.62);
+  const tabW=Math.round(fw*0.38);
+  const tabH=Math.round(fh*0.22);
+  const cw=Math.round(size*0.28);
+  const ch=Math.round(size*0.36);
+  const rotations=[-13,0,13];
+  const txs=[-size*0.48,0,size*0.48];
+  return(
+    <div onClick={onOpen} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+      style={{position:'absolute',left:pos.x,top:pos.y,width:size+28,display:'flex',flexDirection:'column',alignItems:'center',gap:5,userSelect:'none',zIndex:10,borderRadius:14,transition:'background .15s',background:hov?`${fc}12`:'transparent',cursor:'pointer',opacity:subtle&&!hov?.75:1,animation:pulse?'iconPulse 1.8s ease-in-out 3':'none'}}>
+      {/* Perspective wrapper */}
+      <div style={{height:size,width:'100%',display:'flex',alignItems:'center',justifyContent:'center',perspective:'700px',position:'relative'}}>
+        {/* Folder group */}
+        <div style={{position:'relative',width:fw,height:fh,transformStyle:'preserve-3d'}}>
+          {/* Back */}
+          <div style={{position:'absolute',inset:0,background:`linear-gradient(160deg,${fc}cc,${fc}99)`,borderRadius:7,boxShadow:`0 4px 18px ${fc}44`,transformOrigin:'bottom center',transform:hov?'rotateX(-16deg)':'rotateX(0deg)',transition:'transform 480ms cubic-bezier(0.34,1.56,0.64,1)',zIndex:1}}/>
+          {/* Tab */}
+          <div style={{position:'absolute',width:tabW,height:tabH,bottom:fh-2,left:fw*0.06,background:fc,borderTopLeftRadius:6,borderTopRightRadius:6,transformOrigin:'bottom center',transform:hov?'rotateX(-22deg) translateY(-2px)':'rotateX(0deg)',transition:'transform 480ms cubic-bezier(0.34,1.56,0.64,1)',zIndex:1}}/>
+          {/* Mini cards fan */}
+          {items.slice(0,3).map((item,i)=>(
+            <div key={i} style={{
+              position:'absolute',
+              width:cw,height:ch,
+              left:`calc(50% - ${cw/2}px)`,
+              bottom:'50%',
+              background:`linear-gradient(135deg,${item.c}28,${item.c}12)`,
+              border:`1.5px solid ${item.c}55`,
+              borderRadius:9,
+              display:'flex',alignItems:'center',justifyContent:'center',
+              fontSize:cw*0.52,
+              boxShadow:`0 6px 18px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.3)`,
+              transform:hov
+                ?`translateX(${txs[i]}px) translateY(-${size*0.82}px) rotate(${rotations[i]}deg) scale(1)`
+                :`translateX(0px) translateY(0px) rotate(0deg) scale(0.3)`,
+              opacity:hov?1:0,
+              transition:`transform 560ms cubic-bezier(0.34,1.56,0.64,1) ${i*70}ms, opacity 300ms ease ${i*50}ms`,
+              zIndex:5-i,
+              pointerEvents:'none',
+            }}>{item.e}</div>
+          ))}
+          {/* Front flap */}
+          <div style={{position:'absolute',width:fw,height:Math.round(fh*0.62),bottom:0,background:`linear-gradient(175deg,${fc}ff,${fc}ee)`,borderRadius:7,boxShadow:hov?`0 -2px 12px ${fc}33`:'none',transformOrigin:'bottom center',transform:hov?'rotateX(27deg) translateY(5px)':'rotateX(0deg)',transition:'transform 480ms cubic-bezier(0.34,1.56,0.64,1)',zIndex:6}}/>
+          {/* Shine on front */}
+          <div style={{position:'absolute',width:fw,height:Math.round(fh*0.62),bottom:0,background:'linear-gradient(135deg,rgba(255,255,255,.3) 0%,transparent 55%)',borderRadius:7,transformOrigin:'bottom center',transform:hov?'rotateX(27deg) translateY(5px)':'rotateX(0deg)',transition:'transform 480ms cubic-bezier(0.34,1.56,0.64,1)',zIndex:7,pointerEvents:'none'}}/>
+        </div>
+        {/* Priority badge */}
+        {priority!==null&&(
+          <div style={{position:'absolute',top:2,right:6,width:22,height:22,borderRadius:'50%',background:'linear-gradient(135deg,#ff6b4a,#e8553a)',color:'#fff',fontFamily:"'Space Grotesk',sans-serif",fontSize:11,fontWeight:800,display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 3px 10px rgba(255,107,74,.45),0 0 0 2px #f8f3ea',zIndex:10}}>
+            {priority}
+          </div>
+        )}
+      </div>
+      {/* Label */}
+      <span style={{fontSize:subtle?10:11,color:hov?fc:(subtle?C.muted:C.text),fontFamily:"'Inter',sans-serif",fontWeight:hov?700:(priority!==null?600:500),textAlign:'center',lineHeight:1.2,maxWidth:size+24,wordBreak:'break-word',textShadow:'0 1px 4px rgba(248,243,234,.95)',transition:'color .15s',letterSpacing:'-.01em',marginTop:2}}>
+        {label}
+      </span>
+    </div>
+  );
+}
+
+/* ── BALLOON EASTER EGG ──────────────────────────────── */
+function BalloonParticle({b}){
+  return(
+    <div style={{position:'fixed',left:`${b.x}%`,bottom:-80,zIndex:9999,pointerEvents:'none',animation:`balloonFloat ${b.dur}s ease-out ${b.delay}s both`}}>
+      <div style={{animation:`balloonSway 1.${Math.floor(b.dur*3)%9+1}s ease-in-out infinite`,transformOrigin:'bottom center'}}>
+        <div style={{width:b.sz,height:Math.round(b.sz*1.25),background:`radial-gradient(circle at 35% 30%,${b.c}ee,${b.c}cc)`,borderRadius:'50% 50% 50% 50% / 60% 60% 40% 40%',position:'relative',boxShadow:`0 3px 12px ${b.c}55,inset 3px -3px 0 rgba(0,0,0,.1),inset -2px 3px 0 rgba(255,255,255,.25)`}}>
+          <div style={{position:'absolute',top:'14%',left:'20%',width:'24%',height:'18%',background:'rgba(255,255,255,.45)',borderRadius:'50%'}}/>
+          <div style={{position:'absolute',bottom:-5,left:'50%',transform:'translateX(-50%)',width:7,height:7,background:b.c,borderRadius:'50%',boxShadow:`0 2px 4px ${b.c}88`}}/>
+        </div>
+        <div style={{width:1,height:30,background:`${b.c}77`,margin:'0 auto',marginTop:2}}/>
+      </div>
+    </div>
+  );
+}
+function BalloonEasterEgg(){
+  const [balloons,setBalloons]=useState([]);
+  const [popped,setPopped]=useState(false);
+  const colors=['#ff6b4a','#7c5ce7','#00875a','#e8a800','#6366F1','#FF0050','#22C55E','#0A66C2','#E50914','#F99E1A','#c41e3a','#d4a843'];
+  const launch=useCallback(()=>{
+    if(popped)return;
+    setPopped(true);
+    const nb=Array.from({length:18},(_,i)=>({
+      id:Date.now()+i,
+      x:5+Math.random()*90,
+      c:colors[i%colors.length],
+      sz:26+Math.floor(Math.random()*18),
+      dur:2.4+Math.random()*1.8,
+      delay:Math.random()*1.1,
+    }));
+    setBalloons(prev=>[...prev,...nb]);
+    setTimeout(()=>{
+      setBalloons(prev=>prev.filter(b=>!nb.find(n=>n.id===b.id)));
+      setPopped(false);
+    },6000);
+  },[popped]);
+  return(
+    <>
+      {balloons.map(b=><BalloonParticle key={b.id} b={b}/>)}
+      <button data-h onClick={launch} title="🎈" style={{
+        position:'fixed',top:0,left:'50%',transform:'translateX(-50%)',
+        zIndex:19,padding:'2px 18px 5px',
+        background:'rgba(255,255,255,.0)',border:'none',
+        fontFamily:"'JetBrains Mono',monospace",fontSize:14,
+        cursor:'pointer',color:'transparent',letterSpacing:'.2em',
+        transition:'all .25s ease',borderRadius:'0 0 8px 8px',
+        userSelect:'none',
+      }}
+      onMouseEnter={e=>{e.currentTarget.style.background='rgba(255,255,255,.72)';e.currentTarget.style.color='rgba(26,22,20,.45)';e.currentTarget.style.backdropFilter='blur(8px)';}}
+      onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,.0)';e.currentTarget.style.color='transparent';e.currentTarget.style.backdropFilter='none';}}>
+        🎈
+      </button>
+    </>
+  );
+}
+
 /* ── DESKTOP ICON ───────────────────────────────────── */
 function DesktopIcon({children,label,onOpen,style={},pos,onMD,size=88}){
   const [hov,setHov]=useState(false);
@@ -1192,7 +1338,7 @@ function ImpactContent(){
 }
 
 /* ── SKILL 3D CARD ───────────────────────────────────── */
-function Skill3DCard({cat,index}){
+function Skill3DCard({cat}){
   const ref=useRef(null);
   const [tilt,setTilt]=useState({x:0,y:0,active:false});
   const handleMove=useCallback(e=>{
@@ -1200,76 +1346,84 @@ function Skill3DCard({cat,index}){
     const r=ref.current.getBoundingClientRect();
     const dx=(e.clientX-r.left-r.width/2)/(r.width/2);
     const dy=(e.clientY-r.top-r.height/2)/(r.height/2);
-    setTilt({x:dy*-11,y:dx*11,active:true});
+    setTilt({x:dy*-5,y:dx*5,active:true});
   },[]);
   const handleLeave=()=>setTilt({x:0,y:0,active:false});
   const s=tilt.active;
   return(
     <div ref={ref} onMouseMove={handleMove} onMouseLeave={handleLeave}
       style={{
-        background:s?'#fff':'rgba(252,251,249,.98)',
-        border:`1.5px solid ${s?cat.color+'70':'rgba(0,0,0,.07)'}`,
-        borderRadius:18,
+        background:'#fff',
+        border:`1.5px solid ${s?cat.color+'55':'rgba(0,0,0,.07)'}`,
+        borderRadius:16,
         overflow:'hidden',
         cursor:'default',
-        minHeight:230,
+        minHeight:220,
         display:'flex',
         flexDirection:'column',
-        transform:`perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) ${s?'scale(1.025)':'scale(1)'}`,
-        transition:s?'transform .08s ease':'transform .5s cubic-bezier(.22,.68,0,1.2)',
+        transform:`perspective(1200px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) ${s?'scale(1.012)':'scale(1)'}`,
+        transition:s?'transform .14s ease':'transform .55s cubic-bezier(.22,.68,0,1.2)',
         transformStyle:'preserve-3d',
         boxShadow:s
-          ?`0 24px 52px rgba(0,0,0,.13),0 0 0 1px ${cat.color}30,0 8px 20px ${cat.color}28`
-          :'0 2px 10px rgba(0,0,0,.05)',
+          ?`0 16px 40px rgba(0,0,0,.09),0 0 0 1px ${cat.color}22,0 4px 14px ${cat.color}18`
+          :'0 1px 6px rgba(0,0,0,.04)',
         willChange:'transform',
       }}>
       {/* Color accent top bar */}
-      <div style={{height:4,background:`linear-gradient(90deg,${cat.color},${cat.color}88,transparent)`,flexShrink:0}}/>
-      <div style={{padding:'20px 22px',flex:1,display:'flex',flexDirection:'column'}}>
+      <div style={{height:3,background:`linear-gradient(90deg,${cat.color},${cat.color}66,transparent)`,flexShrink:0}}/>
+      <div style={{padding:'18px 20px',flex:1,display:'flex',flexDirection:'column',gap:14}}>
         {/* Header */}
-        <div style={{display:'flex',alignItems:'center',gap:14,marginBottom:16}}>
+        <div style={{display:'flex',alignItems:'center',gap:12}}>
           <div style={{
-            width:52,height:52,borderRadius:14,
-            background:`linear-gradient(135deg,${cat.color}22,${cat.color}0a)`,
-            border:`1.5px solid ${cat.color}33`,
+            width:46,height:46,borderRadius:12,
+            background:`linear-gradient(135deg,${cat.color}1a,${cat.color}08)`,
+            border:`1px solid ${cat.color}28`,
             display:'flex',alignItems:'center',justifyContent:'center',
-            fontSize:28,flexShrink:0,
-            boxShadow:s?`0 8px 20px ${cat.color}30`:'none',
+            fontSize:24,flexShrink:0,
             transition:'box-shadow .3s',
+            boxShadow:s?`0 6px 16px ${cat.color}25`:'none',
           }}>{cat.icon}</div>
           <div style={{flex:1}}>
             <div style={{
               fontFamily:"'Space Grotesk',sans-serif",
-              fontSize:19,fontWeight:800,
+              fontSize:17,fontWeight:800,
               letterSpacing:'-.03em',
-              color:cat.color,
-              lineHeight:1.1,
-              marginBottom:4,
+              color:s?cat.color:'#1a1614',
+              lineHeight:1.15,
+              marginBottom:3,
+              transition:'color .3s',
             }}>{cat.cat}</div>
             <div style={{
               fontFamily:"'JetBrains Mono',monospace",
-              fontSize:9,letterSpacing:'.12em',fontWeight:700,
-              color:C.muted,
-              textTransform:'uppercase',
-            }}>{cat.items.length} outils & compétences</div>
+              fontSize:9,letterSpacing:'.1em',fontWeight:600,
+              color:C.muted,textTransform:'uppercase',
+            }}>{cat.items.length} compétences</div>
           </div>
         </div>
-        {/* Tags */}
-        <div style={{display:'flex',flexWrap:'wrap',gap:7,flex:1,alignContent:'flex-start'}}>
+        {/* Bullet list */}
+        <div style={{display:'flex',flexDirection:'column',gap:5,flex:1}}>
           {cat.items.map((item,j)=>(
-            <span key={item} style={{
-              padding:'6px 13px',
-              borderRadius:100,
-              background:s?`${cat.color}16`:'rgba(0,0,0,.035)',
-              border:`1px solid ${s?cat.color+'50':'rgba(0,0,0,.06)'}`,
-              fontSize:12,
-              color:s?cat.color:'#4a4040',
-              fontFamily:"'Space Grotesk',sans-serif",
-              fontWeight:s?700:500,
-              letterSpacing:'-.01em',
-              transition:'all .18s ease',
-              transitionDelay:s?`${j*12}ms`:'0ms',
-            }}>{item}</span>
+            <div key={item} style={{
+              display:'flex',alignItems:'center',gap:8,
+              transition:'all .2s ease',
+              transitionDelay:s?`${j*15}ms`:'0ms',
+            }}>
+              <div style={{
+                width:5,height:5,borderRadius:'50%',flexShrink:0,
+                background:s?cat.color:`${cat.color}66`,
+                transition:'background .3s, transform .3s',
+                transform:s?'scale(1.3)':'scale(1)',
+              }}/>
+              <span style={{
+                fontSize:12.5,
+                color:s?'#1a1614':'#4a4040',
+                fontFamily:"'Space Grotesk',sans-serif",
+                fontWeight:s?600:500,
+                letterSpacing:'-.01em',
+                lineHeight:1.3,
+                transition:'color .2s',
+              }}>{item}</span>
+            </div>
           ))}
         </div>
       </div>
@@ -1963,31 +2117,15 @@ function HeroSection(){
         <span style={{width:18,height:1,background:C.muted,opacity:.5}}/>
       </div>
 
-      {/* PRIORITY ICONS — 1: Bio, 2: Exp Pro, 3: Projets Persos, 4: Skills, 5: Parcours, 6: Impact, 7: Mon Futur, 8: Contact */}
-      <DesktopIconPro label="Bio" pos={priPos(0)} onOpen={()=>setOpenBio(true)} size={PRI_SZ} pulse={pulseActive} priority={1}>
-        <div style={{fontSize:EMO_SZ}}>👤</div>
-      </DesktopIconPro>
-      <DesktopIconPro label="Expérience Pro" pos={priPos(1)} onOpen={()=>setOpenProjPro(true)} size={PRI_SZ} pulse={pulseActive} priority={2}>
-        <div style={{fontSize:EMO_SZ}}>💼</div>
-      </DesktopIconPro>
-      <DesktopIconPro label="Projets Persos" pos={priPos(2)} onOpen={()=>setOpenProj(true)} size={PRI_SZ} pulse={pulseActive} priority={3}>
-        <div style={{fontSize:EMO_SZ}}>🚀</div>
-      </DesktopIconPro>
-      <DesktopIconPro label="Skills" pos={priPos(3)} onOpen={()=>setOpenSkills(true)} size={PRI_SZ} pulse={pulseActive} priority={4}>
-        <div style={{fontSize:EMO_SZ}}>🎨</div>
-      </DesktopIconPro>
-      <DesktopIconPro label="Parcours" pos={priPos(4)} onOpen={()=>setOpenTimeline(true)} size={PRI_SZ} pulse={pulseActive} priority={5}>
-        <div style={{fontSize:EMO_SZ}}>🛤️</div>
-      </DesktopIconPro>
-      <DesktopIconPro label="Impact" pos={priPos(5)} onOpen={()=>setOpenImpact(true)} size={PRI_SZ} pulse={pulseActive} priority={6}>
-        <div style={{fontSize:EMO_SZ}}>🎯</div>
-      </DesktopIconPro>
-      <DesktopIconPro label="Mon Futur" pos={priPos(6)} onOpen={()=>setOpenFuture(true)} size={PRI_SZ} pulse={pulseActive} priority={7}>
-        <CrystalBallSVG size={Math.round(EMO_SZ*0.92)}/>
-      </DesktopIconPro>
-      <DesktopIconPro label="Contact" pos={priPos(7)} onOpen={()=>setOpenContact(true)} size={PRI_SZ} pulse={pulseActive} priority={8}>
-        <div style={{fontSize:EMO_SZ}}>✉️</div>
-      </DesktopIconPro>
+      {/* PRIORITY ICONS — 3D folders */}
+      <DesktopFolder3D label="Bio" pos={priPos(0)} onOpen={()=>setOpenBio(true)} size={PRI_SZ} pulse={pulseActive} priority={1}/>
+      <DesktopFolder3D label="Expérience Pro" pos={priPos(1)} onOpen={()=>setOpenProjPro(true)} size={PRI_SZ} pulse={pulseActive} priority={2}/>
+      <DesktopFolder3D label="Projets Persos" pos={priPos(2)} onOpen={()=>setOpenProj(true)} size={PRI_SZ} pulse={pulseActive} priority={3}/>
+      <DesktopFolder3D label="Skills" pos={priPos(3)} onOpen={()=>setOpenSkills(true)} size={PRI_SZ} pulse={pulseActive} priority={4}/>
+      <DesktopFolder3D label="Parcours" pos={priPos(4)} onOpen={()=>setOpenTimeline(true)} size={PRI_SZ} pulse={pulseActive} priority={5}/>
+      <DesktopFolder3D label="Impact" pos={priPos(5)} onOpen={()=>setOpenImpact(true)} size={PRI_SZ} pulse={pulseActive} priority={6}/>
+      <DesktopFolder3D label="Mon Futur" pos={priPos(6)} onOpen={()=>setOpenFuture(true)} size={PRI_SZ} pulse={pulseActive} priority={7}/>
+      <DesktopFolder3D label="Contact" pos={priPos(7)} onOpen={()=>setOpenContact(true)} size={PRI_SZ} pulse={pulseActive} priority={8}/>
 
       {/* OPTIONAL ICONS — Letterboxd, Jeux, TikTok */}
       <DesktopIconPro label="Letterboxd" pos={optPos(0)} onOpen={()=>setLbOpen(true)} size={OPT_SZ} subtle>
@@ -2072,12 +2210,13 @@ function HeroSection(){
         boxShadow:'0 2px 10px rgba(0,0,0,.07)',transition:'all .2s ease',
         whiteSpace:'nowrap',
       }} onMouseEnter={e=>{e.currentTarget.style.background='rgba(255,255,255,.97)';e.currentTarget.style.boxShadow='0 4px 16px rgba(0,0,0,.12)';}} onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,.78)';e.currentTarget.style.boxShadow='0 2px 10px rgba(0,0,0,.07)';}}>
-        <span style={{padding:'2px 7px',background:'linear-gradient(135deg,#ff6b4a,#e8553a)',color:'#fff',borderRadius:100,fontSize:9,fontWeight:800,fontFamily:"'Space Grotesk',sans-serif"}}>v2.5</span>
+        <span style={{padding:'2px 7px',background:'linear-gradient(135deg,#ff6b4a,#e8553a)',color:'#fff',borderRadius:100,fontSize:9,fontWeight:800,fontFamily:"'Space Grotesk',sans-serif"}}>v2.6</span>
         <span>Changelog</span>
         <span style={{opacity:.5}}>→</span>
       </button>
 
       {openChangelog&&<ChangelogModal onClose={()=>setOpenChangelog(false)}/>}
+      <BalloonEasterEgg/>
     </section>
   );
 }
