@@ -95,6 +95,13 @@ input,textarea{cursor:text!important}
   from{--wf_rot:0deg}
   to{--wf_rot:360deg}
 }
+/* DigitalSerenity intro */
+@keyframes dsWordAppear{0%{opacity:0;transform:translateY(30px) scale(.8);filter:blur(10px)}50%{opacity:.8;transform:translateY(10px) scale(.95);filter:blur(2px)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes dsGridDraw{0%{stroke-dashoffset:1000;opacity:0}50%{opacity:.12}100%{stroke-dashoffset:0;opacity:.12}}
+@keyframes dsPulse{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
+@keyframes dsFloat{0%,100%{transform:translateY(0) translateX(0);opacity:.15}25%{transform:translateY(-12px) translateX(5px);opacity:.5}50%{transform:translateY(-6px) translateX(-3px);opacity:.3}75%{transform:translateY(-18px) translateX(7px);opacity:.7}}
+.ds-word{display:inline-block;opacity:0;margin:0 .05em;transition:color .3s,transform .3s}
+.ds-word:hover{transform:translateY(-2px)}
 /* Nav */
 /* Section */
 .section-pad{padding:88px 56px}
@@ -321,84 +328,247 @@ function Loader({onDone}){
   );
 }
 
-/* ── WELCOME SPLASH — bouton 3D "DÉCOUVRIR", pas d'auto-dismiss ── */
+/* ── WELCOME SPLASH — DigitalSerenity dark intro + vaporize exit ── */
 function WelcomeFlow({onComplete}){
+  const [mousePos,setMousePos]=useState({x:-999,y:-999,show:false});
+  const [ripples,setRipples]=useState([]);
   const [leaving,setLeaving]=useState(false);
-  const [hov,setHov]=useState(false);
-  const [down,setDown]=useState(false);
+  const [phase,setPhase]=useState('intro');
+  const canvasRef=useRef(null);
 
-  const enter=()=>{
-    if(leaving)return;
-    setDown(false);
-    setLeaving(true);
-    setTimeout(onComplete,620);
+  useEffect(()=>{
+    const onMove=e=>setMousePos({x:e.clientX,y:e.clientY,show:true});
+    const onLeave=()=>setMousePos(p=>({...p,show:false}));
+    document.addEventListener('mousemove',onMove);
+    document.addEventListener('mouseleave',onLeave);
+    return()=>{document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseleave',onLeave);};
+  },[]);
+
+  useEffect(()=>{
+    const words=document.querySelectorAll('.ds-word');
+    words.forEach(w=>{
+      const delay=parseInt(w.getAttribute('data-delay'))||0;
+      setTimeout(()=>{if(w)w.style.animation='dsWordAppear .8s ease-out forwards';},delay);
+    });
+  },[]);
+
+  const handleClick=(e)=>{
+    if(phase!=='intro')return;
+    const r={id:Date.now(),x:e.clientX,y:e.clientY};
+    setRipples(prev=>[...prev,r]);
+    setTimeout(()=>setRipples(prev=>prev.filter(x=>x.id!==r.id)),1000);
+    setPhase('vaporizing');
+    doVaporize(()=>{setLeaving(true);setTimeout(onComplete,700);});
   };
 
+  const doVaporize=(onDone)=>{
+    const canvas=canvasRef.current;
+    if(!canvas){setTimeout(onDone,100);return;}
+    const dpr=Math.min(window.devicePixelRatio||1,2);
+    const W=window.innerWidth,H=window.innerHeight;
+    canvas.width=Math.round(W*dpr);
+    canvas.height=Math.round(H*dpr);
+    canvas.style.width=W+'px';
+    canvas.style.height=H+'px';
+    const ctx=canvas.getContext('2d');
+    /* draw all vaporisable text at their screen positions */
+    document.querySelectorAll('.ds-vap').forEach(el=>{
+      const rect=el.getBoundingClientRect();
+      if(rect.width<1||parseFloat(el.style.opacity||'1')===0)return;
+      const cs=window.getComputedStyle(el);
+      ctx.save();
+      ctx.scale(dpr,dpr);
+      ctx.font=`${cs.fontWeight} ${parseFloat(cs.fontSize)}px ${cs.fontFamily}`;
+      ctx.fillStyle=cs.color;
+      ctx.textAlign='left';
+      ctx.textBaseline='top';
+      ctx.fillText(el.textContent||'',rect.left,rect.top);
+      ctx.restore();
+    });
+    /* sample pixels */
+    const idata=ctx.getImageData(0,0,canvas.width,canvas.height);
+    const px=idata.data;
+    const particles=[];
+    const stride=Math.ceil(dpr)*2;
+    const CW=canvas.width;
+    for(let y=0;y<canvas.height;y+=stride){
+      for(let x=0;x<canvas.width;x+=stride){
+        const i=(y*CW+x)*4;
+        if(px[i+3]>50){
+          particles.push({
+            ox:x/dpr,oy:y/dpr,x:x/dpr,y:y/dpr,
+            vx:0,vy:0,started:false,
+            opacity:Math.min(1,(px[i+3]/255)*(stride/dpr)),
+            decay:0.007+Math.random()*.013,
+            r:px[i],g:px[i+1],b:px[i+2]
+          });
+        }
+      }
+    }
+    ctx.clearRect(0,0,W,H);
+    document.querySelectorAll('.ds-vap').forEach(el=>{el.style.opacity='0';el.style.transition='none';});
+    /* wave animation left→right */
+    let frameId,progress=0,lastT=performance.now();
+    const WAVE=1.6;
+    const anim=(now)=>{
+      const dt=(now-lastT)/1000;lastT=now;
+      progress+=dt/WAVE;
+      const waveX=W*Math.min(1.1,progress);
+      ctx.clearRect(0,0,W,H);
+      let alive=0;
+      particles.forEach(p=>{
+        if(!p.started&&p.ox<=waveX){
+          p.started=true;
+          const angle=-Math.PI/2+(Math.random()-.5)*Math.PI*.9;
+          const spd=Math.random()*3+.8;
+          p.vx=Math.cos(angle)*spd;p.vy=Math.sin(angle)*spd;
+        }
+        if(p.opacity<=.01)return;
+        if(p.started){
+          p.x+=p.vx;p.y+=p.vy;
+          p.vy-=.035;p.vx+=(Math.random()-.5)*.12;p.vx*=.97;
+          p.opacity=Math.max(0,p.opacity-p.decay);
+        }
+        alive++;
+        ctx.fillStyle=`rgba(${p.r},${p.g},${p.b},${Math.max(0,p.opacity)})`;
+        ctx.fillRect(p.x,p.y,2,2);
+      });
+      if(alive>0||progress<1.1)frameId=requestAnimationFrame(anim);
+      else{cancelAnimationFrame(frameId);onDone();}
+    };
+    frameId=requestAnimationFrame(anim);
+  };
+
+  const corners=[
+    {top:24,left:24,dotPos:{top:0,left:0}},
+    {top:24,right:24,dotPos:{top:0,right:0}},
+    {bottom:24,left:24,dotPos:{bottom:0,left:0}},
+    {bottom:24,right:24,dotPos:{bottom:0,right:0}},
+  ];
+
   return(
-    <div style={{
-      position:'fixed',inset:0,zIndex:8500,background:'#f5f0e8',
-      display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',overflow:'hidden',
-      opacity:leaving?0:1,transform:leaving?'scale(1.06)':'scale(1)',
-      transition:'opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1)',
-      pointerEvents:leaving?'none':'all'
+    <div onClick={handleClick} style={{
+      position:'fixed',inset:0,zIndex:8500,cursor:'pointer',overflow:'hidden',
+      background:'linear-gradient(135deg,#0f172a 0%,#000000 50%,#1e293b 100%)',
+      opacity:leaving?0:1,transition:leaving?'opacity .7s ease':'none'
     }}>
-      {/* Decorative rings */}
-      <div style={{position:'absolute',width:540,height:540,borderRadius:'50%',border:'1px solid rgba(255,107,74,.06)',top:'50%',left:'50%',transform:'translate(-50%,-50%)',pointerEvents:'none'}}/>
-      <div style={{position:'absolute',width:320,height:320,borderRadius:'50%',border:'1px solid rgba(255,107,74,.11)',top:'50%',left:'50%',transform:'translate(-50%,-50%)',pointerEvents:'none'}}/>
+      {/* SVG animated grid */}
+      <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none'}} xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dsGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+            <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(100,116,139,.1)" strokeWidth=".5"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dsGrid)"/>
+        <line x1="0" y1="20%" x2="100%" y2="20%" stroke="#94a3b8" strokeWidth=".5" strokeDasharray="5 5" style={{opacity:0,animation:'dsGridDraw 2s ease-out .5s forwards'}}/>
+        <line x1="0" y1="80%" x2="100%" y2="80%" stroke="#94a3b8" strokeWidth=".5" strokeDasharray="5 5" style={{opacity:0,animation:'dsGridDraw 2s ease-out 1s forwards'}}/>
+        <line x1="20%" y1="0" x2="20%" y2="100%" stroke="#94a3b8" strokeWidth=".5" strokeDasharray="5 5" style={{opacity:0,animation:'dsGridDraw 2s ease-out 1.5s forwards'}}/>
+        <line x1="80%" y1="0" x2="80%" y2="100%" stroke="#94a3b8" strokeWidth=".5" strokeDasharray="5 5" style={{opacity:0,animation:'dsGridDraw 2s ease-out 2s forwards'}}/>
+        <circle cx="20%" cy="20%" r="2" fill="#cbd5e1" style={{opacity:0,animation:'dsPulse 3s ease-in-out 3s infinite'}}/>
+        <circle cx="80%" cy="20%" r="2" fill="#cbd5e1" style={{opacity:0,animation:'dsPulse 3s ease-in-out 3.2s infinite'}}/>
+        <circle cx="20%" cy="80%" r="2" fill="#cbd5e1" style={{opacity:0,animation:'dsPulse 3s ease-in-out 3.4s infinite'}}/>
+        <circle cx="80%" cy="80%" r="2" fill="#cbd5e1" style={{opacity:0,animation:'dsPulse 3s ease-in-out 3.6s infinite'}}/>
+        <circle cx="50%" cy="50%" r="1.5" fill="#cbd5e1" style={{opacity:0,animation:'dsPulse 3s ease-in-out 4s infinite'}}/>
+      </svg>
 
-      <div className="wf-in" style={{display:'flex',flexDirection:'column',alignItems:'center',gap:28,textAlign:'center',maxWidth:480,padding:40}}>
-        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,letterSpacing:'.22em',color:C.coral,textTransform:'uppercase'}}>riyan.world</div>
-        <div>
-          <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:'clamp(30px,4.5vw,50px)',fontWeight:800,color:C.text,lineHeight:1.05,letterSpacing:'-0.02em',marginBottom:8}}>
-            Riyan Besseghir
-          </h1>
-          <p style={{fontFamily:"'Inter',sans-serif",fontSize:14,color:C.muted,fontWeight:400,lineHeight:1.5}}>
-            AI Product Manager · Toulouse / Paris / Remote
-          </p>
+      {/* Corner brackets */}
+      {corners.map((c,i)=>(
+        <div key={i} style={{
+          position:'absolute',
+          ...(c.top!==undefined?{top:c.top}:{bottom:c.bottom}),
+          ...(c.left!==undefined?{left:c.left}:{right:c.right}),
+          width:40,height:40,border:'1px solid rgba(203,213,225,.2)',
+          opacity:0,animation:`dsWordAppear 1s ease-out ${4+i*.2}s forwards`,pointerEvents:'none'
+        }}>
+          <div style={{position:'absolute',...c.dotPos,width:8,height:8,background:'rgba(203,213,225,.3)',borderRadius:'50%'}}/>
         </div>
-        <div style={{width:40,height:2,background:C.coral,borderRadius:2}}/>
+      ))}
 
-        {/* ── 3D circular button avec texte rotatif ── */}
-        <div style={{position:'relative',width:160,height:160,marginTop:8}}>
-          {/* Texte circulaire rotatif */}
-          <svg width="160" height="160" viewBox="0 0 160 160" style={{position:'absolute',top:'50%',left:'50%',animation:'spin 14s linear infinite',pointerEvents:'none'}}>
-            <defs>
-              <path id="wfCircle" d="M 80,80 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0"/>
-            </defs>
-            <text style={{fill:'rgba(255,107,74,.65)',fontSize:'9.5',fontFamily:"'JetBrains Mono',monospace",letterSpacing:'3.8'}}>
-              <textPath href="#wfCircle">DÉCOUVRIR • EXPLORER • CLIQUER •&nbsp;&nbsp;</textPath>
-            </text>
-          </svg>
-          {/* Bouton central — Liquid Metal */}
-          <button
-            data-h
-            className="wf-metal"
-            onClick={enter}
-            onMouseEnter={()=>setHov(true)}
-            onMouseLeave={()=>{setHov(false);setDown(false);}}
-            onMouseDown={()=>setDown(true)}
-            onMouseUp={enter}
-            style={{
-              position:'absolute',top:'50%',left:'50%',
-              transform:`translate(-50%,-50%) ${down?'scale(0.93) translateY(3px)':(hov?'scale(1.07)':'scale(1)')}`,
-              width:106,height:106,borderRadius:'50%',
-              color:hov?'#ffffff':'#d8d8f0',
-              fontFamily:"'Space Grotesk',sans-serif",
-              boxShadow:down
-                ?'0 2px 10px rgba(80,80,160,.5),inset 0 4px 12px rgba(0,0,0,.45)'
-                :(hov
-                  ?'0 0 40px rgba(160,160,255,.55),0 8px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.28)'
-                  :'0 0 22px rgba(130,130,220,.35),0 6px 16px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.18)'),
-              transition:'all .22s cubic-bezier(.22,.68,0,1.2)',
-              display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:5,
-              cursor:'pointer'
-            }}
-          >
-            <span style={{fontSize:26,lineHeight:1}}>→</span>
-            <span style={{fontSize:10,fontWeight:800,letterSpacing:'.1em',textTransform:'uppercase'}}>Découvrir</span>
-          </button>
+      {/* Floating micro-dots */}
+      {[{top:'25%',left:'15%',d:'0s'},{top:'60%',left:'85%',d:'1s'},{top:'40%',left:'10%',d:'1.5s'},{top:'75%',left:'90%',d:'2s'},{top:'30%',left:'70%',d:'.7s'},{top:'55%',left:'45%',d:'1.2s'}].map((p,i)=>(
+        <div key={i} style={{position:'absolute',top:p.top,left:p.left,width:2,height:2,background:'#cbd5e1',borderRadius:'50%',opacity:0,animation:`dsFloat 4s ease-in-out ${p.d} infinite`,pointerEvents:'none'}}/>
+      ))}
+
+      {/* Main content */}
+      <div style={{position:'relative',zIndex:10,height:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center',padding:'clamp(28px,5vh,56px) clamp(20px,5vw,64px)'}}>
+
+        {/* Top label */}
+        <div style={{textAlign:'center'}}>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,letterSpacing:'.26em',color:'rgba(203,213,225,.7)',textTransform:'uppercase'}}>
+            <span className="ds-word ds-vap" data-delay="0">riyan</span>
+            <span className="ds-word ds-vap" data-delay="250" style={{margin:'0 5px',color:'rgba(203,213,225,.3)'}}>·</span>
+            <span className="ds-word ds-vap" data-delay="450">world</span>
+          </div>
+          <div style={{marginTop:14,width:64,height:1,background:'linear-gradient(90deg,transparent,rgba(203,213,225,.22),transparent)',margin:'14px auto 0'}}/>
+        </div>
+
+        {/* Center identity */}
+        <div style={{textAlign:'center',maxWidth:700,width:'100%'}}>
+          <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'clamp(40px,7.5vw,88px)',lineHeight:.95,letterSpacing:'-.04em',color:'#f8fafc',marginBottom:22}}>
+            <div style={{marginBottom:6}}>
+              <span className="ds-word ds-vap" data-delay="700">Riyan</span>
+            </div>
+            <div>
+              <span className="ds-word ds-vap" data-delay="980">Besseghir</span>
+            </div>
+          </h1>
+          <div style={{width:36,height:1,background:'linear-gradient(90deg,transparent,rgba(148,163,184,.4),transparent)',margin:'0 auto 22px'}}/>
+          <div style={{fontFamily:"'Inter',sans-serif",fontWeight:300,fontSize:'clamp(12px,1.7vw,17px)',color:'rgba(148,163,184,.85)',letterSpacing:'.07em',lineHeight:1.8}}>
+            <span className="ds-word ds-vap" data-delay="1350">AI</span>{' '}
+            <span className="ds-word ds-vap" data-delay="1480">Product</span>{' '}
+            <span className="ds-word ds-vap" data-delay="1610">Manager</span>{' '}
+            <span className="ds-word ds-vap" data-delay="1730" style={{color:'rgba(100,116,139,.45)'}}>·</span>{' '}
+            <span className="ds-word ds-vap" data-delay="1850">Toulouse</span>{' '}
+            <span className="ds-word ds-vap" data-delay="1950" style={{color:'rgba(100,116,139,.45)'}}>/</span>{' '}
+            <span className="ds-word ds-vap" data-delay="2050">Paris</span>{' '}
+            <span className="ds-word ds-vap" data-delay="2150" style={{color:'rgba(100,116,139,.45)'}}>/</span>{' '}
+            <span className="ds-word ds-vap" data-delay="2250">Remote</span>
+          </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div style={{textAlign:'center'}}>
+          <div style={{width:64,height:1,background:'linear-gradient(90deg,transparent,rgba(203,213,225,.18),transparent)',margin:'0 auto 20px'}}/>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,letterSpacing:'.3em',color:'rgba(203,213,225,.45)',textTransform:'uppercase'}}>
+            <span className="ds-word" data-delay="3100">Cliquer</span>{' '}
+            <span className="ds-word" data-delay="3300">n'importe</span>{' '}
+            <span className="ds-word" data-delay="3500">où</span>{' '}
+            <span className="ds-word" data-delay="3700">pour</span>{' '}
+            <span className="ds-word" data-delay="3900">explorer</span>
+          </div>
+          <div style={{marginTop:22,display:'flex',justifyContent:'center',gap:14,opacity:0,animation:'dsWordAppear 1s ease-out 4.5s forwards'}}>
+            <div style={{width:4,height:4,background:'rgba(203,213,225,.3)',borderRadius:'50%'}}/>
+            <div style={{width:4,height:4,background:'rgba(203,213,225,.45)',borderRadius:'50%'}}/>
+            <div style={{width:4,height:4,background:'rgba(203,213,225,.3)',borderRadius:'50%'}}/>
+          </div>
         </div>
       </div>
+
+      {/* Vaporize canvas */}
+      <canvas ref={canvasRef} style={{position:'absolute',top:0,left:0,pointerEvents:'none',zIndex:20}}/>
+
+      {/* Mouse gradient follower */}
+      <div style={{
+        position:'fixed',pointerEvents:'none',borderRadius:'50%',
+        width:380,height:380,
+        background:'radial-gradient(circle,rgba(148,163,184,.05),rgba(100,116,139,.03),transparent 70%)',
+        transform:'translate(-50%,-50%)',
+        left:mousePos.x,top:mousePos.y,
+        opacity:mousePos.show?1:0,
+        filter:'blur(24px)',
+        transition:'left 70ms linear,top 70ms linear,opacity .3s ease'
+      }}/>
+
+      {/* Ripple effects */}
+      {ripples.map(r=>(
+        <div key={r.id} style={{
+          position:'fixed',width:8,height:8,
+          background:'rgba(203,213,225,.55)',borderRadius:'50%',
+          transform:'translate(-50%,-50%)',pointerEvents:'none',
+          left:r.x,top:r.y,zIndex:9999,
+          animation:'dsPulse 1s ease-out forwards'
+        }}/>
+      ))}
     </div>
   );
 }
