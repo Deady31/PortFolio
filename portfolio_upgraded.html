@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Riyan Besseghir — riyan.world</title>
+<title>Riyan Besseghir — Product Manager IA · riyan.world</title>
+<meta name="description" content="Riyan Besseghir — AI Product Manager junior. A livré des AI-Powered Features en production (chatbot IA, analyse data, pareto produits) chez Shippingbo. Open to work · CDI · Freelance.">
+<meta name="keywords" content="Product Manager, AI Product Manager, Product Builder, IA, Shippingbo, Toulouse, Paris, Remote, SaaS, B2B, PM junior, features IA">
+<meta property="og:title" content="Riyan Besseghir — AI Product Manager">
+<meta property="og:description" content="PM qui a livré des AI-Powered Features en production, de la discovery à la delivery.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://riyan.world">
+<link rel="canonical" href="https://riyan.world">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -29,7 +36,7 @@ button{font-family:'Inter',sans-serif}
 .mac-win{background:rgba(255,255,255,.92);backdrop-filter:blur(20px) saturate(1.2);border-radius:14px;border:1px solid rgba(26,22,20,.12);box-shadow:0 20px 60px rgba(0,0,0,.14),0 0 0 1px rgba(255,255,255,.7);overflow:hidden;position:absolute;user-select:none}
 .mac-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:rgba(240,235,226,.95);border-bottom:1px solid rgba(26,22,20,.08);cursor:grab}
 .mac-bar:active{cursor:grabbing}
-.mac-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.mac-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:rgba(0,0,0,.55)}
 .mac-title{flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(26,22,20,.4);margin-left:-28px}
 /* Glass card */
 .glass{background:rgba(255,255,255,.85);backdrop-filter:blur(16px);border:1px solid rgba(26,22,20,.1);border-radius:20px}
@@ -48,12 +55,14 @@ button{font-family:'Inter',sans-serif}
 @keyframes wfFadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 /* Desktop icon pulse (pro zone) */
 @keyframes iconPulse{0%,100%{transform:scale(1)}40%{transform:scale(1.1)}70%{transform:scale(1.04)}}
-/* Roadmap dotted-path flow */
-@keyframes dashFlow{from{stroke-dashoffset:0}to{stroke-dashoffset:-1200}}
-/* Custom luminous cursor — hide native cursor everywhere */
-html,body,*,*::before,*::after{cursor:none !important}
-/* But keep text caret visible inside inputs/textareas */
-input,textarea{cursor:text !important}
+/* Roadmap dotted-path flow — static, no animation */
+/* Spin animation for WelcomeFlow circular text */
+@keyframes spin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+/* Restore native cursor everywhere */
+html,body,*{cursor:inherit}
+body{cursor:default}
+[data-h],button,a,label,[role=button]{cursor:pointer!important}
+input,textarea{cursor:text!important}
 /* Scroll reveal */
 .reveal{opacity:0;transform:translateY(36px);transition:opacity .75s cubic-bezier(.22,.68,0,1.2),transform .75s cubic-bezier(.22,.68,0,1.2)}
 .reveal.vis{opacity:1;transform:translateY(0)}
@@ -99,30 +108,30 @@ const C={
 
 /* ── DATA ─────────────────────────────────────────────── */
 const PROJECTS_PERSO=[
-  {id:'cine',name:'CinéAppMovies',badge:'Projet Perso',emoji:'🎬',color:'#E50914',colorBg:'rgba(229,9,20,.1)',img:'uploads/pasted-1777140233564-0.png',cat:'Web · Entertainment',tagline:'Tous tes films, une seule décision.',stack:['TMDB API','React','Filtres temps réel'],problem:'Les users jonglent entre 4 apps pour choisir quoi regarder — friction à chaque étape.',hypothesis:'Agréger tout en un seul endroit réduit le temps de décision de >50%.',build:'TMDB API + React + filtres dynamiques par plateforme, genre, durée',outcome:'Adoption validée sur cercle proche — 3 redesigns du système de filtres avant product-market fit.'},
-  {id:'fooder',name:'Fooder',badge:'Projet Perso',emoji:'🍜',color:'#22C55E',colorBg:'rgba(34,197,94,.1)',img:'uploads/pasted-1777140311412-0.png',cat:'Mobile · Food',tagline:'Décide en 30 secondes. Swipe, match, mange.',stack:['React Native','Géolocalisation','Swipe UX'],problem:'Choisir un restaurant prend en moyenne 15 minutes entre les apps. Trop d\'options, interfaces lourdes, décision jamais satisfaisante.',hypothesis:'Une décision binaire par card réduit la charge cognitive vs une liste de 50 restos et génère un engagement supérieur.',build:'React Native + géoloc + swipe gestures + filtre budget/cuisine. UX inspirée du pattern Tinder appliqué à la découverte locale.',outcome:'15 users testés : temps de décision ÷3 vs Google Maps. Friction perçue nettement réduite dès les premiers tests.'},
-  {id:'saas',name:'SaaS Invoice',badge:'Projet Perso',emoji:'💼',color:'#6366F1',colorBg:'rgba(99,102,241,.1)',img:'uploads/pasted-1777141555503-0.png',cat:'Mobile · FinTech',tagline:'Billing minimaliste. Zéro anxiété.',stack:['SaaS','Dashboard','Mobile-first'],problem:'Les outils de facturation submergent les freelances — anxiété > efficacité.',hypothesis:'Réduire aux 5 fonctions core crée plus de confiance.',build:'Architecture mobile-first + gradient pastel intentionnel + états vides designés',outcome:"Learning clé : l'état vide est du design. La confiance se construit par la clarté."},
-  {id:'ow',name:'Overwatch Nexus',badge:'Projet Perso · AI',emoji:'🤖',color:'#7C5CE7',colorBg:'rgba(124,92,231,.1)',img:'uploads/pasted-1777143694753-0.png',cat:'Web · Gaming · AI',tagline:'Le counter parfait en < 3 secondes.',stack:['Claude API','AI','React'],problem:'En lobby, 30s max pour trouver le bon counter — info dispersée sur des sites lents.',hypothesis:'Un agent IA avec domain expertise bat n\'importe quel wiki statique sur la vitesse.',build:'Claude API + prompts co-designés avec joueurs + interface native',outcome:'< 3s de réponse. Premier produit IA 0→1.'},
-  {id:'tiktok',name:'Pop Culture Journalism',badge:'Projet Perso · Créa',emoji:'📱',color:'#FF0050',colorBg:'rgba(255,0,80,.1)',img:'uploads/Logo%20divers/Screen%20Tiktok%20Deady.png',cat:'TikTok · Journalisme · Culture POP',tagline:'L\'actu culture POP, format court.',stack:['TikTok','Storytelling','Scripting'],problem:'La culture POP (anime, gaming, film) méritait un regard journalistique sérieux, pas juste du contenu viral creux.',hypothesis:'Un format court + angle journalistique = audience engagée sur des sujets de niche.',build:'Scripts, tournage, montage — solo. Angles éditoriaux sur gaming, anime, cinéma.',outcome:'Compétences en storytelling court-format et vulgarisation — directement utiles en PM pour pitcher et présenter.'},
+  {id:'cine',name:'CinéAppMovies',badge:'Projet Perso',status:'En cours',emoji:'🎬',color:'#E50914',colorBg:'rgba(229,9,20,.1)',img:'uploads/pasted-1777140233564-0.png',cat:'Web · Entertainment',tagline:'Tous tes films, une seule décision.',stack:['TMDB API','React','Filtres temps réel'],problem:'Les users jonglent entre 4 apps pour choisir quoi regarder — friction à chaque étape.',hypothesis:'Agréger tout en un seul endroit réduit le temps de décision de >50%.',build:'TMDB API + React + filtres dynamiques par plateforme, genre, durée',outcome:'Adoption validée sur cercle proche — 3 redesigns du système de filtres avant product-market fit.'},
+  {id:'fooder',name:'Fooder',badge:'Projet Perso',status:'En cours',emoji:'🍜',color:'#22C55E',colorBg:'rgba(34,197,94,.1)',img:'uploads/pasted-1777140311412-0.png',cat:'Mobile · Food',tagline:'Décide en 30 secondes. Swipe, match, mange.',stack:['React Native','Géolocalisation','Swipe UX'],problem:'Choisir un restaurant prend en moyenne 15 minutes entre les apps. Trop d\'options, interfaces lourdes, décision jamais satisfaisante.',hypothesis:'Une décision binaire par card réduit la charge cognitive vs une liste de 50 restos et génère un engagement supérieur.',build:'React Native + géoloc + swipe gestures + filtre budget/cuisine. UX inspirée du pattern Tinder appliqué à la découverte locale.',outcome:'15 users testés : temps de décision ÷3 vs Google Maps. Friction perçue nettement réduite dès les premiers tests.'},
+  {id:'saas',name:'SaaS Invoice',badge:'Projet Perso',status:'En cours',emoji:'💼',color:'#6366F1',colorBg:'rgba(99,102,241,.1)',img:'uploads/pasted-1777141555503-0.png',cat:'Mobile · FinTech',tagline:'Billing minimaliste. Zéro anxiété.',stack:['SaaS','Dashboard','Mobile-first'],problem:'Les outils de facturation submergent les freelances — anxiété > efficacité.',hypothesis:'Réduire aux 5 fonctions core crée plus de confiance.',build:'Architecture mobile-first + gradient pastel intentionnel + états vides designés',outcome:"Learning clé : l'état vide est du design. La confiance se construit par la clarté."},
+  {id:'ow',name:'Overwatch Nexus',badge:'Projet Perso · AI',status:'En cours',emoji:'🤖',color:'#7C5CE7',colorBg:'rgba(124,92,231,.1)',img:'uploads/pasted-1777143694753-0.png',cat:'Web · Gaming · AI',tagline:'Le counter parfait en < 3 secondes.',stack:['Claude API','AI','React'],problem:'En lobby, 30s max pour trouver le bon counter — info dispersée sur des sites lents.',hypothesis:'Un agent IA avec domain expertise bat n\'importe quel wiki statique sur la vitesse.',build:'Claude API + prompts co-designés avec joueurs + interface native',outcome:'< 3s de réponse. Premier produit IA live.'},
+  {id:'tiktok',name:'Pop Culture Journalism',badge:'Projet Perso · Créa',status:'En cours',emoji:'📱',color:'#FF0050',colorBg:'rgba(255,0,80,.1)',img:'uploads/Logo%20divers/Screen%20Tiktok%20Deady.png',cat:'TikTok · Journalisme · Culture POP',tagline:'L\'actu culture POP, format court.',stack:['TikTok','Storytelling','Scripting'],problem:'La culture POP (anime, gaming, film) méritait un regard journalistique sérieux, pas juste du contenu viral creux.',hypothesis:'Un format court + angle journalistique = audience engagée sur des sujets de niche.',build:'Scripts, tournage, montage — solo. Angles éditoriaux sur gaming, anime, cinéma.',outcome:'Compétences en storytelling court-format et vulgarisation — directement utiles en PM pour pitcher et présenter.'},
 ];
 
 const PROJECTS_PRO=[
-  {id:'shippingbo_ai',name:'Bundle IA — 4 features',badge:'Shippingbo · Feature',emoji:'🤖',color:'#ff6b4a',colorBg:'rgba(255,107,74,.1)',img:'uploads/Logo%20divers/Shippingbo%20logo.jfif',cat:'SaaS B2B · IA · Logistique',tagline:'Analyse data, agent conversationnel, reco commandes, ABC catalogue.',stack:['LLM','Agent IA','Vector DB','Recommandation','Data analyse','Product Management'],
+  {id:'shippingbo_ai',name:'AI-Powered Features — Shippingbo',badge:'Shippingbo · Feature',status:'En cours',emoji:'🤖',color:'#ff6b4a',colorBg:'rgba(255,107,74,.1)',img:'uploads/Logo%20divers/Shippingbo%20logo.jfif',cat:'SaaS B2B · IA · Logistique',tagline:'Analyse data, agent conversationnel, reco commandes, ABC catalogue.',stack:['LLM','Agent IA','Vector DB','Recommandation','Data analyse','Product Management'],
    problem:'Les opérateurs logistique perdaient des heures sur des tâches répétitives : analyser des exports data, répondre aux tickets support, identifier les commandes à risque, auditer le catalogue produit.',
    hypothesis:'4 features IA ciblées — chacune avec une valeur mesurable — éliminent ces frictions et créent un avantage compétitif fort sur le marché SaaS logistique.',
-   build:'① Analyse de données & synthèses automatiques (parsing LLM, résumés exécutifs) ② Agent conversationnel vectoriel capable d\'exécuter des actions — pas juste répondre ③ Moteur de recommandation de commandes basé sur l\'historique ④ Analyse ABC du catalogue produit. 137 tickets rédigés au total sur 9 mois.',
-   outcome:'−30% tickets Tier 1 dès la bêta. Agent livré de 0 à la production en 9 mois. Première expérience IA B2B à impact direct et mesurable sur les métriques support.'},
-  {id:'shippingbo_tiktok',name:'Connecteur TikTok Shop',badge:'Shippingbo · Feature',emoji:'📦',color:'#FF0050',colorBg:'rgba(255,0,80,.08)',img:'uploads/Tiktok.jpg',cat:'SaaS B2B · Intégration API · Partnership',tagline:'Intégration officielle TikTok Shop en partenariat.',stack:['TikTok Shop API','Schémas API','Partenariat','Marketing','Coordination'],
+   build:'① Miranda IA — chatbot conversationnel logistique (questions en langage naturel, analyses automatiques, navigation data) ② Audit IA — génération automatique d\'audits business (ventes, produits, retours, transports) ③ Classes de vente IA — classification Pareto ABCD des produits par rotation ④ Détection commandes identiques — identification automatique des doublons. 137 tickets rédigés au total sur 9 mois.',
+   outcome:'−30% tickets Tier 1 dès la bêta. Feature team IA pilotée de 0 à la production en 9 mois. Première expérience IA B2B à impact direct et mesurable sur les métriques support.'},
+  {id:'shippingbo_tiktok',name:'Connecteur TikTok Shop',badge:'Shippingbo · Feature',status:'En cours',emoji:'📦',color:'#FF0050',colorBg:'rgba(255,0,80,.08)',img:'uploads/Tiktok.jpg',cat:'SaaS B2B · Intégration API · Partnership',tagline:'Intégration officielle TikTok Shop en partenariat.',stack:['TikTok Shop API','Schémas API','Partenariat','Marketing','Coordination'],
    problem:'Les e-commerçants utilisant Shippingbo devaient gérer TikTok Shop manuellement — aucune synchronisation avec leur flux logistique, double saisie, erreurs fréquentes.',
    hypothesis:'Une intégration native TikTok Shop en statut partenaire officiel ouvre un segment e-commerce en forte croissance et différencie Shippingbo sur un canal stratégique.',
    build:'Définition des schémas API d\'intégration. Montage et soumission du dossier de candidature au programme partenaire TikTok Shop. Coordination avec l\'équipe marketing pour les visuels et la communication de lancement.',
    outcome:'Intégration TikTok Shop livrée en statut de partenaire officiel. Nouveau canal e-commerce couvert nativement. Coordination cross-fonctionnelle (tech, marketing, CSM) menée de bout en bout.'},
-  {id:'shippingbo_modules',name:'Page Modules & Extensions',badge:'Shippingbo · Feature',emoji:'🧩',color:'#6366F1',colorBg:'rgba(99,102,241,.1)',img:'uploads/Logo%20divers/Shippingbo%20logo.jfif',cat:'SaaS B2B · Headless CMS · Product',tagline:'Page modules sur Directus, 2 devs pilotés, content autonome.',stack:['Directus','Headless CMS','Product Management','UI Design','Marketing'],
+  {id:'shippingbo_modules',name:'Page Modules & Extensions',badge:'Shippingbo · Feature',status:'En cours',emoji:'🧩',color:'#6366F1',colorBg:'rgba(99,102,241,.1)',img:'uploads/Logo%20divers/Shippingbo%20logo.jfif',cat:'SaaS B2B · Headless CMS · Product',tagline:'Page modules sur Directus, 2 devs pilotés, content autonome.',stack:['Directus','Headless CMS','Product Management','UI Design','Marketing'],
    problem:'La page modules existante était statique et entièrement dépendante des devs — chaque mise à jour de contenu nécessitait un déploiement technique complet.',
    hypothesis:'Migrer sur un CMS headless (Directus) permet aux équipes non-techniques de gérer le contenu autonomement et libère les devs pour des tâches à plus haute valeur.',
    build:'Coordination de 2 développeurs sur la migration Directus. Rédaction des specs fonctionnelles et suivi des itérations UI. Pilotage de la production des visuels marketing pour chaque module partenaire.',
    outcome:'Page modules entièrement autonome, mise à jour sans déploiement. Gain de vélocité notable côté content et marketing. Architecture scalable pour les futurs modules.'},
-  {id:'shippingbo_ux',name:'Refonte Interface Legacy',badge:'Shippingbo · Feature',emoji:'🎨',color:'#00875a',colorBg:'rgba(0,135,90,.1)',img:'uploads/Logo%20divers/Shippingbo%20logo.jfif',cat:'SaaS B2B · UX · Product Design',tagline:'Dépreciation d\'une interface, transition sans friction.',stack:['User Research','UX Design','Full-stack','Product Design','Interviews'],
+  {id:'shippingbo_ux',name:'Refonte Interface Legacy',badge:'Shippingbo · Feature',status:'En cours',emoji:'🎨',color:'#00875a',colorBg:'rgba(0,135,90,.1)',img:'uploads/Logo%20divers/Shippingbo%20logo.jfif',cat:'SaaS B2B · UX · Product Design',tagline:'Dépreciation d\'une interface, transition sans friction.',stack:['User Research','UX Design','Full-stack','Product Design','Interviews'],
    problem:'Une interface legacy complexe bloquait l\'adoption des nouvelles features IA — les utilisateurs existants ne migraient pas spontanément vers la nouvelle version.',
    hypothesis:'Des interviews user research ciblées + une transition co-designée (PM, designer, dev full-stack) réduit la friction perçue et accélère l\'adoption.',
    build:'Conduite d\'interviews user research pour identifier les blocages. Collaboration étroite avec un product designer et un développeur full-stack pour co-designer la transition pas à pas. Rédaction des specs de migration et des guides utilisateur.',
@@ -211,6 +220,17 @@ function useInView(ref,threshold=.18){
   return vis;
 }
 
+function useWindowSize(){
+  const [size,setSize]=useState({w:window.innerWidth,h:window.innerHeight});
+  useEffect(()=>{
+    let t;
+    const fn=()=>{clearTimeout(t);t=setTimeout(()=>setSize({w:window.innerWidth,h:window.innerHeight}),80);};
+    window.addEventListener('resize',fn);
+    return()=>{window.removeEventListener('resize',fn);clearTimeout(t);};
+  },[]);
+  return size;
+}
+
 
 /* ── LOADER ─────────────────────────────────────────── */
 function Loader({onDone}){
@@ -239,61 +259,86 @@ function Loader({onDone}){
   );
 }
 
-/* ── WELCOME SPLASH (single screen, max 2s auto-dismiss) ── */
+/* ── WELCOME SPLASH — bouton 3D "DÉCOUVRIR", pas d'auto-dismiss ── */
 function WelcomeFlow({onComplete}){
   const [leaving,setLeaving]=useState(false);
+  const [hov,setHov]=useState(false);
+  const [down,setDown]=useState(false);
 
   const enter=()=>{
+    if(leaving)return;
+    setDown(false);
     setLeaving(true);
-    setTimeout(onComplete,420);
+    setTimeout(onComplete,620);
   };
-
-  // Auto-dismiss after 2s if user doesn't interact
-  useEffect(()=>{
-    const t=setTimeout(enter,2000);
-    return()=>clearTimeout(t);
-  },[]);
 
   return(
     <div style={{
       position:'fixed',inset:0,zIndex:8500,background:'#f5f0e8',
       display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',overflow:'hidden',
-      opacity:leaving?0:1,transform:leaving?'scale(1.04)':'scale(1)',
-      transition:'opacity .4s ease, transform .4s ease',pointerEvents:leaving?'none':'all'
+      opacity:leaving?0:1,transform:leaving?'scale(1.06)':'scale(1)',
+      transition:'opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1)',
+      pointerEvents:leaving?'none':'all'
     }}>
       {/* Decorative rings */}
-      <div style={{position:'absolute',width:480,height:480,borderRadius:'50%',border:'1px solid rgba(255,107,74,.08)',top:'50%',left:'50%',transform:'translate(-50%,-50%)',pointerEvents:'none'}}/>
-      <div style={{position:'absolute',width:280,height:280,borderRadius:'50%',border:'1px solid rgba(255,107,74,.14)',top:'50%',left:'50%',transform:'translate(-50%,-50%)',pointerEvents:'none'}}/>
+      <div style={{position:'absolute',width:540,height:540,borderRadius:'50%',border:'1px solid rgba(255,107,74,.06)',top:'50%',left:'50%',transform:'translate(-50%,-50%)',pointerEvents:'none'}}/>
+      <div style={{position:'absolute',width:320,height:320,borderRadius:'50%',border:'1px solid rgba(255,107,74,.11)',top:'50%',left:'50%',transform:'translate(-50%,-50%)',pointerEvents:'none'}}/>
 
-      <div className="wf-in" style={{display:'flex',flexDirection:'column',alignItems:'center',gap:20,textAlign:'center',maxWidth:520,padding:40}}>
+      <div className="wf-in" style={{display:'flex',flexDirection:'column',alignItems:'center',gap:28,textAlign:'center',maxWidth:480,padding:40}}>
         <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,letterSpacing:'.22em',color:C.coral,textTransform:'uppercase'}}>riyan.world</div>
         <div>
-          <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:'clamp(32px,5vw,52px)',fontWeight:800,color:C.text,lineHeight:1.05,letterSpacing:'-0.02em',marginBottom:6}}>
+          <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:'clamp(30px,4.5vw,50px)',fontWeight:800,color:C.text,lineHeight:1.05,letterSpacing:'-0.02em',marginBottom:8}}>
             Riyan Besseghir
           </h1>
-          <p style={{fontFamily:"'Inter',sans-serif",fontSize:16,color:C.muted,fontWeight:400}}>
-            PM &amp; Builder · Toulouse
+          <p style={{fontFamily:"'Inter',sans-serif",fontSize:14,color:C.muted,fontWeight:400,lineHeight:1.5}}>
+            AI Product Manager · Toulouse / Paris / Remote
           </p>
         </div>
         <div style={{width:40,height:2,background:C.coral,borderRadius:2}}/>
-        <div style={{display:'flex',gap:12,alignItems:'center',marginTop:8}}>
-          <button onClick={enter} data-h style={{
-            padding:'13px 36px',background:C.coral,border:'none',
-            borderRadius:50,color:'#fff',fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,
-            fontSize:14,letterSpacing:'.04em',cursor:'pointer',
-            boxShadow:'0 4px 20px rgba(255,107,74,.35)',transition:'all .25s ease'
-          }}
-          onMouseEnter={e=>{e.currentTarget.style.transform='scale(1.04)'}}
-          onMouseLeave={e=>{e.currentTarget.style.transform='scale(1)'}}
-          >Explorer →</button>
-          <button onClick={enter} data-h style={{
-            padding:'13px 20px',background:'transparent',border:'1px solid rgba(26,22,20,.15)',
-            borderRadius:50,color:C.muted,fontFamily:"'Inter',sans-serif",fontWeight:500,
-            fontSize:12,cursor:'pointer',transition:'all .25s ease'
-          }}
-          onMouseEnter={e=>{e.currentTarget.style.borderColor=C.coral;e.currentTarget.style.color=C.coral}}
-          onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(26,22,20,.15)';e.currentTarget.style.color=C.muted}}
-          >Passer</button>
+
+        {/* ── 3D circular button avec texte rotatif ── */}
+        <div style={{position:'relative',width:160,height:160,marginTop:8}}>
+          {/* Texte circulaire rotatif */}
+          <svg width="160" height="160" viewBox="0 0 160 160" style={{position:'absolute',top:'50%',left:'50%',animation:'spin 14s linear infinite',pointerEvents:'none'}}>
+            <defs>
+              <path id="wfCircle" d="M 80,80 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0"/>
+            </defs>
+            <text style={{fill:'rgba(255,107,74,.65)',fontSize:'9.5',fontFamily:"'JetBrains Mono',monospace",letterSpacing:'3.8'}}>
+              <textPath href="#wfCircle">DÉCOUVRIR • EXPLORER • CLIQUER •&nbsp;&nbsp;</textPath>
+            </text>
+          </svg>
+          {/* Bouton central 3D */}
+          <button
+            data-h
+            onClick={enter}
+            onMouseEnter={()=>setHov(true)}
+            onMouseLeave={()=>{setHov(false);setDown(false);}}
+            onMouseDown={()=>setDown(true)}
+            onMouseUp={enter}
+            style={{
+              position:'absolute',top:'50%',left:'50%',
+              transform:`translate(-50%,-50%) ${down?'scale(0.93) translateY(3px)':(hov?'scale(1.07)':'scale(1)')}`,
+              width:106,height:106,borderRadius:'50%',border:'none',
+              background:down
+                ?'linear-gradient(160deg,#e8553a 0%,#d44a2a 100%)'
+                :(hov
+                  ?'linear-gradient(160deg,#ff8060 0%,#ff6b4a 60%,#e8553a 100%)'
+                  :'linear-gradient(160deg,#ff7558 0%,#ff6b4a 55%,#e05030 100%)'),
+              color:'#fff',
+              fontFamily:"'Space Grotesk',sans-serif",
+              boxShadow:down
+                ?'0 2px 8px rgba(255,107,74,.35),inset 0 3px 10px rgba(0,0,0,.22)'
+                :(hov
+                  ?'0 16px 44px rgba(255,107,74,.6),0 4px 12px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.32)'
+                  :'0 10px 32px rgba(255,107,74,.45),0 4px 10px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.25),inset 0 -2px 6px rgba(0,0,0,.12)'),
+              transition:'all .22s cubic-bezier(.22,.68,0,1.2)',
+              display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:5,
+              cursor:'pointer'
+            }}
+          >
+            <span style={{fontSize:26,lineHeight:1}}>→</span>
+            <span style={{fontSize:10,fontWeight:800,letterSpacing:'.1em',textTransform:'uppercase'}}>Découvrir</span>
+          </button>
         </div>
       </div>
     </div>
@@ -328,9 +373,10 @@ function DesktopTooltip({onDismiss}){
 
 /* ── VUE RECRUTEUR MODAL ─────────────────────────────── */
 function RecruteurModal({onClose,onContact,onProjects,onTimeline}){
-  const {pos,onMD}=useDraggable({x:Math.max(40,window.innerWidth/2-480),y:40});
+  const recW=Math.min(960,window.innerWidth-40);
+  const {pos,onMD}=useDraggable({x:Math.max(20,Math.round((window.innerWidth-recW)/2)),y:40});
   return(
-    <SectionWindow title="⚡ Vue Recruteur — Riyan Besseghir" style={{width:960,maxHeight:'90vh',left:pos.x,top:pos.y,zIndex:300,display:'flex',flexDirection:'column'}} onMD={onMD} onClose={onClose}>
+    <SectionWindow title="⚡ Vue Recruteur — Riyan Besseghir" style={{width:recW,maxHeight:'90vh',left:pos.x,top:pos.y,zIndex:300,display:'flex',flexDirection:'column'}} onMD={onMD} onClose={onClose}>
       <div style={{overflowY:'auto'}}>
         {/* HERO BANNER — Photo + identity */}
         <div style={{position:'relative',background:'linear-gradient(135deg,#ff6b4a 0%,#e8553a 50%,#7c5ce7 100%)',padding:'28px 32px',color:'#fff',overflow:'hidden'}}>
@@ -356,8 +402,8 @@ function RecruteurModal({onClose,onContact,onProjects,onTimeline}){
           </div>
           {/* Tagline */}
           <div style={{marginTop:18,padding:'12px 16px',background:'rgba(255,255,255,.13)',backdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,.22)',borderRadius:12,position:'relative',zIndex:2}}>
-            <p style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:600,lineHeight:1.4,margin:0}}>
-              "Je transforme des <em style={{fontStyle:'italic',fontWeight:800}}>frictions</em> en produits — POCs en 30min, Figma solo, ship vite, apprends plus vite."
+            <p style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:600,lineHeight:1.45,margin:0}}>
+              PM junior qui a livré des <em style={{fontStyle:'normal',fontWeight:800}}>AI-Powered Features</em> en production — de la discovery à la delivery. Plutôt rare sur ce marché&nbsp;?
             </p>
           </div>
         </div>
@@ -365,25 +411,30 @@ function RecruteurModal({onClose,onContact,onProjects,onTimeline}){
         <div style={{padding:'24px 32px 28px'}}>
           {/* 4 Métriques clés */}
           <div style={{marginBottom:22}}>
-            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:12,fontWeight:700}}>📊 Impact mesurable — Shippingbo (9 mois)</div>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10}}>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:12,fontWeight:700}}>📊 Impact terrain — Shippingbo (9 mois, feature team autonome)</div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(100px,1fr))',gap:10}}>
               {[
-                {n:'137',l:'tickets',c:'#ff6b4a',sub:'specs + US'},
-                {n:'−30%',l:'tickets T1',c:'#7C5CE7',sub:'support IA'},
-                {n:'0→1',l:'agent IA',c:'#00875a',sub:'en prod'},
-                {n:'4',l:'features',c:'#6366F1',sub:'IA livrées'},
+                {n:'137',l:'tickets rédigés',c:'#ff6b4a',sub:'specs · user stories · DoD'},
+                {n:'−30%',l:'tickets support',c:'#7C5CE7',sub:'grâce aux features IA'},
+                {n:'3',l:'AI features',c:'#00875a',sub:'livrées en prod'},
+                {n:'9 mois',l:'feature team',c:'#6366F1',sub:'PM opérationnel solo'},
               ].map((s,i)=>(
                 <div key={i} style={{background:'#fff',border:`1.5px solid ${s.c}33`,borderRadius:12,padding:'14px 12px',textAlign:'center',boxShadow:`0 4px 14px ${s.c}10`}}>
-                  <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:24,fontWeight:800,letterSpacing:'-.03em',color:s.c,lineHeight:1,marginBottom:4}}>{s.n}</div>
+                  <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.03em',color:s.c,lineHeight:1,marginBottom:4}}>{s.n}</div>
                   <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:11,fontWeight:700,color:C.text}}>{s.l}</div>
                   <div style={{fontSize:9,color:C.muted,fontFamily:"'JetBrains Mono',monospace",marginTop:2}}>{s.sub}</div>
                 </div>
               ))}
             </div>
+            {/* Explication des features IA */}
+            <div style={{marginTop:10,padding:'10px 14px',background:'rgba(0,135,90,.06)',border:'1px solid rgba(0,135,90,.18)',borderRadius:10,fontSize:11,color:C.muted,lineHeight:1.55}}>
+              <span style={{fontWeight:700,color:C.green}}>Les 4 AI-Powered Features : </span>
+              Miranda IA (chatbot conversationnel logistique) · Audit IA (analyses business automatiques + recommandations) · Classes de vente IA (classification Pareto ABCD des produits) · Détection commandes identiques (doublons automatiques)
+            </div>
           </div>
 
           {/* 2-COL : Pourquoi moi / Stack */}
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14,marginBottom:22}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:14,marginBottom:22}}>
             <div style={{padding:'16px 18px',background:'rgba(255,107,74,.05)',border:'1px solid rgba(255,107,74,.2)',borderRadius:14}}>
               <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.16em',textTransform:'uppercase',marginBottom:10,fontWeight:700}}>⭐ Pourquoi me recruter</div>
               <ul style={{listStyle:'none',padding:0,margin:0,display:'flex',flexDirection:'column',gap:7}}>
@@ -412,7 +463,7 @@ function RecruteurModal({onClose,onContact,onProjects,onTimeline}){
           {/* 3 highlights de projets */}
           <div style={{marginBottom:24}}>
             <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:12,fontWeight:700}}>🚀 Highlights — projets perso (0→1)</div>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:10}}>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:10}}>
               {PROJECTS_PERSO.slice(0,3).map(p=>(
                 <div key={p.id} style={{padding:'12px 14px',background:'#fff',border:`1.5px solid ${p.color}22`,borderRadius:12,boxShadow:`0 4px 12px ${p.color}11`}}>
                   <div style={{fontSize:18,marginBottom:5}}>{p.emoji}</div>
@@ -508,10 +559,10 @@ function FinderWindow({title,children,style={},onMD,onClose,statusText=''}){
             {bg:'#FFBD2E',hover:'#E0A826',cb:null},
             {bg:'#28C840',hover:'#20A834',cb:null}].map((dot,i)=>(
             <div key={i} data-h={dot.cb?true:undefined}
-              style={{width:14,height:14,borderRadius:'50%',background:dot.bg,flexShrink:0,cursor:dot.cb?'pointer':'default',display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:900,color:'rgba(0,0,0,0)',transition:'color .1s,background .1s'}}
+              style={{width:16,height:16,borderRadius:'50%',background:dot.bg,flexShrink:0,cursor:dot.cb?'pointer':'default',display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,fontWeight:900,color:i===0?'rgba(90,0,0,.65)':'rgba(0,0,0,0)',transition:'color .1s,background .1s'}}
               onClick={dot.cb||undefined}
-              onMouseEnter={e=>{if(dot.cb){e.currentTarget.style.color='rgba(100,0,0,.7)';e.currentTarget.style.background=dot.hover;}}}
-              onMouseLeave={e=>{e.currentTarget.style.color='rgba(0,0,0,0)';e.currentTarget.style.background=dot.bg;}}>
+              onMouseEnter={e=>{e.currentTarget.style.color='rgba(90,0,0,.8)';e.currentTarget.style.background=dot.hover;}}
+              onMouseLeave={e=>{e.currentTarget.style.color=i===0?'rgba(90,0,0,.65)':'rgba(0,0,0,0)';e.currentTarget.style.background=dot.bg;}}>
               {i===0?'✕':i===1?'−':'⤢'}
             </div>
           ))}
@@ -970,10 +1021,10 @@ function SectionWindow({title,children,style={},onMD,onClose,accent='#ff6b4a'}){
         <div style={{display:'flex',gap:8,alignItems:'center',width:80}}>
           {[{bg:'#FF5F57',hover:'#E04E45',cb:onClose},{bg:'#FFBD2E',hover:'#E0A826',cb:null},{bg:'#28C840',hover:'#20A834',cb:null}].map((dot,i)=>(
             <div key={i} data-h={dot.cb?true:undefined}
-              style={{width:13,height:13,borderRadius:'50%',background:dot.bg,flexShrink:0,cursor:dot.cb?'pointer':'default',display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:900,color:'rgba(0,0,0,0)',transition:'color .1s,background .1s'}}
+              style={{width:16,height:16,borderRadius:'50%',background:dot.bg,flexShrink:0,cursor:dot.cb?'pointer':'default',display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,fontWeight:900,color:i===0?'rgba(90,0,0,.65)':'rgba(0,0,0,0)',transition:'color .1s,background .1s'}}
               onClick={dot.cb||undefined}
-              onMouseEnter={e=>{if(dot.cb){e.currentTarget.style.color='rgba(100,0,0,.7)';e.currentTarget.style.background=dot.hover;}}}
-              onMouseLeave={e=>{e.currentTarget.style.color='rgba(0,0,0,0)';e.currentTarget.style.background=dot.bg;}}>
+              onMouseEnter={e=>{e.currentTarget.style.color='rgba(90,0,0,.8)';e.currentTarget.style.background=dot.hover;}}
+              onMouseLeave={e=>{e.currentTarget.style.color=i===0?'rgba(90,0,0,.65)':'rgba(0,0,0,0)';e.currentTarget.style.background=dot.bg;}}>
               {i===0?'✕':i===1?'−':'⤢'}
             </div>
           ))}
@@ -1363,6 +1414,10 @@ function ProjectMiniCard({p,onOpen}){
         <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,transparent 50%,rgba(255,255,255,.95))'}}></div>
         <span style={{position:'absolute',top:12,left:12,padding:'4px 10px',background:'rgba(255,255,255,.95)',color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:9,borderRadius:5,letterSpacing:'.08em',fontWeight:700,border:`1px solid ${p.color}44`}}>{p.badge}</span>
         <span style={{position:'absolute',top:12,right:12,fontSize:24,filter:'drop-shadow(0 2px 6px rgba(0,0,0,.2))'}}>{p.emoji}</span>
+        {p.status&&<span style={{position:'absolute',bottom:8,left:12,padding:'3px 9px',background:'rgba(232,168,0,.9)',backdropFilter:'blur(4px)',color:'#fff',fontFamily:"'JetBrains Mono',monospace",fontSize:8,borderRadius:100,fontWeight:700,letterSpacing:'.06em',display:'flex',alignItems:'center',gap:4}}>
+          <span style={{width:5,height:5,borderRadius:'50%',background:'#fff',display:'inline-block',animation:'pulse 1.8s ease-in-out infinite'}}/>
+          {p.status}
+        </span>}
       </div>
       <div style={{padding:'16px 20px 18px',flex:1,display:'flex',flexDirection:'column'}}>
         <h3 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:18,fontWeight:800,letterSpacing:'-.02em',marginBottom:4,color:'#1a1614'}}>{p.name}</h3>
@@ -1627,7 +1682,7 @@ function DesktopIconPro({children,label,onOpen,pos,size=116,pulse=false,priority
       {/* Fixed-height icon wrapper — visual center is at pos.y + size/2 to match SVG path */}
       <div style={{height:size,width:'100%',display:'flex',alignItems:'center',justifyContent:'center',position:'relative'}}>
         <div style={{position:'relative',
-          transform:hov?'scale(1.1) translateY(-4px)':'scale(1)',
+          transform:hov?`scale(${(size/100)*1.1}) translateY(-4px)`:`scale(${size/100})`,
           transition:'transform .22s cubic-bezier(.22,.68,0,1.2)',
           filter:hov?'drop-shadow(0 12px 24px rgba(255,107,74,.35))':(isPri?'drop-shadow(0 6px 14px rgba(255,107,74,.28))':'drop-shadow(0 4px 8px rgba(0,0,0,.18))'),
           animation:pulse?'iconPulse 1.8s ease-in-out 3':'none',
@@ -1685,16 +1740,16 @@ function HeroSection(){
   const handleInteract=()=>{};
 
   /* ── Roadmap icon layout — priority zigzag (centered) + optional bottom row ── */
-  const VW=Math.max(window.innerWidth,1280);
-  const VH=window.innerHeight;
-  const PRI_SZ=100;
-  const OPT_SZ=78;
+  const {w:VW,h:VH}=useWindowSize();
+  const SCALE=Math.max(0.55,Math.min(1,VW/1280));
+  const PRI_SZ=Math.round(100*SCALE);
+  const OPT_SZ=Math.round(78*SCALE);
 
   // 8 PRIORITY icons (recruiter must-see): zigzag treasure-map path — centered vertically
-  const PAD_L=110;
-  const PAD_R=110;
+  const PAD_L=Math.round(110*SCALE);
+  const PAD_R=Math.round(110*SCALE);
   const TOP_Y=Math.round(VH*0.22);   // descend la priorité — plus centrée verticalement
-  const ZIG_AMP=170;
+  const ZIG_AMP=Math.round(170*SCALE);
   const N_PRI=8;
   const STEP=(VW-PAD_L-PAD_R)/(N_PRI-1);
   const priPos=i=>{
@@ -1707,9 +1762,9 @@ function HeroSection(){
   const priCy=i=>TOP_Y+(i%2===0?0:ZIG_AMP)+PRI_SZ/2;
 
   // 3 OPTIONAL icons (curiosités) — bottom row, lower
-  const OPT_Y=Math.max(TOP_Y+ZIG_AMP+PRI_SZ+170,Math.round(VH*0.78));
+  const OPT_Y=Math.max(TOP_Y+ZIG_AMP+PRI_SZ+Math.round(170*SCALE),Math.round(VH*0.78));
   const N_OPT=3;
-  const OPT_GAP=180;
+  const OPT_GAP=Math.round(180*SCALE);
   const OPT_TOTAL=(N_OPT-1)*OPT_GAP;
   const OPT_START=(VW-OPT_TOTAL)/2;
   const optPos=i=>{
@@ -1760,20 +1815,14 @@ function HeroSection(){
             <stop offset="100%" stopColor="#ff6b4a" stopOpacity="0.7"/>
           </linearGradient>
         </defs>
-        <path d={pathD} fill="none" stroke="url(#pathGrad)" strokeWidth="3" strokeLinecap="round" strokeDasharray="2 10" style={{animation:'dashFlow 30s linear infinite'}}/>
+        <path d={pathD} fill="none" stroke="url(#pathGrad)" strokeWidth="3" strokeLinecap="round" strokeDasharray="2 10"/>
         {/* Step circles at each priority node */}
         {Array.from({length:N_PRI},(_,i)=>(
           <circle key={i} cx={priCx(i)} cy={priCy(i)} r="6" fill="#ff6b4a" stroke="#fff" strokeWidth="2.5"/>
         ))}
       </svg>
 
-      {/* "PARCOURS RECRUTEUR" header — start of priority path */}
-      <div style={{position:'absolute',left:24,top:TOP_Y-58,zIndex:9,display:'flex',alignItems:'center',gap:10,padding:'8px 16px',background:'linear-gradient(135deg,#ff6b4a,#e8553a)',color:'#fff',borderRadius:100,fontFamily:"'Space Grotesk',sans-serif",fontSize:11,fontWeight:800,letterSpacing:'.06em',textTransform:'uppercase',boxShadow:'0 8px 22px rgba(255,107,74,.35)'}}>
-        <span style={{fontSize:14}}>⭐</span>
-        <span>Parcours recommandé pour recruteurs</span>
-        <span style={{display:'inline-block',width:1,height:14,background:'rgba(255,255,255,.4)'}}/>
-        <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,opacity:.92}}>1 → 8</span>
-      </div>
+      {/* "PARCOURS RECRUTEUR" header supprimé */}
 
       {/* "+POUR ME CONNAITRE" label — start of optional row */}
       <div style={{position:'absolute',left:'50%',top:OPT_Y-52,transform:'translateX(-50%)',zIndex:9,display:'flex',alignItems:'center',gap:10,padding:'7px 14px',background:'rgba(255,255,255,.85)',backdropFilter:'blur(8px)',color:C.muted,borderRadius:100,fontFamily:"'JetBrains Mono',monospace",fontSize:10,fontWeight:600,letterSpacing:'.14em',textTransform:'uppercase',border:`1px solid ${C.border2}`,boxShadow:'0 4px 12px rgba(0,0,0,.05)'}}>
@@ -1832,16 +1881,18 @@ function HeroSection(){
       {activeProject&&<ProjectModal p={activeProject} onClose={()=>setActiveProject(null)}/>}
       {openRecruteur&&<RecruteurModal onClose={()=>setOpenRecruteur(false)} onContact={()=>setOpenContact(true)} onProjects={()=>setOpenProj(true)} onTimeline={()=>setOpenTimeline(true)}/>}
 
+      {/* Overlay backdrop quand RecruteurModal est ouvert */}
+      {openRecruteur&&<div style={{position:'fixed',inset:0,background:'rgba(26,22,20,.45)',backdropFilter:'blur(5px)',zIndex:250}} onClick={()=>setOpenRecruteur(false)}/>}
+
       {/* Bottom-LEFT summary */}
-      <div style={{position:'absolute',bottom:30,left:24,zIndex:18,maxWidth:340,background:'rgba(255,255,255,.78)',backdropFilter:'blur(20px)',border:`1px solid ${C.border}`,borderRadius:18,padding:'18px 20px',boxShadow:'0 12px 32px rgba(0,0,0,.08)'}}>
+      <div style={{position:'absolute',bottom:30,left:24,zIndex:18,maxWidth:320,background:'rgba(255,255,255,.88)',backdropFilter:'blur(20px)',border:`1px solid ${C.border}`,borderRadius:18,padding:'18px 20px',boxShadow:'0 12px 32px rgba(0,0,0,.08)'}}>
         <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8,display:'flex',alignItems:'center',gap:6}}>
-          <span style={{display:'inline-block',width:16,height:1,background:C.coral}}></span>PM · Builder · 24 ans
+          <span style={{display:'inline-block',width:16,height:1,background:C.coral}}></span>AI Product Manager · 24 ans
         </div>
-        <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.03em',lineHeight:1.1,marginBottom:8,color:C.text}}>
-          Je transforme des<br/><span style={{color:C.coral,fontStyle:'italic'}}>frictions</span> en produits.
+        <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:20,fontWeight:800,letterSpacing:'-.03em',lineHeight:1.2,marginBottom:8,color:C.text}}>
+          A ship des <span style={{color:C.coral}}>AI-Powered Features</span><br/>en production.
         </h1>
-        <p style={{fontSize:11,color:C.muted,lineHeight:1.6,marginBottom:14}}>PM/PO chez Shippingbo · Master AES Toulouse · Open to work</p>
-        {/* Vue Recruteur button */}
+        <p style={{fontSize:11,color:C.muted,lineHeight:1.55,marginBottom:14}}>De la discovery à la delivery · Shippingbo · Open to work</p>
         <button data-h onClick={e=>{e.stopPropagation();setOpenRecruteur(true);}} style={{
           display:'flex',alignItems:'center',gap:7,padding:'9px 18px',
           background:'linear-gradient(135deg,#ff6b4a,#e8553a)',
@@ -1852,21 +1903,28 @@ function HeroSection(){
         }}
         onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-1px)';e.currentTarget.style.boxShadow='0 6px 20px rgba(255,107,74,.5)'}}
         onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='0 4px 16px rgba(255,107,74,.4)'}}>
-          ⚡ Vue recruteur
+          ⚡ Mon profil complet →
         </button>
       </div>
 
-      {/* Bottom-RIGHT metrics */}
-      <div style={{position:'absolute',bottom:30,right:24,zIndex:18,display:'flex',gap:10,alignItems:'flex-end'}}>
-        <div style={{background:'rgba(255,255,255,.85)',backdropFilter:'blur(20px)',border:`1px solid ${C.border}`,borderRadius:14,padding:'14px 16px',boxShadow:'0 12px 32px rgba(0,0,0,.08)',display:'flex',gap:14}}>
-          {[{n:'137',l:'tickets',c:'#ff6b4a'},{n:'−30%',l:'support T1',c:'#7C5CE7'},{n:'0→1',l:'agent IA',c:'#00875a'},{n:'9 mois',l:'feature team',c:'#6366F1'}].map((s,i)=>(
-            <div key={i} data-h onClick={e=>{e.stopPropagation();setOpenImpact(true);}} style={{textAlign:'center',cursor:'pointer',transition:'transform .2s',padding:'4px 8px',borderRight:i<3?`1px solid ${C.border}`:'none'}} onMouseEnter={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>
-              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:18,fontWeight:800,letterSpacing:'-.02em',color:s.c,lineHeight:1}}>{s.n}</div>
-              <div style={{fontSize:9,color:C.muted,marginTop:3,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.04em'}}>{s.l}</div>
-            </div>
-          ))}
-        </div>
-        <button data-h onClick={e=>{e.stopPropagation();setOpenContact(true);}} style={{padding:'14px 22px',background:C.coral,color:'#fff',border:'none',borderRadius:14,fontFamily:"'Space Grotesk',sans-serif",fontSize:13,fontWeight:700,cursor:'pointer',boxShadow:'0 6px 20px rgba(255,107,74,.4)',transition:'transform .2s'}} onMouseEnter={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>
+      {/* Bottom-RIGHT — CTA impact clairement cliquable */}
+      <div style={{position:'absolute',bottom:30,right:24,zIndex:18,display:'flex',flexDirection:'column',gap:10,alignItems:'flex-end'}}>
+        <button data-h onClick={e=>{e.stopPropagation();setOpenImpact(true);}} style={{
+          display:'flex',alignItems:'center',gap:12,padding:'13px 18px',
+          background:'rgba(255,255,255,.92)',backdropFilter:'blur(20px)',
+          border:`1.5px solid ${C.coral}`,borderRadius:14,
+          boxShadow:'0 8px 24px rgba(255,107,74,.18)',cursor:'pointer',
+          transition:'all .22s ease',fontFamily:"'Space Grotesk',sans-serif"
+        }}
+        onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow='0 14px 36px rgba(255,107,74,.32)';}}
+        onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='0 8px 24px rgba(255,107,74,.18)';}}>
+          <div style={{display:'flex',flexDirection:'column',alignItems:'flex-start'}}>
+            <span style={{fontSize:10,color:C.coral,fontFamily:"'JetBrains Mono',monospace",fontWeight:700,letterSpacing:'.07em',textTransform:'uppercase'}}>Shippingbo · 9 mois</span>
+            <span style={{fontSize:13,color:C.text,fontWeight:800,marginTop:2}}>Voir mon impact terrain →</span>
+          </div>
+          <span style={{fontSize:20}}>📊</span>
+        </button>
+        <button data-h onClick={e=>{e.stopPropagation();setOpenContact(true);}} style={{padding:'11px 22px',background:C.coral,color:'#fff',border:'none',borderRadius:14,fontFamily:"'Space Grotesk',sans-serif",fontSize:13,fontWeight:700,cursor:'pointer',boxShadow:'0 6px 20px rgba(255,107,74,.4)',transition:'transform .2s,box-shadow .2s'}} onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-2px)';e.currentTarget.style.boxShadow='0 10px 28px rgba(255,107,74,.5)';}} onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='0 6px 20px rgba(255,107,74,.4)';}}>
           Contact →
         </button>
       </div>
@@ -1876,12 +1934,13 @@ function HeroSection(){
 
 /* ── DRAG WIN — wraps SectionWindow with internal drag ── */
 function DragWin({title,w,h,ix,iy,onClose,children}){
-  // Auto-center the window when ix/iy are not provided
-  const cx=(typeof ix==='number')?ix:Math.max(20,Math.round((window.innerWidth-w)/2));
-  const cy=(typeof iy==='number')?iy:Math.max(40,Math.round((window.innerHeight-h)/2));
+  const rw=Math.min(w,window.innerWidth-40);
+  const rh=Math.min(h,window.innerHeight-60);
+  const cx=(typeof ix==='number')?ix:Math.max(20,Math.round((window.innerWidth-rw)/2));
+  const cy=(typeof iy==='number')?iy:Math.max(40,Math.round((window.innerHeight-rh)/2));
   const {pos,onMD}=useDraggable({x:cx,y:cy});
   return(
-    <SectionWindow title={title} style={{width:w,height:h,left:pos.x,top:pos.y,zIndex:90}} onMD={onMD} onClose={onClose}>
+    <SectionWindow title={title} style={{width:rw,height:rh,left:pos.x,top:pos.y,zIndex:90}} onMD={onMD} onClose={onClose}>
       {children}
     </SectionWindow>
   );
@@ -1934,66 +1993,11 @@ function ProjectModal({p,onClose}){
 }
 
 /* ── APP ─────────────────────────────────────────────── */
-/* ── CURSOR GLOW ─ orange luminous halo (no trailing ring) ── */
-function CursorGlow(){
-  const dotRef=useRef(null);
-  const haloRef=useRef(null);
-  const tgt=useRef({x:-200,y:-200});
-  const isHover=useRef(false);
-  const isDown=useRef(false);
-  const visible=useRef(false);
-  useEffect(()=>{
-    const onMove=e=>{
-      tgt.current.x=e.clientX;tgt.current.y=e.clientY;
-      visible.current=true;
-      const t=e.target;
-      isHover.current=!!(t&&t.closest&&(t.closest('[data-h]')||t.closest('button')||t.closest('a')||t.closest('[role=button]')||t.tagName==='BUTTON'||t.tagName==='A'||t.tagName==='INPUT'||t.tagName==='TEXTAREA'));
-    };
-    const onLeave=()=>{visible.current=false;};
-    const onEnter=()=>{visible.current=true;};
-    const onDown=()=>{isDown.current=true;};
-    const onUp=()=>{isDown.current=false;};
-    window.addEventListener('mousemove',onMove,{passive:true});
-    window.addEventListener('mousedown',onDown);
-    window.addEventListener('mouseup',onUp);
-    document.addEventListener('mouseleave',onLeave);
-    document.addEventListener('mouseenter',onEnter);
-    let raf;
-    const tick=()=>{
-      const dot=dotRef.current,halo=haloRef.current;
-      const dotScale=isDown.current?0.6:(isHover.current?1.5:1);
-      const haloScale=isDown.current?0.85:(isHover.current?1.9:1);
-      const op=visible.current?1:0;
-      if(dot){dot.style.transform=`translate3d(${tgt.current.x}px,${tgt.current.y}px,0) translate(-50%,-50%) scale(${dotScale})`;dot.style.opacity=op;}
-      if(halo){halo.style.transform=`translate3d(${tgt.current.x}px,${tgt.current.y}px,0) translate(-50%,-50%) scale(${haloScale})`;halo.style.opacity=op;}
-      raf=requestAnimationFrame(tick);
-    };
-    raf=requestAnimationFrame(tick);
-    return()=>{
-      cancelAnimationFrame(raf);
-      window.removeEventListener('mousemove',onMove);
-      window.removeEventListener('mousedown',onDown);
-      window.removeEventListener('mouseup',onUp);
-      document.removeEventListener('mouseleave',onLeave);
-      document.removeEventListener('mouseenter',onEnter);
-    };
-  },[]);
-  return(
-    <>
-      {/* Soft outer glow halo (warm orange glow) */}
-      <div ref={haloRef} style={{position:'fixed',top:0,left:0,width:80,height:80,borderRadius:'50%',background:'radial-gradient(circle,rgba(255,160,110,.55) 0%,rgba(255,107,74,.30) 38%,rgba(255,107,74,0) 72%)',pointerEvents:'none',zIndex:99997,mixBlendMode:'screen',filter:'blur(3px)',willChange:'transform,opacity',opacity:0,transition:'opacity .25s'}}/>
-      {/* Inner luminous dot */}
-      <div ref={dotRef} style={{position:'fixed',top:0,left:0,width:12,height:12,borderRadius:'50%',background:'radial-gradient(circle,#fff 0%,#ffd0b8 35%,#ff6b4a 100%)',pointerEvents:'none',zIndex:99999,boxShadow:'0 0 12px rgba(255,107,74,.95),0 0 24px rgba(255,107,74,.55),0 0 40px rgba(255,107,74,.3)',willChange:'transform,opacity',opacity:0,transition:'opacity .25s, box-shadow .15s'}}/>
-    </>
-  );
-}
-
 function App(){
   const [phase,setPhase]=useState('loader'); // loader → welcome → desktop → done
   const [showTooltip,setShowTooltip]=useState(false);
   return(
     <>
-      <CursorGlow/>
       {phase==='loader'&&<Loader onDone={()=>setPhase('welcome')}/>}
       {phase==='welcome'&&<WelcomeFlow onComplete={()=>{setPhase('desktop');setShowTooltip(true);}}/>}
       <div style={{opacity:phase==='desktop'||phase==='done'?1:0,transition:'opacity .8s ease .1s'}}>
