@@ -1122,7 +1122,7 @@ function BalloonEasterEgg(){
       <button data-h onClick={e=>{e.stopPropagation();launch();}}
         onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
         style={{
-          position:'fixed',bottom:80,right:24,zIndex:19,
+          position:'fixed',top:18,right:18,zIndex:19,
           width:46,height:46,
           background:hov?'rgba(255,255,255,.96)':'rgba(255,255,255,.82)',
           backdropFilter:'blur(12px)',
