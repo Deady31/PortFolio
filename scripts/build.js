@@ -28,6 +28,12 @@ const ASSETS = [
   'index.html',
   'vercel.json',
 
+  // Compartmentalized assets (CSS, data, particles)
+  'assets/portfolio.css',
+  'assets/portfolio-data.js',
+  'assets/particles.js',
+
+
   // Photos & background
   'uploads/jpan wpper.jpg',
   'uploads/Photo Pro Riyan 2.jpg',
