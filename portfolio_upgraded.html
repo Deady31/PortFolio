@@ -25,15 +25,15 @@ html{height:100%}
 a{text-decoration:none;color:inherit;}
 button{font-family:'Inter',sans-serif}
 /* Japan BG layers */
-.japan-bg{position:fixed;inset:0;z-index:0;background:url('uploads/jpan wpper.jpg') center/cover no-repeat;filter:blur(3px) brightness(1.5) saturate(0.75);transform:scale(1.06)}
-.japan-overlay{position:fixed;inset:0;z-index:1;background:rgba(248,243,234,.88)}
+.japan-bg{position:fixed;inset:0;z-index:0;background:url('uploads/jpan wpper.jpg') center/cover no-repeat;filter:blur(2px) brightness(1.5) saturate(0.7);transform:scale(1.04);will-change:transform}
+.japan-overlay{position:fixed;inset:0;z-index:1;background:rgba(248,243,234,.90)}
 /* All content above */
 #root{position:relative;z-index:2}
 /* Scrollbar */
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-thumb{background:rgba(255,107,74,.3);border-radius:4px}
 /* Mac window — LIGHT */
-.mac-win{background:rgba(255,255,255,.92);backdrop-filter:blur(20px) saturate(1.2);border-radius:14px;border:1px solid rgba(26,22,20,.12);box-shadow:0 20px 60px rgba(0,0,0,.14),0 0 0 1px rgba(255,255,255,.7);overflow:hidden;position:absolute;user-select:none}
+.mac-win{background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-radius:14px;border:1px solid rgba(26,22,20,.10);box-shadow:0 16px 48px rgba(0,0,0,.12),0 0 0 1px rgba(255,255,255,.7);overflow:hidden;position:absolute;user-select:none;will-change:transform}
 .mac-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:rgba(240,235,226,.95);border-bottom:1px solid rgba(26,22,20,.08);cursor:grab}
 .mac-bar:active{cursor:grabbing}
 .mac-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:rgba(0,0,0,.55)}
@@ -56,8 +56,6 @@ button{font-family:'Inter',sans-serif}
 /* Desktop icon pulse (pro zone) */
 @keyframes iconPulse{0%,100%{transform:scale(1)}40%{transform:scale(1.1)}70%{transform:scale(1.04)}}
 /* Roadmap dotted-path flow — static, no animation */
-/* Spin animation for WelcomeFlow circular text */
-@keyframes spin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 /* Restore native cursor everywhere */
 html,body,*{cursor:inherit}
 body{cursor:default}
@@ -69,32 +67,33 @@ input,textarea{cursor:text!important}
 /* Scroll reveal */
 .reveal{opacity:0;transform:translateY(36px);transition:opacity .75s cubic-bezier(.22,.68,0,1.2),transform .75s cubic-bezier(.22,.68,0,1.2)}
 .reveal.vis{opacity:1;transform:translateY(0)}
-/* Liquid metal button */
-@property --wf_rot{syntax:"<angle>";initial-value:0deg;inherits:false}
-.wf-metal{
-  --wf_rot:0deg;--bw:3px;
-  border:var(--bw) solid transparent!important;
-  background:
-    linear-gradient(135deg,#1e1b2e 0%,#252035 55%,#1a1828 100%) padding-box,
-    conic-gradient(from var(--wf_rot),
-      #606070 0%,#c0c0d0 16%,#e8e8f4 32%,#a0a0b8 48%,#f2f2ff 64%,#8888a0 80%,#d0d0e4 92%,#606070 100%
-    ) border-box;
-  animation:wfMetalSpin 5s linear infinite;
-  position:relative;overflow:visible;
+/* Explorer button */
+.wf-explorer{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 36px;
+  background:#1a1614;
+  color:#f8f3ea;
+  border:none;border-radius:100px;
+  font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;
+  cursor:pointer;
+  box-shadow:0 4px 24px rgba(0,0,0,.18),0 1px 3px rgba(0,0,0,.12);
+  transition:transform .22s cubic-bezier(.22,.68,0,1.2),box-shadow .22s ease,background .18s ease;
+  will-change:transform;
 }
-.wf-metal::before{
-  content:"";position:absolute;
-  inset:calc(-1 * var(--bw) - 3px);border-radius:50%;z-index:-1;
-  background:conic-gradient(from var(--wf_rot),
-    rgba(255,255,255,.0),rgba(200,200,255,.6),rgba(255,255,255,.0),rgba(180,180,255,.5),rgba(255,255,255,.0)
-  );
-  animation:wfMetalSpin 3.5s linear infinite reverse;
-  filter:blur(5px);
+.wf-explorer:hover{
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 10px 36px rgba(0,0,0,.24),0 2px 6px rgba(0,0,0,.14);
+  background:#2a2520;
 }
-@keyframes wfMetalSpin{
-  from{--wf_rot:0deg}
-  to{--wf_rot:360deg}
+.wf-explorer:active{transform:translateY(0) scale(.97);}
+.wf-explorer .wf-arrow{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,107,74,.18);
+  color:#ff6b4a;font-size:15px;
+  transition:transform .22s cubic-bezier(.22,.68,0,1.2),background .18s;
 }
+.wf-explorer:hover .wf-arrow{transform:translateX(3px);background:rgba(255,107,74,.28);}
 /* DigitalSerenity intro */
 @keyframes dsWordAppear{0%{opacity:0;transform:translateY(22px) scale(.85)}60%{opacity:.85;transform:translateY(4px) scale(.98)}100%{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes dsGridDraw{0%{stroke-dashoffset:1000;opacity:0}50%{opacity:.12}100%{stroke-dashoffset:0;opacity:.12}}
@@ -106,8 +105,8 @@ input,textarea{cursor:text!important}
 /* Section */
 .section-pad{padding:88px 56px}
 /* Impact card */
-.impact-card{transition:all .4s cubic-bezier(.22,.68,0,1.2)}
-.impact-card:hover{transform:translateY(-8px)}
+.impact-card{transition:transform .3s cubic-bezier(.22,.68,0,1.2),box-shadow .3s ease;will-change:transform}
+.impact-card:hover{transform:translateY(-6px)}
 /* Mobile */
 @media(max-width:768px){
   .mac-win{position:relative!important;top:auto!important;left:auto!important;right:auto!important;width:100%!important;margin-bottom:16px}
@@ -382,8 +381,8 @@ function WelcomeFlow({onComplete}){
   };
 
   return(
-    <div onClick={handleClick} style={{
-      position:'fixed',inset:0,zIndex:8500,cursor:'pointer',overflow:'hidden',
+    <div style={{
+      position:'fixed',inset:0,zIndex:8500,overflow:'hidden',
       background:'linear-gradient(135deg,#f8f3ea 0%,#f0ebe2 60%,#e8e0d4 100%)',
       opacity:leaving?0:1,transition:leaving?'opacity .6s ease':'none'
     }}>
@@ -466,41 +465,13 @@ function WelcomeFlow({onComplete}){
           </div>
         </div>
 
-        {/* Bottom — Liquid metal button */}
+        {/* Bottom — Explorer button */}
         <div style={{textAlign:'center',opacity:0,animation:'dsWordAppear .9s ease-out 2.8s forwards'}}>
-          <div style={{position:'relative',width:160,height:160,margin:'0 auto'}}>
-            {/* Rotating circular text */}
-            <svg width="160" height="160" viewBox="0 0 160 160" style={{position:'absolute',top:'50%',left:'50%',animation:'spin 14s linear infinite',pointerEvents:'none',transform:'translate(-50%,-50%)'}}>
-              <defs>
-                <path id="wfC2" d="M 80,80 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0"/>
-              </defs>
-              <text style={{fill:'rgba(255,107,74,.55)',fontSize:'9',fontFamily:"'JetBrains Mono',monospace",letterSpacing:'4'}}>
-                <textPath href="#wfC2">DÉCOUVRIR • EXPLORER • CLIQUER •&nbsp;&nbsp;</textPath>
-              </text>
-            </svg>
-            {/* Liquid metal button */}
-            <button
-              data-h
-              className="wf-metal"
-              onClick={handleClick}
-              style={{
-                position:'absolute',top:'50%',left:'50%',
-                transform:'translate(-50%,-50%)',
-                width:104,height:104,borderRadius:'50%',
-                color:'#d8d8f0',
-                fontFamily:"'Space Grotesk',sans-serif",
-                boxShadow:'0 0 22px rgba(130,130,220,.35),0 6px 16px rgba(0,0,0,.15)',
-                transition:'transform .22s cubic-bezier(.22,.68,0,1.2),box-shadow .22s ease',
-                display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:4,
-              }}
-              onMouseEnter={e=>{e.currentTarget.style.transform='translate(-50%,-50%) scale(1.07)';e.currentTarget.style.boxShadow='0 0 38px rgba(160,160,255,.5),0 8px 22px rgba(0,0,0,.2)';}}
-              onMouseLeave={e=>{e.currentTarget.style.transform='translate(-50%,-50%)';e.currentTarget.style.boxShadow='0 0 22px rgba(130,130,220,.35),0 6px 16px rgba(0,0,0,.15)';}}
-              onMouseDown={e=>{e.currentTarget.style.transform='translate(-50%,-50%) scale(0.94)';}}
-            >
-              <span style={{fontSize:24,lineHeight:1}}>→</span>
-              <span style={{fontSize:9,fontWeight:800,letterSpacing:'.12em',textTransform:'uppercase'}}>Explorer</span>
-            </button>
-          </div>
+          <button data-h className="wf-explorer" onClick={handleClick}>
+            <span>Explorer le portfolio</span>
+            <span className="wf-arrow">→</span>
+          </button>
+          <div style={{marginTop:14,fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'rgba(107,95,86,.4)',letterSpacing:'.14em'}}>CLIQUER POUR ENTRER</div>
         </div>
       </div>
 
@@ -699,7 +670,7 @@ function Nav({active}){
   const go=id=>{const el=document.getElementById(id);if(el)window.scrollTo({top:el.offsetTop-60,behavior:'smooth'});};
   const links=[['hero','Home'],['about','Bio'],['projects','Projets'],['skills','Skills'],['future','Mon Futur'],['contact','Contact']];
   return(
-    <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:500,padding:'14px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',background:up?'rgba(248,243,234,.94)':'transparent',backdropFilter:up?'blur(20px)':'none',borderBottom:up?`1px solid ${C.border}`:'none',transition:'all .3s'}}>
+    <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:500,padding:'14px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',background:up?'rgba(248,243,234,.97)':'transparent',backdropFilter:up?'blur(8px)':'none',borderBottom:up?`1px solid ${C.border}`:'none',transition:'all .3s'}}>
       <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:13,fontWeight:700,color:C.coral,letterSpacing:'.05em',cursor:'pointer'}} data-h onClick={()=>go('hero')}>riyan<span style={{color:C.text}}>.world</span></div>
       <div className="nav-links" style={{display:'flex',gap:28}}>
         {links.map(([id,label])=>(
@@ -737,7 +708,7 @@ function FinderWindow({title,children,style={},onMD,onClose,statusText=''}){
   return(
     <div style={{display:'flex',flexDirection:'column',borderRadius:12,overflow:'hidden',background:'#ffffff',boxShadow:'0 28px 80px rgba(0,0,0,.28),0 0 0 .5px rgba(0,0,0,.14)',position:'absolute',userSelect:'none',...style}} data-drag>
       {/* ── Unified toolbar (like real Finder) */}
-      <div style={{height:52,background:'rgba(235,235,240,.97)',backdropFilter:'blur(24px) saturate(1.5)',display:'flex',alignItems:'center',padding:'0 16px',cursor:'grab',flexShrink:0,borderBottom:'1px solid rgba(0,0,0,.1)'}} onMouseDown={onMD}>
+      <div style={{height:52,background:'rgba(238,238,242,.98)',display:'flex',alignItems:'center',padding:'0 16px',cursor:'grab',flexShrink:0,borderBottom:'1px solid rgba(0,0,0,.1)'}} onMouseDown={onMD}>
         {/* Traffic lights */}
         <div style={{display:'flex',gap:8,alignItems:'center',width:72}}>
           {[{bg:'#FF5F57',hover:'#E04E45',cb:onClose},
@@ -1347,7 +1318,7 @@ function SectionWindow({title,children,style={},onMD,onClose,accent='#ff6b4a'}){
   return(
     <div style={{display:'flex',flexDirection:'column',borderRadius:12,overflow:'hidden',background:'#ffffff',boxShadow:'0 28px 80px rgba(0,0,0,.30),0 0 0 .5px rgba(0,0,0,.14)',position:'absolute',userSelect:'none',...style}} data-drag>
       {/* Toolbar */}
-      <div style={{height:44,background:'rgba(238,238,243,.97)',backdropFilter:'blur(24px) saturate(1.5)',display:'flex',alignItems:'center',padding:'0 14px',cursor:'grab',flexShrink:0,borderBottom:'1px solid rgba(0,0,0,.1)'}} onMouseDown={onMD}>
+      <div style={{height:44,background:'rgba(238,238,243,.98)',display:'flex',alignItems:'center',padding:'0 14px',cursor:'grab',flexShrink:0,borderBottom:'1px solid rgba(0,0,0,.1)'}} onMouseDown={onMD}>
         <div style={{display:'flex',gap:8,alignItems:'center',width:80}}>
           {[{bg:'#FF5F57',hover:'#E04E45',cb:onClose},{bg:'#FFBD2E',hover:'#E0A826',cb:null},{bg:'#28C840',hover:'#20A834',cb:null}].map((dot,i)=>(
             <div key={i} data-h={dot.cb?true:undefined}
