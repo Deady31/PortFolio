@@ -58,6 +58,32 @@ const ASSETS = [
   'uploads/pasted-1777140311412-0.png',
   'uploads/pasted-1777141555503-0.png',
   'uploads/pasted-1777143694753-0.png',
+
+  // Screenshots — CinéAppMovies
+  'uploads/screens/CINEAPPMOVIES/CINEAPP SCREEN 1.png',
+  'uploads/screens/CINEAPPMOVIES/cineappsCreen2.png',
+  'uploads/screens/CINEAPPMOVIES/ScreenCliccarte.png',
+
+  // Screenshots — Fooder
+  'uploads/screens/APPFOODER SCREEN/01-onboarding.png',
+  'uploads/screens/APPFOODER SCREEN/01b-onboarding-cta.png',
+  'uploads/screens/APPFOODER SCREEN/02-swipe-deck.png',
+  'uploads/screens/APPFOODER SCREEN/03-filters-drawer.png',
+  'uploads/screens/APPFOODER SCREEN/04-wishlist.png',
+  'uploads/screens/APPFOODER SCREEN/05-detail-modal.png',
+  'uploads/screens/APPFOODER SCREEN/05b-detail-modal-menu.png',
+
+  // Screenshots — Overwatch Nexus
+  'uploads/screens/OVERWATCH SCREEN/1_enemy-composition-analysis.png',
+  'uploads/screens/OVERWATCH SCREEN/2_recommended-counters.png',
+  'uploads/screens/OVERWATCH SCREEN/3_map-based-recommendations.png',
+  'uploads/screens/OVERWATCH SCREEN/4_detailed-hero-stats.png',
+
+  // Screenshots — SaaS Invoice (app Plombier)
+  'uploads/screens/Plbomberie/SCREEN 1 PLOMBIERAPP.png',
+  'uploads/screens/Plbomberie/SCREEN 2 PLOMBIERAPP.png',
+  'uploads/screens/Plbomberie/SCREEN 3 PLOMBIER APP.png',
+  'uploads/screens/Plbomberie/SCREEN 4 APP PLOMBIER.png',
 ];
 
 const HTML_MINIFY_OPTIONS = {
