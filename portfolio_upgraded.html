@@ -128,26 +128,9 @@ function WelcomeFlow({onComplete}){
 
   const handleClick=(e)=>{
     if(phase!=='intro')return;
-    const r={id:Date.now(),x:e.clientX,y:e.clientY};
-    setRipples(prev=>[...prev,r]);
-    setTimeout(()=>setRipples(prev=>prev.filter(x=>x.id!==r.id)),1200);
     setPhase('vaporizing');
-    /* CSS word scatter — each .ds-vap flies off in a random direction */
-    const words=[...document.querySelectorAll('.ds-vap')];
-    words.forEach((w,i)=>{
-      const dx=(Math.random()-.5)*240;
-      const dy=-(Math.random()*150+50);
-      const rot=(Math.random()-.5)*22;
-      const dur=0.42+Math.random()*.22;
-      const delay=i*18+Math.random()*40;
-      setTimeout(()=>{
-        w.style.transition=`transform ${dur}s cubic-bezier(.22,.68,0,1.2),opacity ${dur*.9}s ease`;
-        w.style.transform=`translate(${dx}px,${dy}px) rotate(${rot}deg) scale(0.1)`;
-        w.style.opacity='0';
-      },delay);
-    });
-    const total=words.length*22+80+520;
-    setTimeout(()=>{setLeaving(true);setTimeout(onComplete,600);},Math.min(total,950));
+    setLeaving(true);
+    setTimeout(onComplete,250);
   };
 
   return(
@@ -2267,10 +2250,10 @@ function ProjectModal({p,onClose}){
 
             {/* CTAs */}
             <div style={{display:'flex',gap:10,flexWrap:'wrap',paddingTop:4}}>
-              <a href="#" data-h style={{display:'inline-flex',alignItems:'center',gap:6,padding:'10px 22px',background:p.color,borderRadius:100,color:'#fff',fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,textDecoration:'none',cursor:'pointer',transition:'opacity .18s'}}
-                onMouseEnter={e=>e.currentTarget.style.opacity='.88'} onMouseLeave={e=>e.currentTarget.style.opacity='1'}>→ Voir démo</a>
-              <a href="#" data-h style={{display:'inline-flex',alignItems:'center',gap:6,padding:'10px 22px',border:`1.5px solid ${C.border2}`,borderRadius:100,color:C.muted,fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,textDecoration:'none',cursor:'pointer',transition:'all .18s'}}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.text;e.currentTarget.style.color=C.text;}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border2;e.currentTarget.style.color=C.muted;}}>→ GitHub</a>
+              {!p.badge.startsWith('Projet Perso')&&<a href="#" data-h style={{display:'inline-flex',alignItems:'center',gap:6,padding:'10px 22px',background:p.color,borderRadius:100,color:'#fff',fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,textDecoration:'none',cursor:'pointer',transition:'opacity .18s'}}
+                onMouseEnter={e=>e.currentTarget.style.opacity='.88'} onMouseLeave={e=>e.currentTarget.style.opacity='1'}>→ Voir démo</a>}
+              {p.github&&<a href={p.github} target="_blank" rel="noopener noreferrer" data-h style={{display:'inline-flex',alignItems:'center',gap:6,padding:'10px 22px',border:`1.5px solid ${C.border2}`,borderRadius:100,color:C.muted,fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,textDecoration:'none',cursor:'pointer',transition:'all .18s'}}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.text;e.currentTarget.style.color=C.text;}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border2;e.currentTarget.style.color=C.muted;}}>→ GitHub</a>}
               <button data-h onClick={onClose} style={{marginLeft:'auto',padding:'10px 22px',background:'transparent',color:C.muted,border:`1.5px solid ${C.border}`,borderRadius:100,fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,cursor:'pointer'}}>Fermer ×</button>
             </div>
           </div>
