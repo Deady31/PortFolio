@@ -11,7 +11,9 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://riyan.world">
 <link rel="canonical" href="https://riyan.world">
+<meta name="theme-color" content="#f5f0e8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/portfolio.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -75,7 +77,7 @@ function Loader({onDone}){
   const [lines,setLines]=useState([]);
   const [done,setDone]=useState(false);
   const script=[
-    {d:200,t:'$ loading riyan.world...'},
+    {d:200,t:'$ loading riyan.world…'},
     {d:700,t:'→ projects: 4 shipped ✓'},
     {d:1100,t:'→ games folder: loaded ✓'},
     {d:1500,t:'→ vibes: immaculate ✓'},
@@ -423,7 +425,7 @@ function Nav({active}){
   const go=id=>{const el=document.getElementById(id);if(el)window.scrollTo({top:el.offsetTop-60,behavior:'smooth'});};
   const links=[['hero','Home'],['about','Bio'],['projects','Projets'],['skills','Skills'],['future','Mon Futur'],['contact','Contact']];
   return(
-    <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:500,padding:'14px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',background:up?'rgba(248,243,234,.97)':'transparent',backdropFilter:up?'blur(8px)':'none',borderBottom:up?`1px solid ${C.border}`:'none',transition:'all .3s'}}>
+    <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:500,padding:'14px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',background:up?'rgba(248,243,234,.97)':'transparent',backdropFilter:up?'blur(8px)':'none',borderBottom:up?`1px solid ${C.border}`:'none',transition:'background .3s,backdrop-filter .3s,border-color .3s'}}>
       <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:13,fontWeight:700,color:C.coral,letterSpacing:'.05em',cursor:'pointer'}} data-h onClick={()=>go('hero')}>riyan<span style={{color:C.text}}>.world</span></div>
       <div className="nav-links" style={{display:'flex',gap:28}}>
         {links.map(([id,label])=>(
@@ -445,7 +447,7 @@ function MacWindow({title,children,style={},onMD,noDrag=false,onClose}){
   return(
     <div className="mac-win" style={style} data-drag={!noDrag||undefined}>
       <div className="mac-bar" onMouseDown={noDrag?undefined:onMD}>
-        <div className="mac-dot" style={{background:'#FF5F57',cursor:'pointer'}} data-h onClick={onClose||undefined} title="Fermer"></div>
+        <div className="mac-dot" style={{background:'#FF5F57',cursor:'pointer'}} data-h onClick={onClose||undefined} aria-label="Fermer" title="Fermer"></div>
         <div className="mac-dot" style={{background:'#FFBD2E'}}></div>
         <div className="mac-dot" style={{background:'#28C840'}}></div>
         <div className="mac-title">{title}</div>
@@ -607,7 +609,7 @@ function SpotifyWidget({onClose}){
           <button data-h onClick={()=>setIdx(i=>(i+1)%SPOTIFY_TRACKS.length)} style={{background:'none',border:'none',color:C.muted,fontSize:14,padding:'4px 6px'}}>⏭</button>
         </div>
         <div style={{display:'flex',gap:4,marginTop:10,justifyContent:'center'}}>
-          {SPOTIFY_TRACKS.map((_,i)=><div key={i} style={{width:i===idx?16:5,height:5,borderRadius:3,background:i===idx?'#1DB954':C.border,transition:'all .3s'}}></div>)}
+          {SPOTIFY_TRACKS.map((_,i)=><div key={i} style={{width:i===idx?16:5,height:5,borderRadius:3,background:i===idx?'#1DB954':C.border,transition:'width .3s,background .3s'}}></div>)}
         </div>
       </div>
     </MacWindow>
@@ -690,7 +692,7 @@ function GamesFolder({onOpen,pos,subtle=false}){
           ))}
         </div>
       )}
-      <div style={{transform:hov?'scale(1.1) translateY(-4px) rotate(-4deg)':'scale(1)',transition:'all .25s cubic-bezier(.22,.68,0,1.2)',filter:hov?'drop-shadow(0 12px 24px rgba(200,150,14,.5))':'drop-shadow(0 4px 8px rgba(0,0,0,.2))'}}>
+      <div style={{transform:hov?'scale(1.1) translateY(-4px) rotate(-4deg)':'scale(1)',transition:'transform .25s cubic-bezier(.22,.68,0,1.2),filter .25s cubic-bezier(.22,.68,0,1.2)',filter:hov?'drop-shadow(0 12px 24px rgba(200,150,14,.5))':'drop-shadow(0 4px 8px rgba(0,0,0,.2))'}}>
         <ZebraFolderSVG open={hov} size={sz}/>
       </div>
       <div style={{fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif",fontSize:subtle?10:12,fontWeight:600,color:hov?C.coral:(subtle?C.muted:'#1a1614'),background:'rgba(255,255,255,.82)',padding:'3px 10px',borderRadius:6,backdropFilter:'blur(6px)',transition:'color .2s',whiteSpace:'nowrap',boxShadow:'0 1px 3px rgba(0,0,0,.08)'}}>Jeux de ma vie</div>
@@ -715,7 +717,7 @@ function GamesWindow({onClose,onGameClick}){
         {GAMES.map(g=>{
           const [h,setH]=useState(false);
           return(
-            <div key={g.id} data-h style={{display:'flex',gap:18,padding:16,borderRadius:16,background:h?'#fff':'rgba(248,249,251,.85)',border:`1.5px solid ${h?g.color+'77':'rgba(0,0,0,.08)'}`,transition:'all .22s cubic-bezier(.22,.68,0,1.2)',transform:h?'translateY(-3px)':'none',boxShadow:h?`0 16px 36px rgba(0,0,0,.12),0 0 0 1px ${g.color}22`:'none',alignItems:'center'}}
+            <div key={g.id} data-h style={{display:'flex',gap:18,padding:16,borderRadius:16,background:h?'#fff':'rgba(248,249,251,.85)',border:`1.5px solid ${h?g.color+'77':'rgba(0,0,0,.08)'}`,transition:'background .22s cubic-bezier(.22,.68,0,1.2),border-color .22s cubic-bezier(.22,.68,0,1.2),transform .22s cubic-bezier(.22,.68,0,1.2),box-shadow .22s cubic-bezier(.22,.68,0,1.2)',transform:h?'translateY(-3px)':'none',boxShadow:h?`0 16px 36px rgba(0,0,0,.12),0 0 0 1px ${g.color}22`:'none',alignItems:'center'}}
               onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} onClick={()=>onGameClick(g)}>
               {/* Game cover */}
               <div style={{width:120,height:120,borderRadius:18,overflow:'hidden',flexShrink:0,position:'relative',background:g.color2,boxShadow:'0 6px 16px rgba(0,0,0,.14)'}}>
@@ -745,7 +747,7 @@ function GamesWindow({onClose,onGameClick}){
 function GameSynopsisModal({game,onClose}){
   useEffect(()=>{document.body.style.overflow='hidden';return()=>{document.body.style.overflow='';}});
   return(
-    <div style={{position:'fixed',inset:0,zIndex:900,background:'rgba(0,0,0,.55)',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',justifyContent:'center',padding:24,animation:'fadeIn .3s ease'}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
+    <div style={{position:'fixed',inset:0,zIndex:900,background:'rgba(0,0,0,.55)',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',justifyContent:'center',padding:24,animation:'fadeIn .3s ease',overscrollBehavior:'contain'}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
       <div style={{background:'#fff',borderRadius:20,width:'100%',maxWidth:600,boxShadow:'0 40px 100px rgba(0,0,0,.25)',animation:'fadeUp .35s ease',overflow:'hidden'}}>
         <div style={{background:game.color2||'rgba(200,150,14,.15)',padding:'28px 28px 20px',borderBottom:`1px solid ${C.border}`}}>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
@@ -1009,7 +1011,7 @@ function BalloonEasterEgg(){
           cursor:'pointer',
           fontSize:22,
           display:'flex',alignItems:'center',justifyContent:'center',
-          transition:'all .2s ease',
+          transition:'background .2s ease,border-color .2s ease,transform .2s ease,box-shadow .2s ease',
           transform:hov?'scale(1.12) translateY(-2px)':'scale(1)',
           userSelect:'none',
         }}>
@@ -1029,10 +1031,10 @@ function DesktopIcon({children,label,onOpen,style={},pos,onMD,size=88}){
       onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
       onClick={()=>setSel(true)}
       onDoubleClick={onOpen}>
-      <div style={{width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center',transform:hov?'scale(1.08) translateY(-3px)':'scale(1)',transition:'all .22s cubic-bezier(.22,.68,0,1.2)',filter:hov?'drop-shadow(0 10px 22px rgba(255,107,74,.4))':'drop-shadow(0 4px 8px rgba(0,0,0,.18))',background:sel?'rgba(255,107,74,.14)':'transparent',borderRadius:18,padding:6}}>
+      <div style={{width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center',transform:hov?'scale(1.08) translateY(-3px)':'scale(1)',transition:'transform .22s cubic-bezier(.22,.68,0,1.2),filter .22s cubic-bezier(.22,.68,0,1.2),background .22s cubic-bezier(.22,.68,0,1.2)',filter:hov?'drop-shadow(0 10px 22px rgba(255,107,74,.4))':'drop-shadow(0 4px 8px rgba(0,0,0,.18))',background:sel?'rgba(255,107,74,.14)':'transparent',borderRadius:18,padding:6}}>
         {children}
       </div>
-      <div style={{fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif",fontSize:12,fontWeight:600,color:'#1a1614',background:sel?'rgba(255,107,74,.85)':'rgba(255,255,255,.82)',padding:'3px 10px',borderRadius:6,backdropFilter:'blur(6px)',transition:'all .2s',whiteSpace:'nowrap',color:sel?'#fff':(hov?C.coral:'#1a1614'),boxShadow:'0 1px 3px rgba(0,0,0,.08)',textShadow:sel?'0 1px 1px rgba(0,0,0,.2)':'none'}}>{label}</div>
+      <div style={{fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif",fontSize:12,fontWeight:600,color:'#1a1614',background:sel?'rgba(255,107,74,.85)':'rgba(255,255,255,.82)',padding:'3px 10px',borderRadius:6,backdropFilter:'blur(6px)',transition:'background .2s,color .2s,box-shadow .2s',whiteSpace:'nowrap',color:sel?'#fff':(hov?C.coral:'#1a1614'),boxShadow:'0 1px 3px rgba(0,0,0,.08)',textShadow:sel?'0 1px 1px rgba(0,0,0,.2)':'none'}}>{label}</div>
     </div>
   );
 }
@@ -1119,7 +1121,7 @@ function BentoCard({emoji,text,hover,color}){
   const colorMap={'#ff6b4a':'255,107,74','#22C55E':'34,197,94','#7C5CE7':'124,92,231','#D4853A':'212,131,58','#E50914':'229,9,20','#6366F1':'99,102,241','#C42847':'196,40,71'};
   const rgb=colorMap[color]||'255,107,74';
   return(
-    <div data-h style={{background:h?`rgba(${rgb},.1)`:'rgba(248,249,251,.9)',border:`1px solid ${h?color+'55':'rgba(0,0,0,.08)'}`,borderRadius:14,padding:'16px',transition:'all .3s cubic-bezier(.22,.68,0,1.2)',transform:h?'translateY(-3px)':'translateY(0)',cursor:'pointer'}}
+    <div data-h style={{background:h?`rgba(${rgb},.1)`:'rgba(248,249,251,.9)',border:`1px solid ${h?color+'55':'rgba(0,0,0,.08)'}`,borderRadius:14,padding:'16px',transition:'background .3s cubic-bezier(.22,.68,0,1.2),border-color .3s cubic-bezier(.22,.68,0,1.2),transform .3s cubic-bezier(.22,.68,0,1.2)',transform:h?'translateY(-3px)':'translateY(0)',cursor:'pointer'}}
       onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}>
       <div style={{fontSize:22,marginBottom:8}}>{emoji}</div>
       <div style={{fontSize:12,fontWeight:600,color:h?'#1a1614':'#5b5048',transition:'color .3s',lineHeight:1.4}}>{h?hover:text}</div>
@@ -1297,7 +1299,7 @@ function Skill3DCard({cat}){
           {cat.items.map((item,j)=>(
             <div key={item} style={{
               display:'flex',alignItems:'center',gap:8,
-              transition:'all .2s ease',
+              transition:'background .2s ease,border-color .2s ease,transform .2s ease,box-shadow .2s ease',
               transitionDelay:s?`${j*15}ms`:'0ms',
             }}>
               <div style={{
@@ -1370,7 +1372,7 @@ function TimelineContent(){
               <div key={i} data-h onClick={()=>setActive(isA?null:i)} style={{display:'flex',gap:18,alignItems:'flex-start',cursor:'pointer'}}>
                 {/* Date column — generous, breathable */}
                 <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:8,flexShrink:0,width:96,position:'relative',zIndex:1,paddingTop:6}}>
-                  <div style={{width:48,height:48,borderRadius:'50%',background:isA?e.color:'#fff',border:`2.5px solid ${e.color}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,boxShadow:isA?`0 8px 22px ${e.color}55`:'0 4px 10px rgba(0,0,0,.08)',transition:'all .25s'}}>
+                  <div style={{width:48,height:48,borderRadius:'50%',background:isA?e.color:'#fff',border:`2.5px solid ${e.color}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,boxShadow:isA?`0 8px 22px ${e.color}55`:'0 4px 10px rgba(0,0,0,.08)',transition:'background .25s,border-color .25s,box-shadow .25s'}}>
                     {e.emoji}
                   </div>
                   <div style={{textAlign:'center',padding:'4px 8px',background:`${e.color}12`,borderRadius:8,border:`1px solid ${e.color}28`,minWidth:78}}>
@@ -1378,7 +1380,7 @@ function TimelineContent(){
                   </div>
                 </div>
                 {/* Content card */}
-                <div style={{flex:1,padding:'16px 20px',background:isA?'#fff':'rgba(248,249,251,.9)',border:`1px solid ${isA?e.color+'55':'rgba(0,0,0,.08)'}`,borderRadius:14,transition:'all .25s',boxShadow:isA?`0 12px 32px rgba(0,0,0,.08),0 0 0 1px ${e.color}22`:'none',position:'relative'}}>
+                <div style={{flex:1,padding:'16px 20px',background:isA?'#fff':'rgba(248,249,251,.9)',border:`1px solid ${isA?e.color+'55':'rgba(0,0,0,.08)'}`,borderRadius:14,transition:'background .25s,border-color .25s,box-shadow .25s',boxShadow:isA?`0 12px 32px rgba(0,0,0,.08),0 0 0 1px ${e.color}22`:'none',position:'relative'}}>
                   {/* Connector arrow */}
                   <div style={{position:'absolute',left:-6,top:24,width:12,height:12,background:isA?'#fff':'rgba(248,249,251,.9)',borderLeft:`1px solid ${isA?e.color+'55':'rgba(0,0,0,.08)'}`,borderBottom:`1px solid ${isA?e.color+'55':'rgba(0,0,0,.08)'}`,transform:'rotate(45deg)'}}/>
                   <div style={{fontSize:15,fontWeight:800,color:'#1a1614',marginBottom:5,fontFamily:"'Space Grotesk',sans-serif",letterSpacing:'-.02em'}}>{e.title}</div>
@@ -1505,26 +1507,26 @@ function ContactContent(){
         <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,marginBottom:18}}>PM/PO junior disponible — Toulouse, Paris, Remote, Hybrid. Full-time ou freelance.</p>
         <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:16}}>
           {/* Email — copy to clipboard */}
-          <div data-h onClick={copyEmail}
+          <button data-h onClick={copyEmail}
             style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',
               border:`1px solid ${copied?'rgba(0,135,90,.45)':'rgba(0,0,0,.08)'}`,borderRadius:11,cursor:'pointer',
-              transition:'all .2s',background:copied?'rgba(0,135,90,.06)':'rgba(248,249,251,.9)',
+              transition:'background .2s,border-color .2s',background:copied?'rgba(0,135,90,.06)':'rgba(248,249,251,.9)',
               transform:'translateX(0)'}}
             onMouseEnter={e=>{if(!copied){e.currentTarget.style.borderColor='rgba(255,107,74,.35)';e.currentTarget.style.background='rgba(255,107,74,.05)';e.currentTarget.style.transform='translateX(4px)'}}}
             onMouseLeave={e=>{if(!copied){e.currentTarget.style.borderColor='rgba(0,0,0,.08)';e.currentTarget.style.background='rgba(248,249,251,.9)';e.currentTarget.style.transform='translateX(0)'}}}>
             <div style={{display:'flex',alignItems:'center',gap:10}}>
-              <div style={{fontSize:14,width:30,height:30,background:copied?'rgba(0,135,90,.12)':'rgba(0,0,0,.06)',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',transition:'all .2s'}}>{copied?'✓':'✉️'}</div>
+              <div style={{fontSize:14,width:30,height:30,background:copied?'rgba(0,135,90,.12)':'rgba(0,0,0,.06)',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s'}}>{copied?'✓':'✉️'}</div>
               <div style={{fontSize:12,fontWeight:600,color:copied?'#00875a':'#1a1614',transition:'color .2s'}}>{copied?'Copié dans le presse-papier !':'riyan.besseghir@gmail.com'}</div>
             </div>
-            <span style={{color:copied?'#00875a':'#5b5048',fontSize:12,fontWeight:copied?700:400,transition:'all .2s'}}>{copied?'✓':'📋'}</span>
-          </div>
+            <span style={{color:copied?'#00875a':'#5b5048',fontSize:12,fontWeight:copied?700:400,transition:'color .2s,opacity .2s'}}>{copied?'✓':'📋'}</span>
+          </button>
           {/* Other links */}
           {[
             {icon:'💼',name:'LinkedIn — /riyan-besseghir',href:'https://www.linkedin.com/in/riyan-besseghir-8514a425b/'},
             {icon:'⌥',name:'GitHub — /Deady31',href:'https://github.com/Deady31'},
             {icon:'📄',name:'Télécharger mon CV (PDF)',href:'uploads/CV%20RIYAN%20PM%20FR.pdf',download:true},
           ].map(l=>(
-            <a key={l.name} href={l.href} {...(l.download?{download:true}:{target:"_blank"})} data-h style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',border:'1px solid rgba(0,0,0,.08)',borderRadius:11,cursor:'pointer',transition:'all .2s',background:'rgba(248,249,251,.9)',color:'inherit',textDecoration:'none'}}
+            <a key={l.name} href={l.href} {...(l.download?{download:true}:{target:"_blank"})} data-h style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',border:'1px solid rgba(0,0,0,.08)',borderRadius:11,cursor:'pointer',transition:'background .2s,border-color .2s,transform .2s',background:'rgba(248,249,251,.9)',color:'inherit',textDecoration:'none'}}
               onMouseEnter={e=>{e.currentTarget.style.borderColor=C.coral+'55';e.currentTarget.style.background='rgba(255,107,74,.05)';e.currentTarget.style.transform='translateX(4px)'}}
               onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(0,0,0,.08)';e.currentTarget.style.background='rgba(248,249,251,.9)';e.currentTarget.style.transform='translateX(0)'}}>
               <div style={{display:'flex',alignItems:'center',gap:10}}>
@@ -1572,7 +1574,7 @@ function ContactContent(){
 function ProjectMiniCard({p,onOpen}){
   const [h,setH]=useState(false);
   return(
-    <div data-h onClick={()=>onOpen(p)} style={{background:h?'#fff':'rgba(248,249,251,.9)',border:`1.5px solid ${h?p.color+'66':'rgba(0,0,0,.08)'}`,borderRadius:16,overflow:'hidden',cursor:'pointer',transition:'all .3s cubic-bezier(.22,.68,0,1.2)',transform:h?'translateY(-4px)':'none',boxShadow:h?`0 22px 48px rgba(0,0,0,.12),0 0 0 1px ${p.color}22`:'none',display:'flex',flexDirection:'column',minHeight:280}}
+    <button data-h onClick={()=>onOpen(p)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' ')onOpen(p);}} style={{background:h?'#fff':'rgba(248,249,251,.9)',border:`1.5px solid ${h?p.color+'66':'rgba(0,0,0,.08)'}`,borderRadius:16,overflow:'hidden',cursor:'pointer',transition:'background .3s cubic-bezier(.22,.68,0,1.2),border-color .3s cubic-bezier(.22,.68,0,1.2),transform .3s cubic-bezier(.22,.68,0,1.2),box-shadow .3s cubic-bezier(.22,.68,0,1.2)',transform:h?'translateY(-4px)':'none',boxShadow:h?`0 22px 48px rgba(0,0,0,.12),0 0 0 1px ${p.color}22`:'none',display:'flex',flexDirection:'column',minHeight:280}}
       onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}>
       <div style={{position:'relative',height:170,overflow:'hidden',background:p.colorBg,flexShrink:0}}>
         {p.img&&<img src={p.img} style={{width:'100%',height:'100%',objectFit:'cover',transform:h?'scale(1.05)':'scale(1)',transition:'transform .4s'}} alt={p.name} onError={e=>e.currentTarget.style.display='none'}/>}
@@ -1594,13 +1596,20 @@ function ProjectMiniCard({p,onOpen}){
             <span key={s} style={{padding:'2px 8px',background:'rgba(0,0,0,.04)',border:'1px solid rgba(0,0,0,.06)',borderRadius:100,fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace"}}>{s}</span>
           ))}
         </div>
-        <div style={{marginTop:'auto',padding:'9px 12px',background:`${p.color}10`,borderRadius:9,borderLeft:`2.5px solid ${p.color}`}}>
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.12em',textTransform:'uppercase',fontWeight:700,marginBottom:3}}>→ Résultat</div>
-          <p style={{fontSize:11,color:'#1a1614',lineHeight:1.5,margin:0,fontWeight:500}}>{p.outcome}</p>
+        <div style={{marginTop:'auto',padding:'12px 14px',background:`linear-gradient(135deg,${p.color}14,${p.color}07)`,borderRadius:10,border:`1px solid ${p.color}28`,position:'relative',overflow:'hidden'}}>
+          <div style={{position:'absolute',top:-8,right:-8,width:60,height:60,borderRadius:'50%',background:`${p.color}10`,pointerEvents:'none'}}/>
+          <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:5}}>
+            <div style={{width:5,height:5,borderRadius:'50%',background:p.color,flexShrink:0}}/>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.14em',textTransform:'uppercase',fontWeight:700}}>Résultat</div>
+          </div>
+          <p style={{fontSize:11,color:'#1a1614',lineHeight:1.6,margin:0,fontWeight:500,position:'relative'}}>{p.outcome}</p>
         </div>
-        <div style={{fontSize:10,color:p.color,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.06em',marginTop:10,fontWeight:600}}>Cliquer pour le détail complet →</div>
+        <div style={{fontSize:10,color:p.color,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.06em',marginTop:10,fontWeight:600,display:'flex',alignItems:'center',gap:4}}>
+          <span style={{flex:1,height:1,background:`${p.color}25`}}/>
+          Voir le case study →
+        </div>
       </div>
-    </div>
+    </button>
   );
 }
 function ProFeatureCard({p,onOpen}){
@@ -1610,7 +1619,7 @@ function ProFeatureCard({p,onOpen}){
       background:h?'#fff':'rgba(248,249,251,.9)',
       border:`1.5px solid ${h?p.color+'66':'rgba(0,0,0,.08)'}`,
       borderRadius:16,padding:'20px',
-      transition:'all .3s cubic-bezier(.22,.68,0,1.2)',
+      transition:'background .3s cubic-bezier(.22,.68,0,1.2),border-color .3s cubic-bezier(.22,.68,0,1.2),transform .3s cubic-bezier(.22,.68,0,1.2),box-shadow .3s cubic-bezier(.22,.68,0,1.2)',
       transform:h?'translateY(-3px)':'none',
       boxShadow:h?`0 18px 40px rgba(0,0,0,.10),0 0 0 1px ${p.color}22`:'none',
       display:'flex',flexDirection:'column',gap:12
@@ -1634,25 +1643,31 @@ function ProFeatureCard({p,onOpen}){
       </div>
 
       {/* Problem / Build / Outcome — full inline */}
-      <div style={{display:'grid',gridTemplateColumns:'1fr',gap:8}}>
-        <div style={{padding:'9px 12px',background:`${p.color}08`,borderRadius:9,borderLeft:`2.5px solid ${p.color}66`}}>
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.14em',textTransform:'uppercase',fontWeight:700,marginBottom:3}}>Problème</div>
-          <p style={{fontSize:11,color:'#5b5048',lineHeight:1.55,margin:0}}>{p.problem}</p>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+        <div style={{padding:'10px 13px',background:'rgba(248,248,250,1)',borderRadius:10,border:'1px solid rgba(26,22,20,.06)',gridColumn:'1/-1',position:'relative',overflow:'hidden'}}>
+          <div style={{position:'absolute',top:-4,right:8,fontFamily:"'Space Grotesk',sans-serif",fontSize:32,fontWeight:900,color:'rgba(26,22,20,.04)',lineHeight:1,pointerEvents:'none',userSelect:'none'}}>01</div>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700,marginBottom:5}}>Problème</div>
+          <p style={{fontSize:11,color:'#5b5048',lineHeight:1.65,margin:0,position:'relative'}}>{p.problem}</p>
         </div>
-        <div style={{padding:'9px 12px',background:`${p.color}08`,borderRadius:9,borderLeft:`2.5px solid ${p.color}66`}}>
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.14em',textTransform:'uppercase',fontWeight:700,marginBottom:3}}>Ce que j'ai fait</div>
-          <p style={{fontSize:11,color:'#5b5048',lineHeight:1.55,margin:0}}>{p.build}</p>
+        <div style={{padding:'10px 13px',background:'rgba(248,248,250,1)',borderRadius:10,border:'1px solid rgba(26,22,20,.06)',position:'relative',overflow:'hidden'}}>
+          <div style={{position:'absolute',top:-4,right:8,fontFamily:"'Space Grotesk',sans-serif",fontSize:32,fontWeight:900,color:'rgba(26,22,20,.04)',lineHeight:1,pointerEvents:'none',userSelect:'none'}}>02</div>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700,marginBottom:5}}>Ce que j'ai fait</div>
+          <p style={{fontSize:11,color:'#5b5048',lineHeight:1.65,margin:0,position:'relative'}}>{p.build}</p>
         </div>
-        <div style={{padding:'9px 12px',background:`${p.color}14`,borderRadius:9,border:`1px solid ${p.color}33`}}>
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.14em',textTransform:'uppercase',fontWeight:700,marginBottom:3}}>→ Résultat</div>
-          <p style={{fontSize:11,color:'#1a1614',lineHeight:1.55,margin:0,fontWeight:500}}>{p.outcome}</p>
+        <div style={{padding:'10px 13px',background:`linear-gradient(135deg,${p.color}12,${p.color}06)`,borderRadius:10,border:`1px solid ${p.color}30`,position:'relative',overflow:'hidden'}}>
+          <div style={{position:'absolute',top:-4,right:8,fontFamily:"'Space Grotesk',sans-serif",fontSize:32,fontWeight:900,color:`${p.color}14`,lineHeight:1,pointerEvents:'none',userSelect:'none'}}>03</div>
+          <div style={{display:'flex',alignItems:'center',gap:5,marginBottom:5}}>
+            <div style={{width:4,height:4,borderRadius:'50%',background:p.color,flexShrink:0}}/>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700}}>Résultat</div>
+          </div>
+          <p style={{fontSize:11,color:'#1a1614',lineHeight:1.65,margin:0,fontWeight:600,position:'relative'}}>{p.outcome}</p>
         </div>
       </div>
 
       {/* Stack tags */}
-      <div style={{display:'flex',gap:5,flexWrap:'wrap',paddingTop:4}}>
+      <div style={{display:'flex',gap:5,flexWrap:'wrap',paddingTop:2}}>
         {p.stack.slice(0,6).map(s=>(
-          <span key={s} style={{padding:'3px 9px',background:'rgba(0,0,0,.04)',border:'1px solid rgba(0,0,0,.06)',borderRadius:100,fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace"}}>{s}</span>
+          <span key={s} style={{padding:'3px 8px',background:`${p.color}10`,border:`1px solid ${p.color}20`,borderRadius:5,fontSize:8,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:600,letterSpacing:'.04em'}}>{s}</span>
         ))}
       </div>
     </div>
@@ -1814,7 +1829,7 @@ function QuickProfileWindow({onClose,onImpact,onProjects,onContact}){
           <button data-h onClick={()=>{onClose();onProjects();}} style={{flex:1,padding:'11px',background:C.coral,color:'#fff',border:'none',borderRadius:100,fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,cursor:'pointer',transition:'opacity .2s'}} onMouseEnter={e=>e.currentTarget.style.opacity='.9'} onMouseLeave={e=>e.currentTarget.style.opacity='1'}>
             Voir mes projets →
           </button>
-          <button data-h onClick={()=>{onClose();onContact();}} style={{flex:1,padding:'11px',background:'transparent',color:C.coral,border:`1.5px solid ${C.coral}`,borderRadius:100,fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,cursor:'pointer',transition:'all .2s'}} onMouseEnter={e=>{e.currentTarget.style.background=C.coral;e.currentTarget.style.color='#fff';}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color=C.coral;}}>
+          <button data-h onClick={()=>{onClose();onContact();}} style={{flex:1,padding:'11px',background:'transparent',color:C.coral,border:`1.5px solid ${C.coral}`,borderRadius:100,fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,cursor:'pointer',transition:'background .2s,color .2s'}} onMouseEnter={e=>{e.currentTarget.style.background=C.coral;e.currentTarget.style.color='#fff';}} onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color=C.coral;}}>
             Me contacter →
           </button>
         </div>
@@ -1869,7 +1884,7 @@ function DesktopIconPro({children,label,onOpen,pos,size=116,pulse=false,priority
 /* ── CHANGELOG MODAL ────────────────────────────────── */
 function ChangelogModal({onClose}){
   return(
-    <div style={{position:'fixed',inset:0,zIndex:900,background:'rgba(0,0,0,.45)',backdropFilter:'blur(8px)',display:'flex',alignItems:'flex-end',justifyContent:'center',padding:'0 0 24px',animation:'fadeIn .2s ease'}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
+    <div style={{position:'fixed',inset:0,zIndex:900,background:'rgba(0,0,0,.45)',backdropFilter:'blur(8px)',display:'flex',alignItems:'flex-end',justifyContent:'center',padding:'0 0 24px',animation:'fadeIn .2s ease',overscrollBehavior:'contain'}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
       <div style={{background:'rgba(255,255,255,.97)',backdropFilter:'blur(24px)',borderRadius:20,width:'100%',maxWidth:640,maxHeight:'72vh',overflow:'auto',boxShadow:'0 32px 80px rgba(0,0,0,.2)',animation:'fadeUp .3s ease',border:'1px solid rgba(0,0,0,.08)'}}>
         {/* Header */}
         <div style={{display:'flex',alignItems:'center',gap:8,padding:'14px 18px',borderBottom:'1px solid rgba(0,0,0,.07)',position:'sticky',top:0,background:'rgba(255,255,255,.97)',backdropFilter:'blur(24px)',zIndex:10}}>
@@ -2100,7 +2115,7 @@ function HeroSection(){
           color:'#fff',border:'none',borderRadius:100,
           fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,
           cursor:'pointer',boxShadow:'0 4px 16px rgba(255,107,74,.4)',
-          transition:'all .2s ease',width:'100%',justifyContent:'center'
+          transition:'background .2s ease,transform .2s ease,box-shadow .2s ease,border-color .2s ease',width:'100%',justifyContent:'center'
         }}
         onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-1px)';e.currentTarget.style.boxShadow='0 6px 20px rgba(255,107,74,.5)'}}
         onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='0 4px 16px rgba(255,107,74,.4)'}}>
@@ -2115,7 +2130,7 @@ function HeroSection(){
           background:'rgba(255,255,255,.92)',backdropFilter:'blur(20px)',
           border:`1.5px solid ${C.coral}`,borderRadius:14,
           boxShadow:'0 8px 24px rgba(255,107,74,.18)',cursor:'pointer',
-          transition:'all .22s ease',fontFamily:"'Space Grotesk',sans-serif"
+          transition:'background .22s ease,transform .22s ease,box-shadow .22s ease,border-color .22s ease',fontFamily:"'Space Grotesk',sans-serif"
         }}
         onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow='0 14px 36px rgba(255,107,74,.32)';}}
         onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='0 8px 24px rgba(255,107,74,.18)';}}>
@@ -2137,7 +2152,7 @@ function HeroSection(){
         padding:'6px 14px',background:'rgba(255,255,255,.78)',backdropFilter:'blur(12px)',
         border:'1px solid rgba(0,0,0,.08)',borderRadius:100,cursor:'pointer',
         fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#5b5048',
-        boxShadow:'0 2px 10px rgba(0,0,0,.07)',transition:'all .2s ease',
+        boxShadow:'0 2px 10px rgba(0,0,0,.07)',transition:'background .2s ease,border-color .2s ease,box-shadow .2s ease',
         whiteSpace:'nowrap',
       }} onMouseEnter={e=>{e.currentTarget.style.background='rgba(255,255,255,.97)';e.currentTarget.style.boxShadow='0 4px 16px rgba(0,0,0,.12)';}} onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,.78)';e.currentTarget.style.boxShadow='0 2px 10px rgba(0,0,0,.07)';}}>
         <span style={{padding:'2px 7px',background:'linear-gradient(135deg,#ff6b4a,#e8553a)',color:'#fff',borderRadius:100,fontSize:9,fontWeight:800,fontFamily:"'Space Grotesk',sans-serif"}}>v2.6</span>
@@ -2177,12 +2192,12 @@ function ProjectModal({p,onClose}){
   const btnArrow={position:'absolute',top:'50%',transform:'translateY(-50%)',width:44,height:44,borderRadius:'50%',background:'rgba(0,0,0,.52)',border:'1px solid rgba(255,255,255,.18)',color:'#fff',fontSize:22,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',backdropFilter:'blur(6px)',transition:'background .15s',zIndex:4};
   return(
     <>
-    <div style={{position:'fixed',inset:0,zIndex:800,background:'rgba(0,0,0,.72)',backdropFilter:'blur(10px)',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px',animation:'fadeIn .25s ease'}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
+    <div style={{position:'fixed',inset:0,zIndex:800,background:'rgba(0,0,0,.72)',backdropFilter:'blur(10px)',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px',animation:'fadeIn .25s ease',overscrollBehavior:'contain'}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
       <div style={{background:'#17151a',borderRadius:18,width:'100%',maxWidth:880,maxHeight:'92vh',display:'flex',flexDirection:'column',overflow:'hidden',boxShadow:'0 50px 120px rgba(0,0,0,.55)',animation:'fadeUp .3s ease'}}>
 
         {/* ── macOS titlebar ── */}
         <div style={{display:'flex',alignItems:'center',gap:8,padding:'11px 16px',background:'#1e1b22',flexShrink:0,borderBottom:'1px solid rgba(255,255,255,.07)'}}>
-          <div style={{width:12,height:12,borderRadius:'50%',background:'#FF5F57',cursor:'pointer',flexShrink:0}} data-h onClick={onClose}/>
+          <div style={{width:12,height:12,borderRadius:'50%',background:'#FF5F57',cursor:'pointer',flexShrink:0}} data-h onClick={onClose} aria-label="Fermer"/>
           <div style={{width:12,height:12,borderRadius:'50%',background:'#FFBD2E',flexShrink:0}}/>
           <div style={{width:12,height:12,borderRadius:'50%',background:'#28C840',flexShrink:0}}/>
           <div style={{flex:1,textAlign:'center',fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:'rgba(255,255,255,.4)',letterSpacing:'.06em'}}>{p.name} — Case Study</div>
@@ -2208,8 +2223,8 @@ function ProjectModal({p,onClose}){
             {/* Prev / Next arrows */}
             {shots.length>1&&(
               <>
-                <button style={{...btnArrow,left:14}} onClick={prev} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,0,0,.8)'} onMouseLeave={e=>e.currentTarget.style.background='rgba(0,0,0,.52)'}>‹</button>
-                <button style={{...btnArrow,right:14}} onClick={next} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,0,0,.8)'} onMouseLeave={e=>e.currentTarget.style.background='rgba(0,0,0,.52)'}>›</button>
+                <button aria-label="Précédent" style={{...btnArrow,left:14}} onClick={prev} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,0,0,.8)'} onMouseLeave={e=>e.currentTarget.style.background='rgba(0,0,0,.52)'}>‹</button>
+                <button aria-label="Suivant" style={{...btnArrow,right:14}} onClick={next} onMouseEnter={e=>e.currentTarget.style.background='rgba(0,0,0,.8)'} onMouseLeave={e=>e.currentTarget.style.background='rgba(0,0,0,.52)'}>›</button>
               </>
             )}
             {/* ── Thumbnail strip ── */}
@@ -2225,36 +2240,97 @@ function ProjectModal({p,onClose}){
           </div>
 
           {/* ── Content ── */}
-          <div style={{padding:'28px 32px',background:'#fff'}}>
-            {/* Badge + title + tagline */}
-            <div style={{marginBottom:24}}>
-              <span style={{display:'inline-block',padding:'4px 12px',background:p.colorBg,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:9,borderRadius:4,letterSpacing:'.12em',fontWeight:700,marginBottom:12}}>{p.badge} · {p.cat}</span>
-              <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:30,fontWeight:800,letterSpacing:'-.04em',marginBottom:6,color:C.text,lineHeight:1.1}}>{p.emoji} {p.name}</h2>
-              <p style={{fontSize:15,color:C.muted,fontStyle:'italic',lineHeight:1.6,marginBottom:0}}>"{p.tagline}"</p>
+          <div style={{background:'#faf8f4'}}>
+
+            {/* Accent bar — project color thin line */}
+            <div style={{height:3,background:`linear-gradient(90deg,${p.color},${p.color}44,transparent)`,flexShrink:0}}/>
+
+            {/* Header */}
+            <div style={{padding:'26px 32px 20px',borderBottom:'1px solid rgba(26,22,20,.07)'}}>
+              <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16,flexWrap:'wrap'}}>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10,flexWrap:'wrap'}}>
+                    <span style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 10px',background:`${p.color}18`,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:9,borderRadius:6,letterSpacing:'.14em',fontWeight:700,textTransform:'uppercase',border:`1px solid ${p.color}30`}}>{p.badge}</span>
+                    <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.muted,letterSpacing:'.1em'}}>·</span>
+                    <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.muted,letterSpacing:'.08em'}}>{p.cat}</span>
+                  </div>
+                  <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:26,fontWeight:800,letterSpacing:'-.04em',marginBottom:0,color:C.text,lineHeight:1.1,display:'flex',alignItems:'center',gap:10}}>
+                    <span style={{fontSize:28}}>{p.emoji}</span>
+                    {p.name}
+                  </h2>
+                </div>
+                <div style={{flexShrink:0,padding:'8px 14px',background:'rgba(26,22,20,.04)',borderRadius:10,border:'1px solid rgba(26,22,20,.07)',textAlign:'right'}}>
+                  <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:C.muted,letterSpacing:'.12em',textTransform:'uppercase',marginBottom:3}}>Stack</div>
+                  <div style={{display:'flex',gap:4,flexWrap:'wrap',justifyContent:'flex-end',maxWidth:200}}>
+                    {p.stack.slice(0,4).map(t=>(
+                      <span key={t} style={{padding:'2px 7px',background:`${p.color}14`,border:`1px solid ${p.color}28`,borderRadius:4,fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,fontWeight:600,letterSpacing:'.04em'}}>{t}</span>
+                    ))}
+                    {p.stack.length>4&&<span style={{padding:'2px 7px',background:'rgba(26,22,20,.05)',borderRadius:4,fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:C.muted}}>+{p.stack.length-4}</span>}
+                  </div>
+                </div>
+              </div>
+
+              {/* Tagline as pull quote */}
+              <div style={{marginTop:14,paddingLeft:14,borderLeft:`3px solid ${p.color}`,position:'relative'}}>
+                <p style={{fontSize:14,color:C.muted,fontStyle:'italic',lineHeight:1.65,margin:0,fontWeight:400}}>"{p.tagline}"</p>
+              </div>
             </div>
 
             {/* Case study sections */}
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14,marginBottom:28}}>
-              {[['01 — Problème',p.problem],['02 — Hypothèse',p.hypothesis],['03 — Build',p.build],['04 — Outcome',p.outcome]].map(([lbl,txt])=>(
-                <div key={lbl} style={{padding:'14px 16px',background:lbl.startsWith('04')?`${p.color}0e`:'rgba(248,249,251,1)',borderRadius:12,borderLeft:`3px solid ${p.color}${lbl.startsWith('04')?'':'44'}`}}>
-                  <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.18em',textTransform:'uppercase',fontWeight:700,marginBottom:6}}>{lbl}</div>
-                  <p style={{fontSize:12,color:lbl.startsWith('04')?C.text:C.muted,lineHeight:1.7,margin:0,fontWeight:lbl.startsWith('04')?600:400}}>{txt}</p>
-                </div>
-              ))}
-            </div>
+            <div style={{padding:'22px 32px 0'}}>
+              {(()=>{
+                const sections=p.sections||[
+                  {label:'01 — Problème',text:p.problem,isOutcome:false},
+                  {label:'02 — Hypothèse',text:p.hypothesis,isOutcome:false},
+                  {label:'03 — Build',text:p.build,isOutcome:false},
+                  {label:'04 — Outcome',text:p.outcome,isOutcome:true},
+                ];
+                const nonOutcome=sections.filter(s=>!s.isOutcome);
+                const outcome=sections.find(s=>s.isOutcome);
+                return(
+                  <>
+                    {/* Non-outcome sections — 2-col grid */}
+                    <div style={{display:'grid',gridTemplateColumns:nonOutcome.length===1?'1fr':'1fr 1fr',gap:12,marginBottom:12}}>
+                      {nonOutcome.map((s,i)=>(
+                        <div key={s.label} style={{padding:'16px 18px',background:'#fff',borderRadius:12,border:'1px solid rgba(26,22,20,.07)',boxShadow:'0 1px 3px rgba(26,22,20,.04)',position:'relative',overflow:'hidden'}}>
+                          {/* Decorative number */}
+                          <div style={{position:'absolute',top:-6,right:10,fontFamily:"'Space Grotesk',sans-serif",fontSize:52,fontWeight:900,color:'rgba(26,22,20,.04)',lineHeight:1,letterSpacing:'-.04em',pointerEvents:'none',userSelect:'none'}}>{String(i+1).padStart(2,'0')}</div>
+                          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:p.color,letterSpacing:'.16em',textTransform:'uppercase',fontWeight:700,marginBottom:8}}>{s.label}</div>
+                          <p style={{fontSize:12,color:C.muted,lineHeight:1.75,margin:0,position:'relative'}}>{s.text}</p>
+                        </div>
+                      ))}
+                    </div>
 
-            {/* Stack tags */}
-            <div style={{display:'flex',gap:7,flexWrap:'wrap',marginBottom:24}}>
-              {p.stack.map(t=><span key={t} style={{padding:'5px 13px',border:`1px solid ${C.border2}`,borderRadius:100,fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.muted,background:'rgba(248,249,251,1)'}}>{t}</span>)}
+                    {/* Outcome — full width pull-quote style */}
+                    {outcome&&(
+                      <div style={{padding:'20px 24px',background:`linear-gradient(135deg,${p.color}12,${p.color}06)`,borderRadius:12,border:`1.5px solid ${p.color}30`,marginBottom:22,position:'relative',overflow:'hidden'}}>
+                        <div style={{position:'absolute',top:0,right:0,width:120,height:120,background:`radial-gradient(circle,${p.color}10,transparent 70%)`,pointerEvents:'none'}}/>
+                        <div style={{display:'flex',alignItems:'baseline',gap:10,marginBottom:8}}>
+                          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:p.color,letterSpacing:'.16em',textTransform:'uppercase',fontWeight:700}}>{outcome.label}</div>
+                          <div style={{flex:1,height:1,background:`${p.color}30`}}/>
+                        </div>
+                        <p style={{fontSize:13,color:C.text,lineHeight:1.75,margin:0,fontWeight:600,position:'relative'}}>{outcome.text}</p>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </div>
 
             {/* CTAs */}
-            <div style={{display:'flex',gap:10,flexWrap:'wrap',paddingTop:4}}>
-              {!p.badge.startsWith('Projet Perso')&&<a href="#" data-h style={{display:'inline-flex',alignItems:'center',gap:6,padding:'10px 22px',background:p.color,borderRadius:100,color:'#fff',fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,textDecoration:'none',cursor:'pointer',transition:'opacity .18s'}}
-                onMouseEnter={e=>e.currentTarget.style.opacity='.88'} onMouseLeave={e=>e.currentTarget.style.opacity='1'}>→ Voir démo</a>}
-              {p.github&&<a href={p.github} target="_blank" rel="noopener noreferrer" data-h style={{display:'inline-flex',alignItems:'center',gap:6,padding:'10px 22px',border:`1.5px solid ${C.border2}`,borderRadius:100,color:C.muted,fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,textDecoration:'none',cursor:'pointer',transition:'all .18s'}}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.text;e.currentTarget.style.color=C.text;}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border2;e.currentTarget.style.color=C.muted;}}>→ GitHub</a>}
-              <button data-h onClick={onClose} style={{marginLeft:'auto',padding:'10px 22px',background:'transparent',color:C.muted,border:`1.5px solid ${C.border}`,borderRadius:100,fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,cursor:'pointer'}}>Fermer ×</button>
+            <div style={{display:'flex',gap:10,flexWrap:'wrap',padding:'0 32px 26px',alignItems:'center'}}>
+              {!p.badge.startsWith('Projet Perso')&&<a href="#" data-h style={{display:'inline-flex',alignItems:'center',gap:7,padding:'10px 22px',background:p.color,borderRadius:8,color:'#fff',fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,textDecoration:'none',cursor:'pointer',transition:'opacity .18s,transform .18s,box-shadow .18s',boxShadow:`0 4px 14px ${p.color}40`}}
+                onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-1px)';e.currentTarget.style.boxShadow=`0 6px 20px ${p.color}55`;}}
+                onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow=`0 4px 14px ${p.color}40`;}}
+              >→ Voir démo</a>}
+              {p.github&&<a href={p.github} target="_blank" rel="noopener noreferrer" data-h style={{display:'inline-flex',alignItems:'center',gap:7,padding:'10px 22px',border:`1.5px solid rgba(26,22,20,.14)`,borderRadius:8,color:C.muted,fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:700,textDecoration:'none',cursor:'pointer',transition:'border-color .18s,color .18s,transform .18s',background:'#fff'}}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.text;e.currentTarget.style.color=C.text;e.currentTarget.style.transform='translateY(-1px)';}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(26,22,20,.14)';e.currentTarget.style.color=C.muted;e.currentTarget.style.transform='translateY(0)';}}
+              >→ GitHub</a>}
+              <button data-h onClick={onClose} style={{marginLeft:'auto',padding:'10px 20px',background:'transparent',color:C.muted,border:'1.5px solid rgba(26,22,20,.1)',borderRadius:8,fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:600,cursor:'pointer',transition:'background .18s,color .18s'}}
+                onMouseEnter={e=>{e.currentTarget.style.background='rgba(26,22,20,.05)';e.currentTarget.style.color=C.text;}}
+                onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color=C.muted;}}
+              >Fermer ×</button>
             </div>
           </div>
         </div>
@@ -2267,8 +2343,8 @@ function ProjectModal({p,onClose}){
         <img src={shots[idx]} alt="zoom" style={{maxWidth:'90vw',maxHeight:'90vh',objectFit:'contain',borderRadius:12,boxShadow:'0 40px 120px rgba(0,0,0,.6)',animation:'fadeIn .2s ease'}} onClick={e=>e.stopPropagation()}/>
         {shots.length>1&&(
           <>
-            <button onClick={e=>{e.stopPropagation();prev();}} style={{position:'absolute',left:24,top:'50%',transform:'translateY(-50%)',width:52,height:52,borderRadius:'50%',background:'rgba(255,255,255,.12)',border:'1px solid rgba(255,255,255,.25)',color:'#fff',fontSize:26,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',backdropFilter:'blur(8px)'}}>‹</button>
-            <button onClick={e=>{e.stopPropagation();next();}} style={{position:'absolute',right:24,top:'50%',transform:'translateY(-50%)',width:52,height:52,borderRadius:'50%',background:'rgba(255,255,255,.12)',border:'1px solid rgba(255,255,255,.25)',color:'#fff',fontSize:26,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',backdropFilter:'blur(8px)'}}>›</button>
+            <button onClick={e=>{e.stopPropagation();prev();}} aria-label="Précédent" style={{position:'absolute',left:24,top:'50%',transform:'translateY(-50%)',width:52,height:52,borderRadius:'50%',background:'rgba(255,255,255,.12)',border:'1px solid rgba(255,255,255,.25)',color:'#fff',fontSize:26,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',backdropFilter:'blur(8px)'}}>‹</button>
+            <button onClick={e=>{e.stopPropagation();next();}} aria-label="Suivant" style={{position:'absolute',right:24,top:'50%',transform:'translateY(-50%)',width:52,height:52,borderRadius:'50%',background:'rgba(255,255,255,.12)',border:'1px solid rgba(255,255,255,.25)',color:'#fff',fontSize:26,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',backdropFilter:'blur(8px)'}}>›</button>
           </>
         )}
         <button onClick={()=>setLightbox(false)} style={{position:'absolute',top:20,right:20,width:40,height:40,borderRadius:'50%',background:'rgba(255,255,255,.12)',border:'1px solid rgba(255,255,255,.25)',color:'#fff',fontSize:20,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',backdropFilter:'blur(8px)'}}>×</button>

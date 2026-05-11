@@ -1,6 +1,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
-body{color:#1a1614;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden;background:#f0ebe2;height:100vh}
+body{color:#1a1614;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden;background:#f0ebe2;height:100vh;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 html{height:100%}
 a{text-decoration:none;color:inherit;}
 button{font-family:'Inter',sans-serif}
@@ -49,6 +49,17 @@ input,textarea{cursor:text!important}
 .section-pad{padding:88px 56px}
 .impact-card{transition:transform .3s cubic-bezier(.22,.68,0,1.2),box-shadow .3s ease}
 .impact-card:hover{transform:translateY(-6px)}
+/* ── Focus visible ── */
+:focus-visible{outline:2px solid #ff6b4a;outline-offset:2px;border-radius:4px}
+button:focus-visible,a:focus-visible,[role=button]:focus-visible{outline:2px solid #ff6b4a;outline-offset:3px}
+
+/* ── prefers-reduced-motion ── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .reveal,.wf-in{opacity:1!important;transform:none!important;transition:none!important}
+  .ds-word{opacity:1!important;transform:none!important}
+}
+
 @media(max-width:768px){
   .mac-win{position:relative!important;top:auto!important;left:auto!important;right:auto!important;width:100%!important;margin-bottom:16px}
   .hero-bg-name{font-size:22vw!important}
