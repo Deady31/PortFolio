@@ -72,6 +72,40 @@ var FILMS=[
 ];
 
 var CHANGELOG=[
+  {version:'v3.0',date:'12 Mai 2026',items:[
+    'WelcomeFlow : bouton Explorer remonté juste sous le titre (fini au bas de page)',
+    'Bouton Explorer : flèche supprimée, texte centré, display inline-flex CSS correct',
+    'Bio : scroll inutile supprimé (overflow hidden, padding réduit)',
+    'Parcours : flèche timeline étendue au-delà de "Avril 2026 →"',
+    'Mon Futur : vision recentrée sur l\'impact mondial — aider le maximum de personnes',
+    'Bento Bio : carte "Amoureux du Japon" → "Impact à grande échelle 🌍"',
+    'Tags / piliers Mon Futur : suppression de toutes les mentions Japon',
+    'GitHub Pages : riyan.world.html devient la source officielle (portfolio_upgraded.html supprimé)',
+    'Build script migré → lit et déploie riyan.world.html',
+  ]},
+  {version:'v2.9',date:'11 Mai 2026',items:[
+    'Fichier renommé portfolio_upgraded.html → riyan.world.html (identité officielle du site)',
+    'Statuts projets "En ligne" / "En cours" affichés sur chaque carte',
+    'Suppression section stats TikTok (chiffres retirés)',
+    'Fix parcours timeline — ordre et affichage corrigés',
+    'Améliorations UX diverses (espacement, micro-interactions)',
+  ]},
+  {version:'v2.8',date:'10 Mai 2026',items:[
+    'Easter egg Help menu — interaction secrète dans la barre de menu',
+    'Compartimentalisation assets : CSS, data JS et particules séparés en fichiers distincts (assets/)',
+    'Liens GitHub directs sur projets perso (CinéAppMovies, Overwatch Nexus)',
+    'Suppression bouton "Démo" — remplacé par lien GitHub direct',
+    'Explorer instantané : suppression du délai artificiel au clic',
+    'Fix bouton Explorer — rendu propre, onboarding modal non bloquant',
+  ]},
+  {version:'v2.7',date:'10 Mai 2026',items:[
+    'WelcomeFlow entièrement refonte → DigitalSerenity : intro sombre, grille SVG, particules flottantes, exit vaporize',
+    'Bouton liquid metal + palette warm cream cohérente',
+    'Galerie screenshots style Steam dans ProjectModal (navigation prev/next, lightbox zoom)',
+    'Invoicity — storytelling narratif en 3 sections (histoire, intention, résultat)',
+    'Email : copy-to-clipboard au clic avec feedback visuel',
+    'Perf : gradient souris sans re-render React (ref DOM direct)',
+  ]},
   {version:'v2.6',date:'09 Mai 2026',items:[
     'Icônes → dossiers 3D animés : hover ouvre le dossier avec 3 mini-cards qui s\'envolent (perspective CSS)',
     'Skills cards : hover plus doux (5° au lieu de 11°), items en bullet points lisibles',
