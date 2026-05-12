@@ -2350,21 +2350,116 @@ const IS_MOBILE=(()=>{try{return window.matchMedia('(pointer:coarse)').matches||
 
 /* ── MOBILE ICON DATA ────────────────────────────────── */
 const MOB_ICONS=[
-  {id:'projets',  emoji:'📁', label:'Projets',       gradient:'linear-gradient(145deg,#4338ca,#818cf8)', dock:true,  badge:true},
-  {id:'expro',    emoji:'💼', label:'Exp. Pro',       gradient:'linear-gradient(145deg,#c2410c,#fb923c)', dock:true,  badge:true},
-  {id:'skills',   emoji:'🛠️', label:'Skills',         gradient:'linear-gradient(145deg,#065f46,#34d399)', dock:false, badge:null},
-  {id:'future',   emoji:'🔮', label:'Mon Futur',      gradient:'linear-gradient(145deg,#4c1d95,#a78bfa)', dock:false, badge:null},
-  {id:'parcours', emoji:'🗺️', label:'Parcours',       gradient:'linear-gradient(145deg,#1e3a8a,#60a5fa)', dock:false, badge:null},
-  {id:'impact',   emoji:'📊', label:'Impact',         gradient:'linear-gradient(145deg,#78350f,#fbbf24)', dock:false, badge:null},
-  {id:'contact',  emoji:'📬', label:'Contact',        gradient:'linear-gradient(145deg,#713f12,#f59e0b)', dock:true,  badge:null},
-  {id:'bio',      emoji:'👤', label:'Bio',            gradient:'linear-gradient(145deg,#9a3412,#fb923c)', dock:true,  badge:null},
-  {id:'tiktok',   emoji:'🎵', label:'TikTok',         gradient:'linear-gradient(145deg,#881337,#f472b6)', dock:false, badge:null},
-  {id:'jeux',     emoji:'🎮', label:'Jeux',           gradient:'linear-gradient(145deg,#14532d,#86efac)', dock:false, badge:null},
-  {id:'films',    emoji:'🎬', label:'Films',          gradient:'linear-gradient(145deg,#7f1d1d,#fca5a5)', dock:false, badge:null},
-  {id:'changelog',emoji:'📋', label:'Changelog',      gradient:'linear-gradient(145deg,#1f2937,#9ca3af)', dock:false, badge:null},
+  {id:'projets',  label:'Projets',   gradient:'linear-gradient(160deg,#1a6dff 0%,#00cfff 100%)', dock:true,  badge:true},
+  {id:'expro',    label:'Exp. Pro',  gradient:'linear-gradient(160deg,#d4400a 0%,#ff9a3c 100%)', dock:true,  badge:true},
+  {id:'skills',   label:'Skills',    gradient:'linear-gradient(160deg,#007734 0%,#30d158 100%)', dock:false, badge:null},
+  {id:'future',   label:'Mon Futur', gradient:'linear-gradient(160deg,#5e17eb 0%,#bf5af2 100%)', dock:false, badge:null},
+  {id:'parcours', label:'Parcours',  gradient:'linear-gradient(160deg,#0a5a9c 0%,#32ade6 100%)', dock:false, badge:null},
+  {id:'impact',   label:'Impact',    gradient:'linear-gradient(160deg,#b45309 0%,#fbbf24 100%)', dock:false, badge:null},
+  {id:'contact',  label:'Contact',   gradient:'linear-gradient(160deg,#1d6fa4 0%,#5ac8fa 100%)', dock:true,  badge:null},
+  {id:'bio',      label:'Bio',       gradient:'linear-gradient(160deg,#0c6e6e 0%,#40e0c8 100%)', dock:true,  badge:null},
+  {id:'tiktok',   label:'TikTok',    gradient:'linear-gradient(160deg,#010101 0%,#2b2b2b 100%)', dock:false, badge:null},
+  {id:'jeux',     label:'Jeux',      gradient:'linear-gradient(160deg,#0d5c2e 0%,#50fa7b 100%)', dock:false, badge:null},
+  {id:'films',    label:'Films',     gradient:'linear-gradient(160deg,#8b1a1a 0%,#ff6b6b 100%)', dock:false, badge:null},
+  {id:'changelog',label:'Changelog', gradient:'linear-gradient(160deg,#2c2c2e 0%,#8e8e93 100%)', dock:false, badge:null},
 ];
 const MOB_DOCK=MOB_ICONS.filter(i=>i.dock);
 const MOB_TITLES={projets:'Projets Persos',expro:'Expérience Pro',skills:'Skills',future:'Mon Futur',parcours:'Parcours',impact:'Impact',contact:'Contact',tiktok:'TikTok',bio:'Bio',jeux:'Jeux de ma vie',films:'Films',changelog:'Changelog'};
+
+/* ── iOS 26 ICON SVG ARTWORK ─────────────────────────── */
+const ICON_SVG={
+  projets:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <path d="M3 9C3 7.343 4.343 6 6 6H13L15 9H26C27.657 9 29 10.343 29 12V24C29 25.657 27.657 27 26 27H6C4.343 27 3 25.657 3 24V9Z" fill="white" fillOpacity=".92"/>
+      <rect x="8" y="16" width="16" height="2" rx="1" fill="rgba(0,100,220,.55)"/>
+      <rect x="8" y="20" width="11" height="2" rx="1" fill="rgba(0,100,220,.38)"/>
+    </svg>
+  ),
+  expro:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <rect x="3" y="13" width="26" height="16" rx="3.5" fill="white" fillOpacity=".9"/>
+      <path d="M11 13V10C11 8.343 12.343 7 14 7H18C19.657 7 21 8.343 21 10V13" stroke="white" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+      <rect x="13.5" y="17.5" width="5" height="2" rx="1" fill="rgba(200,80,20,.65)"/>
+    </svg>
+  ),
+  skills:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <path d="M19.5 4.5C16 4.5 13.1 7 12.3 10.3L5.5 17.1L8 22.5L12.5 18L14 19.5L9.5 24L14.9 26.5L21.7 19.7C25 18.9 27.5 16 27.5 12.5C27.5 8.1 23.9 4.5 19.5 4.5Z" fill="white" fillOpacity=".88"/>
+      <circle cx="19.5" cy="12.5" r="3" fill="rgba(0,120,60,.55)"/>
+    </svg>
+  ),
+  future:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <polygon points="16,3 19.3,12.2 29,12.2 21.4,17.9 24.2,27.1 16,21.4 7.8,27.1 10.6,17.9 3,12.2 12.7,12.2" fill="white" fillOpacity=".9"/>
+      <circle cx="16" cy="16" r="3.5" fill="rgba(94,23,235,.45)"/>
+    </svg>
+  ),
+  parcours:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <path d="M16 3C11.03 3 7 7.03 7 12C7 19 16 29 16 29C16 29 25 19 25 12C25 7.03 20.97 3 16 3Z" fill="white" fillOpacity=".9"/>
+      <circle cx="16" cy="12" r="4" fill="rgba(10,90,156,.65)"/>
+      <circle cx="16" cy="12" r="1.8" fill="white" fillOpacity=".85"/>
+    </svg>
+  ),
+  impact:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <rect x="4" y="21" width="5.5" height="8" rx="2" fill="white" fillOpacity=".65"/>
+      <rect x="12" y="15" width="5.5" height="14" rx="2" fill="white" fillOpacity=".8"/>
+      <rect x="20" y="8" width="5.5" height="21" rx="2" fill="white" fillOpacity=".95"/>
+      <polyline points="6.5,19 14.5,13 22,7" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="2.5 2" fill="none"/>
+    </svg>
+  ),
+  contact:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <rect x="3" y="7" width="26" height="19" rx="3.5" fill="white" fillOpacity=".9"/>
+      <path d="M3 10.5L16 19.5L29 10.5" stroke="rgba(20,100,160,.5)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    </svg>
+  ),
+  bio:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="11" r="6.5" fill="white" fillOpacity=".9"/>
+      <path d="M3 29C3 22.925 8.925 18 16 18C23.075 18 29 22.925 29 29" stroke="white" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+    </svg>
+  ),
+  tiktok:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <path d="M22 4H18V20.5C18 22.433 16.433 24 14.5 24C12.567 24 11 22.433 11 20.5C11 18.567 12.567 17 14.5 17V13C10.358 13 7 16.358 7 20.5C7 24.642 10.358 28 14.5 28C18.642 28 22 24.642 22 20.5V11.8C23.48 12.88 25.17 13.5 27 13.5V9.5C24.2 9.5 22 7 22 4Z" fill="white" fillOpacity=".9"/>
+      <ellipse cx="9.5" cy="20.5" rx="2" ry="2" fill="rgba(255,60,60,.7)"/>
+    </svg>
+  ),
+  jeux:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <rect x="3" y="10" width="26" height="14" rx="7" fill="white" fillOpacity=".88"/>
+      <rect x="9" y="16" width="4.5" height="1.8" rx=".9" fill="rgba(10,80,40,.7)"/>
+      <rect x="10.35" y="14.6" width="1.8" height="4.5" rx=".9" fill="rgba(10,80,40,.7)"/>
+      <circle cx="21.5" cy="15.5" r="1.4" fill="rgba(10,80,40,.6)"/>
+      <circle cx="24.5" cy="17" r="1.4" fill="rgba(10,80,40,.6)"/>
+      <circle cx="21.5" cy="18.5" r="1.4" fill="rgba(10,80,40,.45)"/>
+    </svg>
+  ),
+  films:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <rect x="3" y="11" width="26" height="16" rx="2.5" fill="white" fillOpacity=".9"/>
+      <rect x="3" y="7" width="26" height="5.5" rx="2" fill="white" fillOpacity=".7"/>
+      <rect x="6.5" y="7.5" width="2.5" height="4.5" rx="1" fill="rgba(140,30,30,.55)"/>
+      <rect x="11.5" y="7.5" width="2.5" height="4.5" rx="1" fill="rgba(140,30,30,.55)"/>
+      <rect x="16.5" y="7.5" width="2.5" height="4.5" rx="1" fill="rgba(140,30,30,.55)"/>
+      <rect x="21.5" y="7.5" width="2.5" height="4.5" rx="1" fill="rgba(140,30,30,.55)"/>
+      <path d="M13.5 16.5L21 20.5L13.5 24.5Z" fill="rgba(140,30,30,.75)"/>
+    </svg>
+  ),
+  changelog:(s)=>(
+    <svg width={s*.58} height={s*.58} viewBox="0 0 32 32" fill="none">
+      <rect x="6" y="4" width="20" height="24" rx="3.5" fill="white" fillOpacity=".88"/>
+      <circle cx="10" cy="11" r="1.2" fill="rgba(50,50,60,.5)"/>
+      <rect x="13" y="10" width="10" height="2" rx="1" fill="rgba(50,50,60,.5)"/>
+      <circle cx="10" cy="16" r="1.2" fill="rgba(50,50,60,.4)"/>
+      <rect x="13" y="15" width="8" height="2" rx="1" fill="rgba(50,50,60,.4)"/>
+      <circle cx="10" cy="21" r="1.2" fill="rgba(50,50,60,.3)"/>
+      <rect x="13" y="20" width="9" height="2" rx="1" fill="rgba(50,50,60,.3)"/>
+    </svg>
+  ),
+};
 
 /* ── MOBILE ICON COMPONENT ───────────────────────────── */
 function MobIcon({icon,onTap,size=72}){
@@ -2375,20 +2470,25 @@ function MobIcon({icon,onTap,size=72}){
     setPress(true);
     setTimeout(()=>{setPress(false);onTap(icon,rect);},140);
   };
+  const iconEl=ICON_SVG[icon.id]?ICON_SVG[icon.id](size):null;
   return(
-    <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:5,cursor:'pointer',userSelect:'none'}} onClick={tap}>
+    <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:5,cursor:'pointer',userSelect:'none',WebkitTapHighlightColor:'transparent'}} onClick={tap}>
       <div style={{position:'relative',width:size,height:size,borderRadius:r,background:icon.gradient,
-        boxShadow:'0 4px 18px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.38),inset 0 -1px 0 rgba(0,0,0,.14)',
-        display:'flex',alignItems:'center',justifyContent:'center',fontSize:size*.46,
-        transform:press?'scale(0.88)':'scale(1)',
-        transition:'transform .15s cubic-bezier(.22,.68,0,1.2)',
-        border:'1px solid rgba(255,255,255,.22)',overflow:'hidden'}}>
-        {/* inner glass shine */}
-        <div style={{position:'absolute',top:0,left:0,right:0,height:'46%',background:'linear-gradient(180deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,.03) 100%)',borderRadius:`${r}px ${r}px 0 0`,pointerEvents:'none'}}/>
-        <span style={{position:'relative',zIndex:1,lineHeight:1}}>{icon.emoji}</span>
-        {icon.badge&&<div style={{position:'absolute',top:-4,right:-4,width:12,height:12,background:'#ff3b30',borderRadius:'50%',border:'2px solid rgba(255,255,255,.85)',animation:'badgePulse 2.2s ease-in-out infinite',zIndex:2}}/>}
+        boxShadow:`0 6px 20px rgba(0,0,0,.42),0 2px 6px rgba(0,0,0,.26),inset 0 1.5px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(0,0,0,.2)`,
+        display:'flex',alignItems:'center',justifyContent:'center',
+        transform:press?'scale(0.86)':'scale(1)',
+        transition:'transform .14s cubic-bezier(.22,.68,0,1.2)',
+        border:'1px solid rgba(255,255,255,.15)',overflow:'hidden'}}>
+        {/* top Liquid Glass shine */}
+        <div style={{position:'absolute',top:0,left:0,right:0,height:'52%',background:'linear-gradient(180deg,rgba(255,255,255,.36) 0%,rgba(255,255,255,.05) 100%)',borderRadius:`${r}px ${r}px 0 0`,pointerEvents:'none'}}/>
+        {/* bottom ambient glow */}
+        <div style={{position:'absolute',bottom:0,left:'10%',right:'10%',height:'28%',background:'radial-gradient(ellipse,rgba(255,255,255,.14) 0%,transparent 70%)',pointerEvents:'none'}}/>
+        <div style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',justifyContent:'center',filter:'drop-shadow(0 1px 3px rgba(0,0,0,.35))'}}>
+          {iconEl}
+        </div>
+        {icon.badge&&<div style={{position:'absolute',top:-3,right:-3,width:10,height:10,background:'#ff3b30',borderRadius:'50%',border:'2px solid rgba(8,6,20,.95)',zIndex:2}}/>}
       </div>
-      <span style={{fontSize:10,color:'rgba(255,255,255,.88)',fontWeight:500,fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif",textShadow:'0 1px 4px rgba(0,0,0,.45)',letterSpacing:.1,textAlign:'center',maxWidth:size+10,lineHeight:1.25}}>{icon.label}</span>
+      <span style={{fontSize:10,color:'rgba(255,255,255,.92)',fontWeight:500,fontFamily:"-apple-system,'SF Pro Text',sans-serif",textShadow:'0 1px 4px rgba(0,0,0,.6)',letterSpacing:.08,textAlign:'center',maxWidth:size+10,lineHeight:1.2}}>{icon.label}</span>
     </div>
   );
 }
@@ -2405,14 +2505,15 @@ function MobWindow({title,onClose,children,origin}){
     <div style={{position:'fixed',inset:0,zIndex:2000,display:'flex',flexDirection:'column',
       transformOrigin:`${cx} ${cy}`,
       animation:closing?'iosClose .26s cubic-bezier(.4,0,1,.5) both':'iosOpen .42s cubic-bezier(.22,.68,0,1.2) both'}}>
-      <div style={{position:'absolute',inset:0,background:'rgba(245,244,240,.97)',backdropFilter:'blur(28px)'}}/>
+      <div style={{position:'absolute',inset:0,background:'rgba(242,242,247,1)'}}/>
       <div style={{position:'relative',zIndex:1,display:'flex',flexDirection:'column',height:'100%'}}>
-        <div style={{padding:'52px 20px 12px',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid rgba(0,0,0,.08)',background:'rgba(248,248,250,.94)',backdropFilter:'blur(20px)',flexShrink:0}}>
-          <button onClick={close} style={{display:'flex',alignItems:'center',gap:2,border:'none',background:'none',color:'#007AFF',fontSize:16,fontFamily:"'-apple-system','Inter',sans-serif",fontWeight:400,cursor:'pointer',padding:'4px 0'}}>
-            <span style={{fontSize:22,lineHeight:.9}}>‹</span> Retour
+        <div style={{padding:'56px 20px 10px',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid rgba(60,60,67,.12)',background:'rgba(249,249,251,.96)',backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',flexShrink:0}}>
+          <button onClick={close} style={{display:'flex',alignItems:'center',gap:1,border:'none',background:'none',color:'#007AFF',fontSize:17,fontFamily:"-apple-system,'SF Pro Text',sans-serif",fontWeight:400,cursor:'pointer',padding:'4px 0',WebkitTapHighlightColor:'transparent'}}>
+            <svg width="10" height="17" viewBox="0 0 10 17" fill="none" style={{marginRight:2}}><path d="M8.5 1.5L1.5 8.5L8.5 15.5" stroke="#007AFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Retour
           </button>
-          <span style={{fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif",fontSize:17,fontWeight:600,color:'#1c1c1e'}}>{title}</span>
-          <div style={{width:72}}/>
+          <span style={{fontFamily:"-apple-system,'SF Pro Text',sans-serif",fontSize:17,fontWeight:600,color:'#1c1c1e',letterSpacing:-.3}}>{title}</span>
+          <div style={{width:64}}/>
         </div>
         <div style={{flex:1,overflowY:'auto',overflowX:'hidden'}} className="mob-scroll">{children}</div>
       </div>
@@ -3015,20 +3116,47 @@ function MobileApp(){
 
   return(
     <div style={{position:'fixed',inset:0,overflow:'hidden',fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif"}}>
-      {/* Wallpaper — deep space, sobre */}
-      <div style={{position:'absolute',inset:0,background:'linear-gradient(160deg,#080612 0%,#0b0e20 30%,#0d1128 55%,#090814 80%,#060510 100%)'}}>
-        <div style={{position:'absolute',width:'140vw',height:'140vw',borderRadius:'50%',background:'radial-gradient(circle,rgba(72,45,180,.18) 0%,rgba(50,30,140,.06) 45%,transparent 70%)',top:'-55%',left:'-20%',filter:'blur(70px)'}}/>
-        <div style={{position:'absolute',width:'90vw',height:'90vw',borderRadius:'50%',background:'radial-gradient(circle,rgba(30,60,160,.10) 0%,transparent 65%)',bottom:'-30%',right:'-15%',filter:'blur(55px)'}}/>
+      {/* Wallpaper — iOS 26 deep space */}
+      <div style={{position:'absolute',inset:0,background:'linear-gradient(170deg,#06040f 0%,#0a0c1e 25%,#0e1232 50%,#080a1a 75%,#050408 100%)'}}>
+        {/* Aurora glow top-left — purple */}
+        <div style={{position:'absolute',width:'150vw',height:'120vw',borderRadius:'50%',background:'radial-gradient(ellipse,rgba(88,50,210,.22) 0%,rgba(60,30,160,.08) 40%,transparent 68%)',top:'-60%',left:'-25%',filter:'blur(60px)'}}/>
+        {/* Aurora glow bottom-right — indigo */}
+        <div style={{position:'absolute',width:'100vw',height:'100vw',borderRadius:'50%',background:'radial-gradient(ellipse,rgba(26,80,200,.15) 0%,rgba(16,50,140,.05) 50%,transparent 70%)',bottom:'-40%',right:'-20%',filter:'blur(50px)'}}/>
+        {/* Subtle mid cyan accent */}
+        <div style={{position:'absolute',width:'60vw',height:'60vw',borderRadius:'50%',background:'radial-gradient(ellipse,rgba(0,180,255,.07) 0%,transparent 65%)',top:'30%',right:'5%',filter:'blur(40px)'}}/>
+        {/* Grain overlay via SVG — iOS wallpaper texture */}
+        <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',opacity:.045}} xmlns="http://www.w3.org/2000/svg">
+          <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+          <rect width="100%" height="100%" filter="url(#grain)"/>
+        </svg>
       </div>
 
       {/* UI */}
       <div style={{position:'relative',zIndex:1,height:'100%',display:'flex',flexDirection:'column'}}>
-        {/* Status bar */}
-        <div style={{padding:'14px 24px 6px',display:'flex',justifyContent:'space-between',alignItems:'center',flexShrink:0}}>
-          <span style={{color:'#fff',fontSize:15,fontWeight:600,letterSpacing:.2}}>{now}</span>
-          <div style={{display:'flex',gap:5,alignItems:'center',opacity:.9}}>
-            <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="4" width="3" height="7" rx="1" fill="white" opacity=".4"/><rect x="4.5" y="2.5" width="3" height="8.5" rx="1" fill="white" opacity=".6"/><rect x="9" y="1" width="3" height="10" rx="1" fill="white" opacity=".8"/><rect x="13.5" y="0" width="2.5" height="11" rx="1" fill="white"/></svg>
-            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" strokeOpacity=".4" strokeWidth="1"/><rect x="1" y="2" width="17" height="8" rx="2" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity=".4"/></svg>
+        {/* Status bar — iOS 26 */}
+        <div style={{padding:'14px 24px 4px',display:'flex',justifyContent:'space-between',alignItems:'center',flexShrink:0}}>
+          <span style={{color:'#fff',fontSize:15,fontWeight:700,letterSpacing:.1,fontVariantNumeric:'tabular-nums'}}>{now}</span>
+          <div style={{display:'flex',gap:6,alignItems:'center'}}>
+            {/* Signal bars */}
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="none">
+              <rect x="0" y="5" width="3" height="7" rx="1" fill="white" opacity=".35"/>
+              <rect x="4.5" y="3" width="3" height="9" rx="1" fill="white" opacity=".6"/>
+              <rect x="9" y="1" width="3" height="11" rx="1" fill="white" opacity=".8"/>
+              <rect x="13.5" y="0" width="3" height="12" rx="1" fill="white"/>
+            </svg>
+            {/* WiFi */}
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+              <path d="M8 10.5L8 10.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M5.5 8C6.3 7.1 7.1 6.6 8 6.6C8.9 6.6 9.7 7.1 10.5 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+              <path d="M3 5.5C4.5 3.8 6.2 2.8 8 2.8C9.8 2.8 11.5 3.8 13 5.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity=".7"/>
+              <path d="M0.5 3C2.8 0.8 5.3 0 8 0C10.7 0 13.2 0.8 15.5 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity=".4"/>
+            </svg>
+            {/* Battery */}
+            <svg width="27" height="13" viewBox="0 0 27 13" fill="none">
+              <rect x="0.5" y="1" width="23" height="11" rx="3" stroke="white" strokeOpacity=".38" strokeWidth="1"/>
+              <rect x="1.5" y="2" width="18" height="9" rx="2" fill="white"/>
+              <rect x="24.5" y="4.5" width="2" height="4" rx="1" fill="white" opacity=".38"/>
+            </svg>
           </div>
         </div>
 
@@ -3051,15 +3179,25 @@ function MobileApp(){
           </div>
 
           {/* Icon grid 4 cols — toutes les apps */}
-          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'14px 4px',justifyItems:'center',flexShrink:0}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'18px 8px',justifyItems:'center',flexShrink:0,padding:'4px 0'}}>
             {MOB_ICONS.map(icon=><MobIcon key={icon.id} icon={icon} onTap={openApp} size={60}/>)}
           </div>
         </div>
 
-        {/* Dock */}
-        <div style={{margin:'0 14px 32px',padding:'11px 14px',borderRadius:28,background:'rgba(255,255,255,.13)',backdropFilter:'blur(36px)',border:'1px solid rgba(255,255,255,.22)',display:'flex',justifyContent:'space-around',alignItems:'flex-start',flexShrink:0,boxShadow:'0 8px 36px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.26)',position:'relative',overflow:'hidden'}}>
-          <div style={{position:'absolute',top:0,left:0,right:0,height:'50%',background:'linear-gradient(180deg,rgba(255,255,255,.13) 0%,transparent 100%)',borderRadius:'28px 28px 0 0',pointerEvents:'none'}}/>
-          {MOB_DOCK.map(icon=><MobIcon key={icon.id} icon={icon} onTap={openApp} size={56}/>)}
+        {/* Dock — iOS 26 Liquid Glass */}
+        <div style={{margin:'8px 16px 36px',padding:'14px 18px',borderRadius:32,
+          background:'rgba(255,255,255,.11)',
+          backdropFilter:'blur(48px) saturate(180%)',
+          WebkitBackdropFilter:'blur(48px) saturate(180%)',
+          border:'1px solid rgba(255,255,255,.20)',
+          display:'flex',justifyContent:'space-around',alignItems:'flex-start',flexShrink:0,
+          boxShadow:'0 12px 40px rgba(0,0,0,.4),0 2px 8px rgba(0,0,0,.22),inset 0 1.5px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.12)',
+          position:'relative',overflow:'hidden'}}>
+          {/* Dock glass top shine */}
+          <div style={{position:'absolute',top:0,left:0,right:0,height:'52%',background:'linear-gradient(180deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,.02) 100%)',borderRadius:'32px 32px 0 0',pointerEvents:'none'}}/>
+          {/* Dock inner side sheen */}
+          <div style={{position:'absolute',inset:0,borderRadius:32,background:'radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.08) 0%,transparent 60%)',pointerEvents:'none'}}/>
+          {MOB_DOCK.map(icon=><MobIcon key={icon.id} icon={icon} onTap={openApp} size={58}/>)}
         </div>
       </div>
 
