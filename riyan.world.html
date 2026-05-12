@@ -2350,20 +2350,18 @@ const IS_MOBILE=(()=>{try{return window.matchMedia('(pointer:coarse)').matches||
 
 /* ── MOBILE ICON DATA ────────────────────────────────── */
 const MOB_ICONS=[
-  /* page 0 — priorité recruteur */
-  {id:'projets',  emoji:'📁', label:'Projets',      gradient:'linear-gradient(145deg,#4338ca,#818cf8)', dock:true,  badge:true, page:0},
-  {id:'expro',    emoji:'💼', label:'Exp. Pro',      gradient:'linear-gradient(145deg,#c2410c,#fb923c)', dock:true,  badge:true, page:0},
-  {id:'skills',   emoji:'🛠️', label:'Skills',        gradient:'linear-gradient(145deg,#065f46,#34d399)', dock:false, badge:null, page:0},
-  {id:'future',   emoji:'🔮', label:'Mon Futur',     gradient:'linear-gradient(145deg,#4c1d95,#a78bfa)', dock:false, badge:null, page:0},
-  {id:'parcours', emoji:'🗺️', label:'Parcours',      gradient:'linear-gradient(145deg,#1e3a8a,#60a5fa)', dock:false, badge:null, page:0},
-  {id:'impact',   emoji:'📊', label:'Impact',        gradient:'linear-gradient(145deg,#78350f,#fbbf24)', dock:false, badge:null, page:0},
-  {id:'contact',  emoji:'📬', label:'Contact',       gradient:'linear-gradient(145deg,#713f12,#f59e0b)', dock:true,  badge:null, page:0},
-  {id:'bio',      emoji:'👤', label:'Bio',           gradient:'linear-gradient(145deg,#9a3412,#fb923c)', dock:true,  badge:null, page:0},
-  /* page 1 — pour en savoir plus */
-  {id:'tiktok',   emoji:'🎵', label:'TikTok',        gradient:'linear-gradient(145deg,#881337,#f472b6)', dock:false, badge:null, page:1},
-  {id:'jeux',     emoji:'🎮', label:'Jeux de ma vie',gradient:'linear-gradient(145deg,#14532d,#86efac)', dock:false, badge:null, page:1},
-  {id:'films',    emoji:'🎬', label:'Films',         gradient:'linear-gradient(145deg,#7f1d1d,#fca5a5)', dock:false, badge:null, page:1},
-  {id:'changelog',emoji:'📋', label:'Changelog',     gradient:'linear-gradient(145deg,#1f2937,#9ca3af)', dock:false, badge:null, page:1},
+  {id:'projets',  emoji:'📁', label:'Projets',       gradient:'linear-gradient(145deg,#4338ca,#818cf8)', dock:true,  badge:true},
+  {id:'expro',    emoji:'💼', label:'Exp. Pro',       gradient:'linear-gradient(145deg,#c2410c,#fb923c)', dock:true,  badge:true},
+  {id:'skills',   emoji:'🛠️', label:'Skills',         gradient:'linear-gradient(145deg,#065f46,#34d399)', dock:false, badge:null},
+  {id:'future',   emoji:'🔮', label:'Mon Futur',      gradient:'linear-gradient(145deg,#4c1d95,#a78bfa)', dock:false, badge:null},
+  {id:'parcours', emoji:'🗺️', label:'Parcours',       gradient:'linear-gradient(145deg,#1e3a8a,#60a5fa)', dock:false, badge:null},
+  {id:'impact',   emoji:'📊', label:'Impact',         gradient:'linear-gradient(145deg,#78350f,#fbbf24)', dock:false, badge:null},
+  {id:'contact',  emoji:'📬', label:'Contact',        gradient:'linear-gradient(145deg,#713f12,#f59e0b)', dock:true,  badge:null},
+  {id:'bio',      emoji:'👤', label:'Bio',            gradient:'linear-gradient(145deg,#9a3412,#fb923c)', dock:true,  badge:null},
+  {id:'tiktok',   emoji:'🎵', label:'TikTok',         gradient:'linear-gradient(145deg,#881337,#f472b6)', dock:false, badge:null},
+  {id:'jeux',     emoji:'🎮', label:'Jeux',           gradient:'linear-gradient(145deg,#14532d,#86efac)', dock:false, badge:null},
+  {id:'films',    emoji:'🎬', label:'Films',          gradient:'linear-gradient(145deg,#7f1d1d,#fca5a5)', dock:false, badge:null},
+  {id:'changelog',emoji:'📋', label:'Changelog',      gradient:'linear-gradient(145deg,#1f2937,#9ca3af)', dock:false, badge:null},
 ];
 const MOB_DOCK=MOB_ICONS.filter(i=>i.dock);
 const MOB_TITLES={projets:'Projets Persos',expro:'Expérience Pro',skills:'Skills',future:'Mon Futur',parcours:'Parcours',impact:'Impact',contact:'Contact',tiktok:'TikTok',bio:'Bio',jeux:'Jeux de ma vie',films:'Films',changelog:'Changelog'};
@@ -2544,43 +2542,121 @@ function MobBioContent(){
   );
 }
 
+/* ── MOBILE PROJECT DETAIL ───────────────────────────────── */
+function MobProjDetail({p,onBack}){
+  const [idx,setIdx]=useState(0);
+  const shots=(p.screenshots&&p.screenshots.length)?p.screenshots:[p.img].filter(Boolean);
+  const prev=()=>setIdx(i=>(i-1+shots.length)%shots.length);
+  const next=()=>setIdx(i=>(i+1)%shots.length);
+  return(
+    <div>
+      {/* Back button */}
+      <div style={{padding:'14px 16px 10px',borderBottom:'1px solid rgba(0,0,0,.06)',display:'flex',alignItems:'center',gap:8,background:'rgba(248,248,250,.98)',flexShrink:0}}>
+        <button onClick={onBack} data-h style={{display:'flex',alignItems:'center',gap:4,border:'none',background:'none',color:'#7c5ce7',fontSize:14,fontWeight:600,cursor:'pointer',padding:0,fontFamily:"'-apple-system','Inter',sans-serif"}}>
+          <span style={{fontSize:20,lineHeight:.9}}>‹</span> Projets
+        </button>
+      </div>
+
+      {/* Carousel */}
+      {shots.length>0&&(
+        <div style={{background:'#0d0b10',position:'relative',userSelect:'none'}}>
+          <div style={{position:'relative',width:'100%',height:240,overflow:'hidden'}}>
+            <img key={shots[idx]} src={shots[idx]} alt={`screen ${idx+1}`}
+              style={{width:'100%',height:'100%',objectFit:'contain',display:'block',animation:'fadeIn .2s ease'}}
+              onError={e=>e.currentTarget.style.opacity='.15'}/>
+            <div style={{position:'absolute',bottom:10,right:12,padding:'3px 9px',background:'rgba(0,0,0,.65)',borderRadius:100,fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'rgba(255,255,255,.8)',backdropFilter:'blur(4px)'}}>{idx+1}/{shots.length}</div>
+            {shots.length>1&&(
+              <>
+                <button onClick={prev} style={{position:'absolute',left:8,top:'50%',transform:'translateY(-50%)',width:36,height:36,borderRadius:'50%',background:'rgba(0,0,0,.55)',border:'1px solid rgba(255,255,255,.18)',color:'#fff',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>‹</button>
+                <button onClick={next} style={{position:'absolute',right:8,top:'50%',transform:'translateY(-50%)',width:36,height:36,borderRadius:'50%',background:'rgba(0,0,0,.55)',border:'1px solid rgba(255,255,255,.18)',color:'#fff',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>›</button>
+              </>
+            )}
+          </div>
+          {shots.length>1&&(
+            <div style={{display:'flex',gap:6,overflowX:'auto',padding:'8px 12px',scrollbarWidth:'none'}}>
+              {shots.map((s,i)=>(
+                <div key={i} onClick={()=>setIdx(i)} style={{flexShrink:0,width:72,height:48,borderRadius:6,overflow:'hidden',cursor:'pointer',border:`2px solid ${i===idx?p.color:'rgba(255,255,255,.12)'}`,transition:'border-color .18s',background:'#1a1820'}}>
+                  <img src={s} alt={`thumb ${i+1}`} style={{width:'100%',height:'100%',objectFit:'cover',opacity:i===idx?1:.6}} onError={e=>e.currentTarget.style.display='none'}/>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Content */}
+      <div style={{padding:'16px 16px 32px'}}>
+        <div style={{height:3,background:`linear-gradient(90deg,${p.color},${p.color}44,transparent)`,marginBottom:14,borderRadius:2}}/>
+        <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+          <span style={{fontSize:26}}>{p.emoji}</span>
+          <div>
+            <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:20,fontWeight:800,color:'#1a1614',letterSpacing:'-.03em',margin:0}}>{p.name}</h2>
+            <div style={{fontSize:10,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:700,letterSpacing:'.08em'}}>{p.cat}</div>
+          </div>
+          {p.status&&<span style={{marginLeft:'auto',padding:'3px 10px',background:p.status==='En ligne'?'rgba(34,197,94,.12)':'rgba(232,168,0,.12)',color:p.status==='En ligne'?'#16a34a':'#b45309',fontFamily:"'JetBrains Mono',monospace",fontSize:8,borderRadius:100,fontWeight:700,border:`1px solid ${p.status==='En ligne'?'rgba(34,197,94,.3)':'rgba(232,168,0,.3)'}`}}>{p.status}</span>}
+        </div>
+        <p style={{fontSize:13,color:'#5b5048',fontStyle:'italic',lineHeight:1.6,marginBottom:14}}>{p.tagline}</p>
+
+        {[{l:'Problème',t:p.problem,c:p.color},{l:'Ce que j\'ai fait',t:p.build,c:p.color},{l:'Résultat',t:p.outcome,c:p.color,highlight:true}].map((b,i)=>b.t&&(
+          <div key={i} style={{marginBottom:10,padding:'12px 14px',background:b.highlight?`linear-gradient(135deg,${p.color}14,${p.color}07)`:'rgba(248,249,251,1)',borderRadius:12,border:`1px solid ${b.highlight?p.color+'30':'rgba(0,0,0,.06)'}`,borderLeft:b.highlight?`3px solid ${p.color}`:'none'}}>
+            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:b.c,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700,marginBottom:5}}>{b.l}</div>
+            <p style={{fontSize:12,color:b.highlight?'#1a1614':'#5b5048',lineHeight:1.65,margin:0,fontWeight:b.highlight?600:400}}>{b.t}</p>
+          </div>
+        ))}
+
+        <div style={{display:'flex',gap:5,flexWrap:'wrap',marginTop:4,marginBottom:14}}>
+          {p.stack.map(s=>(
+            <span key={s} style={{padding:'3px 9px',background:`${p.color}10`,border:`1px solid ${p.color}22`,borderRadius:6,fontSize:9,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:600}}>{s}</span>
+          ))}
+        </div>
+
+        {p.github&&(
+          <a href={p.github} target="_blank" data-h style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'12px 20px',background:'#1a1614',color:'#fff',borderRadius:12,fontSize:13,fontWeight:700,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',boxShadow:'0 4px 16px rgba(0,0,0,.18)'}}>
+            ⌥ Voir sur GitHub →
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ── MOBILE PROJETS PERSOS ───────────────────────────────── */
 function MobProjContent(){
+  const [selected,setSelected]=useState(null);
+  if(selected) return <MobProjDetail p={selected} onBack={()=>setSelected(null)}/>;
   return(
     <div style={{padding:20}}>
       <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#7c5ce7',letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Projets Personnels</div>
       <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:4,color:'#1a1614'}}>Mes <span style={{color:'#7c5ce7'}}>Projets Persos</span></h2>
       <p style={{fontSize:12,color:'#5b5048',lineHeight:1.55,marginBottom:18}}>Web · Mobile · AI · Initiés et pilotés en solo</p>
-      <div style={{display:'flex',flexDirection:'column',gap:16}}>
+      <div style={{display:'flex',flexDirection:'column',gap:14}}>
         {PROJECTS_PERSO.map(p=>(
-          <div key={p.id} style={{background:'rgba(248,249,251,.95)',border:`1.5px solid ${p.color}33`,borderRadius:16,overflow:'hidden'}}>
-            {p.img&&<div style={{height:160,overflow:'hidden',background:p.colorBg,position:'relative'}}>
+          <button key={p.id} data-h onClick={()=>setSelected(p)}
+            style={{background:'rgba(248,249,251,.95)',border:`1.5px solid ${p.color}33`,borderRadius:16,overflow:'hidden',cursor:'pointer',textAlign:'left',padding:0,display:'flex',flexDirection:'column',transition:'transform .18s,box-shadow .18s',boxShadow:'0 2px 8px rgba(0,0,0,.05)'}}
+            onTouchStart={e=>e.currentTarget.style.transform='scale(.98)'}
+            onTouchEnd={e=>e.currentTarget.style.transform='scale(1)'}>
+            {p.img&&<div style={{height:140,overflow:'hidden',background:p.colorBg,position:'relative',flexShrink:0}}>
               <img src={p.img} style={{width:'100%',height:'100%',objectFit:'cover'}} alt={p.name} onError={e=>e.currentTarget.style.display='none'}/>
-              <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,transparent 40%,rgba(248,249,251,.95))'}}/>
+              <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,transparent 40%,rgba(248,249,251,.9))'}}/>
               <span style={{position:'absolute',top:10,left:10,padding:'4px 10px',background:'rgba(255,255,255,.95)',color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:9,borderRadius:5,fontWeight:700,border:`1px solid ${p.color}44`}}>{p.badge}</span>
               <span style={{position:'absolute',top:10,right:10,fontSize:22}}>{p.emoji}</span>
               {p.status&&<span style={{position:'absolute',bottom:8,left:10,padding:'3px 9px',background:p.status==='En ligne'?'rgba(34,197,94,.92)':'rgba(232,168,0,.9)',color:'#fff',fontFamily:"'JetBrains Mono',monospace",fontSize:8,borderRadius:100,fontWeight:700,display:'flex',alignItems:'center',gap:4}}>
-                <span style={{width:5,height:5,borderRadius:'50%',background:'#fff',display:'inline-block',animation:'pulse 1.8s ease-in-out infinite'}}/>
+                <span style={{width:5,height:5,borderRadius:'50%',background:'#fff',display:'inline-block'}}/>
                 {p.status}
               </span>}
             </div>}
-            <div style={{padding:'14px 16px'}}>
-              <h3 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:17,fontWeight:800,letterSpacing:'-.02em',marginBottom:2,color:'#1a1614'}}>{p.name}</h3>
-              <div style={{fontSize:10,color:p.color,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.08em',marginBottom:8,fontWeight:600}}>{p.cat}</div>
-              <p style={{fontSize:12,color:'#5b5048',fontStyle:'italic',marginBottom:8,lineHeight:1.5}}>{p.tagline}</p>
-              <p style={{fontSize:11,color:'#7b6e65',lineHeight:1.55,marginBottom:10}}>{p.problem}</p>
-              <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:10}}>
-                {p.stack.slice(0,4).map(s=>(
-                  <span key={s} style={{padding:'2px 8px',background:'rgba(0,0,0,.04)',border:'1px solid rgba(0,0,0,.06)',borderRadius:100,fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace"}}>{s}</span>
+            <div style={{padding:'12px 14px'}}>
+              <h3 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:16,fontWeight:800,letterSpacing:'-.02em',marginBottom:2,color:'#1a1614'}}>{p.name}</h3>
+              <div style={{fontSize:9,color:p.color,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.08em',marginBottom:6,fontWeight:600}}>{p.cat}</div>
+              <p style={{fontSize:12,color:'#5b5048',fontStyle:'italic',lineHeight:1.45,marginBottom:8}}>{p.tagline}</p>
+              <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:8}}>
+                {p.stack.slice(0,3).map(s=>(
+                  <span key={s} style={{padding:'2px 7px',background:'rgba(0,0,0,.04)',border:'1px solid rgba(0,0,0,.06)',borderRadius:100,fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace"}}>{s}</span>
                 ))}
               </div>
-              <div style={{padding:'10px 12px',background:`linear-gradient(135deg,${p.color}14,${p.color}07)`,borderRadius:10,border:`1px solid ${p.color}28`}}>
-                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.14em',textTransform:'uppercase',fontWeight:700,marginBottom:4}}>Résultat</div>
-                <p style={{fontSize:11,color:'#1a1614',lineHeight:1.6,margin:0,fontWeight:500}}>{p.outcome}</p>
-              </div>
-              {p.github&&<a href={p.github} target="_blank" data-h style={{marginTop:10,display:'flex',alignItems:'center',gap:6,fontSize:11,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:700,textDecoration:'none'}}>⌥ Voir sur GitHub →</a>}
+              <div style={{fontSize:11,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:700}}>Voir le case study →</div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>
@@ -2933,20 +3009,16 @@ function MobContent({id}){
 function MobileApp(){
   const [open,setOpen]=useState(null);
   const [openRect,setOpenRect]=useState(null);
-  const [page,setPage]=useState(0);
-  const pageIcons=MOB_ICONS.filter(i=>i.page===page);
   const openIcon=open?MOB_ICONS.find(i=>i.id===open):null;
   const now=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   const openApp=(icon,rect)=>{setOpen(icon.id);setOpenRect(rect);};
 
   return(
     <div style={{position:'fixed',inset:0,overflow:'hidden',fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif"}}>
-      {/* Animated mesh gradient */}
-      <div style={{position:'absolute',inset:0,background:'linear-gradient(145deg,#12072a 0%,#0d1a3a 35%,#1a0d38 65%,#080614 100%)'}}>
-        <div style={{position:'absolute',width:'75vw',height:'75vw',borderRadius:'50%',background:'radial-gradient(circle,rgba(120,70,255,.68),transparent 68%)',top:'2%',left:'12%',filter:'blur(52px)',animation:'meshFloat1 9s ease-in-out infinite'}}/>
-        <div style={{position:'absolute',width:'58vw',height:'58vw',borderRadius:'50%',background:'radial-gradient(circle,rgba(255,60,110,.52),transparent 68%)',top:'38%',right:'4%',filter:'blur(48px)',animation:'meshFloat2 12s ease-in-out infinite'}}/>
-        <div style={{position:'absolute',width:'62vw',height:'62vw',borderRadius:'50%',background:'radial-gradient(circle,rgba(20,170,255,.38),transparent 68%)',bottom:'12%',left:'6%',filter:'blur(56px)',animation:'meshFloat3 14s ease-in-out infinite'}}/>
-        <div style={{position:'absolute',width:'42vw',height:'42vw',borderRadius:'50%',background:'radial-gradient(circle,rgba(255,200,40,.28),transparent 68%)',bottom:'28%',right:'18%',filter:'blur(44px)',animation:'meshFloat1 16s ease-in-out infinite 3s'}}/>
+      {/* Wallpaper — deep space, sobre */}
+      <div style={{position:'absolute',inset:0,background:'linear-gradient(160deg,#080612 0%,#0b0e20 30%,#0d1128 55%,#090814 80%,#060510 100%)'}}>
+        <div style={{position:'absolute',width:'140vw',height:'140vw',borderRadius:'50%',background:'radial-gradient(circle,rgba(72,45,180,.18) 0%,rgba(50,30,140,.06) 45%,transparent 70%)',top:'-55%',left:'-20%',filter:'blur(70px)'}}/>
+        <div style={{position:'absolute',width:'90vw',height:'90vw',borderRadius:'50%',background:'radial-gradient(circle,rgba(30,60,160,.10) 0%,transparent 65%)',bottom:'-30%',right:'-15%',filter:'blur(55px)'}}/>
       </div>
 
       {/* UI */}
@@ -2963,37 +3035,25 @@ function MobileApp(){
         {/* Non-scrollable home — fixed flex column */}
         <div style={{flex:1,overflow:'hidden',display:'flex',flexDirection:'column',padding:'6px 20px 0'}}>
           {/* Hero bento widget — compact */}
-          <div style={{marginBottom:10,padding:'10px 14px',borderRadius:18,background:'rgba(255,255,255,.10)',backdropFilter:'blur(28px)',border:'1px solid rgba(255,255,255,.18)',boxShadow:'0 8px 32px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.22)',position:'relative',overflow:'hidden',flexShrink:0}}>
-            <div style={{position:'absolute',top:0,left:0,right:0,height:'48%',background:'linear-gradient(180deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.01) 100%)',borderRadius:'18px 18px 0 0',pointerEvents:'none'}}/>
+          <div style={{marginBottom:10,padding:'10px 14px',borderRadius:18,background:'rgba(255,255,255,.08)',backdropFilter:'blur(28px)',border:'1px solid rgba(255,255,255,.14)',boxShadow:'0 8px 32px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.18)',position:'relative',overflow:'hidden',flexShrink:0}}>
+            <div style={{position:'absolute',top:0,left:0,right:0,height:'48%',background:'linear-gradient(180deg,rgba(255,255,255,.12) 0%,rgba(255,255,255,.01) 100%)',borderRadius:'18px 18px 0 0',pointerEvents:'none'}}/>
             <div style={{position:'relative',zIndex:1}}>
-              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:'rgba(255,255,255,.5)',letterSpacing:'.2em',textTransform:'uppercase',marginBottom:4}}>riyan.world · PM & Product Builder</div>
+              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:'rgba(255,255,255,.45)',letterSpacing:'.2em',textTransform:'uppercase',marginBottom:4}}>riyan.world · PM & Product Builder</div>
               <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800,color:'#fff',lineHeight:1.2,letterSpacing:'-.03em',margin:'0 0 7px'}}>
-                Je transforme des <span style={{color:'#ff9472'}}>frictions</span> en produits
+                Je transforme des <span style={{color:'#b8a0ff'}}>frictions</span> en produits
               </h1>
               <div style={{display:'flex',gap:4,flexWrap:'wrap'}}>
                 {['PM','Builder','Toulouse','IA'].map(t=>(
-                  <span key={t} style={{padding:'2px 7px',borderRadius:100,background:'rgba(255,255,255,.11)',border:'1px solid rgba(255,255,255,.16)',fontSize:9,color:'rgba(255,255,255,.75)',fontFamily:"'JetBrains Mono',monospace"}}>{t}</span>
+                  <span key={t} style={{padding:'2px 7px',borderRadius:100,background:'rgba(255,255,255,.09)',border:'1px solid rgba(255,255,255,.13)',fontSize:9,color:'rgba(255,255,255,.68)',fontFamily:"'JetBrains Mono',monospace"}}>{t}</span>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Section label */}
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:'rgba(255,255,255,.42)',letterSpacing:'.22em',textTransform:'uppercase',marginBottom:10,textAlign:'center',flexShrink:0}}>
-            {page===0?'À VOIR EN PRIORITÉ — RECRUTEUR':'POUR EN SAVOIR PLUS'}
+          {/* Icon grid 4 cols — toutes les apps */}
+          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'14px 4px',justifyItems:'center',flexShrink:0}}>
+            {MOB_ICONS.map(icon=><MobIcon key={icon.id} icon={icon} onTap={openApp} size={60}/>)}
           </div>
-
-          {/* Icon grid 4 cols */}
-          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'12px 4px',justifyItems:'center',flexShrink:0}}>
-            {pageIcons.map(icon=><MobIcon key={icon.id} icon={icon} onTap={openApp} size={62}/>)}
-          </div>
-        </div>
-
-        {/* Pagination dots */}
-        <div style={{display:'flex',justifyContent:'center',gap:7,padding:'10px 0 8px',flexShrink:0}}>
-          {[0,1].map(i=>(
-            <div key={i} onClick={()=>setPage(i)} style={{width:i===page?20:7,height:7,borderRadius:100,background:i===page?'rgba(255,255,255,.88)':'rgba(255,255,255,.28)',transition:'all .3s cubic-bezier(.22,.68,0,1.2)',cursor:'pointer'}}/>
-          ))}
         </div>
 
         {/* Dock */}
