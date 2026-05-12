@@ -68,3 +68,13 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible{outline:2px sol
   .nav-links{display:none!important}
   .section-pad{padding:56px 24px!important}
 }
+
+/* ── MOBILE iOS LIQUID GLASS ─────────────────────────── */
+@keyframes meshFloat1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(35px,-28px) scale(1.07)}66%{transform:translate(-20px,35px) scale(0.93)}}
+@keyframes meshFloat2{0%,100%{transform:translate(0,0)}50%{transform:translate(-32px,24px)}}
+@keyframes meshFloat3{0%,100%{transform:translate(0,0)}40%{transform:translate(24px,-18px)}80%{transform:translate(-14px,28px)}}
+@keyframes slideUp{0%{transform:translateY(100%)}100%{transform:translateY(0)}}
+@keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+@keyframes iconPress{0%{transform:scale(1)}40%{transform:scale(0.88)}75%{transform:scale(1.05)}100%{transform:scale(1)}}
+.mob-scroll::-webkit-scrollbar{display:none}
+.mob-scroll{-ms-overflow-style:none;scrollbar-width:none}
