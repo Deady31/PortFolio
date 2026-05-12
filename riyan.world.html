@@ -184,10 +184,10 @@ function WelcomeFlow({onComplete}){
       ))}
 
       {/* Main content */}
-      <div style={{position:'relative',zIndex:10,height:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center',padding:'clamp(28px,5vh,56px) clamp(20px,5vw,64px)'}}>
+      <div style={{position:'relative',zIndex:10,height:'100vh',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',gap:'clamp(14px,3vh,28px)',padding:'clamp(28px,5vh,56px) clamp(20px,5vw,64px)'}}>
 
         {/* Top — riyan.world */}
-        <div style={{textAlign:'center'}}>
+        <div style={{textAlign:'center',opacity:0,animation:'dsWordAppear .9s ease-out 0s forwards'}}>
           <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,letterSpacing:'.26em',color:C.coral,textTransform:'uppercase'}}>
             <span className="ds-word ds-vap" data-delay="0">riyan</span>
             <span className="ds-word ds-vap" data-delay="250" style={{margin:'0 5px',color:'rgba(107,95,86,.35)'}}>·</span>
@@ -196,7 +196,7 @@ function WelcomeFlow({onComplete}){
           <div style={{width:56,height:1,background:'linear-gradient(90deg,transparent,rgba(255,107,74,.3),transparent)',margin:'14px auto 0'}}/>
         </div>
 
-        {/* Center — name + title */}
+        {/* Center — name + title + button */}
         <div style={{textAlign:'center',maxWidth:680,width:'100%'}}>
           <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'clamp(42px,7.5vw,90px)',lineHeight:.93,letterSpacing:'-.04em',color:C.text,marginBottom:24}}>
             <div style={{marginBottom:4}}>
@@ -218,15 +218,12 @@ function WelcomeFlow({onComplete}){
             <span className="ds-word ds-vap" data-delay="2120" style={{color:'rgba(107,95,86,.3)'}}>/</span>{' '}
             <span className="ds-word ds-vap" data-delay="2220">Remote</span>
           </div>
-        </div>
-
-        {/* Bottom — Explorer button */}
-        <div style={{textAlign:'center',opacity:0,animation:'dsWordAppear .9s ease-out 2.8s forwards'}}>
-          <button data-h className="wf-explorer" onClick={handleClick}>
-            <span>Explorer le portfolio</span>
-            <span className="wf-arrow">→</span>
-          </button>
-          <div style={{marginTop:14,fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'rgba(107,95,86,.4)',letterSpacing:'.14em'}}>CLIQUER POUR ENTRER</div>
+          <div style={{marginTop:28,opacity:0,animation:'dsWordAppear .9s ease-out 2.8s forwards'}}>
+            <button data-h className="wf-explorer" onClick={handleClick} style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+              Explorer le portfolio
+            </button>
+            <div style={{marginTop:14,fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'rgba(107,95,86,.4)',letterSpacing:'.14em'}}>CLIQUER POUR ENTRER</div>
+          </div>
         </div>
       </div>
 
@@ -1114,7 +1111,7 @@ const BENTO=[
   {emoji:'🎬',text:'Cinéphile convaincu',hover:'Top 5 : Babylon, Whiplash, Goodfellas, Irishman, Taxi Driver. La narration qui claque, l\'image qui dit tout.',color:'#E50914'},
   {emoji:'🌙',text:'Énergie communicative',hover:'Calme et précis en réunion, dynamique avec l\'équipe — toujours authentique.',color:'#7C5CE7'},
   {emoji:'🔬',text:'Product = hypothèse à tester',hover:'Pas une spec à rédiger. Les données parlent, les users tranchent, les itérations valident.',color:'#ff6b4a'},
-  {emoji:'🇯🇵',text:'Amoureux du Japon',hover:'Langue, culture, anime. Un rêve qui se construit — vivre et travailler là-bas, un jour.',color:'#C42847'},
+  {emoji:'🌍',text:'Impact à grande échelle',hover:'Construire des produits qui touchent le plus grand nombre. L\'impact réel, mesurable, sur des millions de personnes — c\'est ma boussole.',color:'#D4853A'},
 ];
 function BentoCard({emoji,text,hover,color}){
   const [h,setH]=useState(false);
@@ -1130,7 +1127,7 @@ function BentoCard({emoji,text,hover,color}){
 }
 function BioContent(){
   return(
-    <div style={{padding:28,display:'grid',gridTemplateColumns:'320px 1fr 280px',gap:22,alignItems:'start'}}>
+    <div style={{padding:'18px 28px',display:'grid',gridTemplateColumns:'320px 1fr 280px',gap:20,alignItems:'start',height:'100%',boxSizing:'border-box',overflow:'hidden'}}>
       {/* LEFT: Bio + links */}
       <div style={{background:'linear-gradient(180deg,rgba(255,107,74,.05),rgba(248,249,251,.9))',border:'1px solid rgba(255,107,74,.18)',borderRadius:16,padding:'22px'}}>
         <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:10}}>Bio · riyan.world</div>
@@ -1361,11 +1358,11 @@ function TimelineContent(){
         <p style={{fontSize:12,color:'#5b5048',marginTop:6,lineHeight:1.6}}>Cliquez sur une étape pour voir le détail.</p>
       </div>
       <div style={{flex:1,overflowY:'auto',paddingRight:8,marginRight:-8}}>
-        <div style={{display:'flex',flexDirection:'column',gap:14,paddingBottom:40,position:'relative'}}>
+        <div style={{display:'flex',flexDirection:'column',gap:14,paddingBottom:80,position:'relative'}}>
         {/* Arrow line — inside content div so it spans full scroll height */}
-        <div style={{position:'absolute',left:46,top:24,bottom:20,width:3,background:'linear-gradient(180deg,rgba(255,107,74,.6) 0%,rgba(255,107,74,.45) 30%,rgba(124,92,231,.4) 70%,rgba(124,92,231,.7) 100%)',zIndex:0,borderRadius:'2px 2px 0 0',boxShadow:'0 0 8px rgba(255,107,74,.12)'}}/>
+        <div style={{position:'absolute',left:46,top:24,bottom:50,width:3,background:'linear-gradient(180deg,rgba(255,107,74,.6) 0%,rgba(255,107,74,.45) 30%,rgba(124,92,231,.4) 70%,rgba(124,92,231,.7) 100%)',zIndex:0,borderRadius:'2px 2px 0 0',boxShadow:'0 0 8px rgba(255,107,74,.12)'}}/>
         {/* Arrowhead at bottom */}
-        <div style={{position:'absolute',left:40,bottom:6,zIndex:0,width:0,height:0,borderLeft:'8px solid transparent',borderRight:'8px solid transparent',borderTop:'14px solid rgba(124,92,231,.65)'}}/>
+        <div style={{position:'absolute',left:40,bottom:36,zIndex:0,width:0,height:0,borderLeft:'8px solid transparent',borderRight:'8px solid transparent',borderTop:'14px solid rgba(124,92,231,.65)'}}/>
           {TL_EVENTS.map((e,i)=>{
             const isA=active===i;
             return(
@@ -1405,16 +1402,16 @@ function FutureContent(){
       <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:32,fontWeight:800,letterSpacing:'-.04em',marginBottom:24,lineHeight:1.05,color:'#1a1614',flexShrink:0}}>Mon <span style={{color:C.purple}}>Futur</span></h2>
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:32,alignItems:'stretch',flex:1}}>
         <div style={{display:'flex',flexDirection:'column',gap:14}}>
-          <p style={{fontSize:15,color:'#1a1614',lineHeight:1.75,fontWeight:500,margin:0}}>Je me vois <strong style={{color:C.purple}}>bâtisseur de produits</strong> qui changent des vies. Pas juste livrer des features — créer des applications qui s'intègrent dans le quotidien et l'améliorent concrètement.</p>
-          <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,margin:0}}>Des projets ambitieux, portés par une vision claire, une obsession du détail, et une vraie connexion avec les utilisateurs. <strong style={{color:'#1a1614'}}>Des choses qui comptent.</strong></p>
-          <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,margin:0}}>Prendre la parole. Inspirer des équipes. Construire avec les meilleures personnes. Et un jour, être sur scène pour partager ce chemin.</p>
+          <p style={{fontSize:15,color:'#1a1614',lineHeight:1.75,fontWeight:500,margin:0}}>Ma mission : <strong style={{color:C.purple}}>contribuer à des produits qui impactent le plus grand nombre.</strong> Pas juste livrer des features — aider à construire des choses qui changent concrètement la vie de millions de personnes à travers le monde.</p>
+          <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,margin:0}}>Atteindre le maximum de personnes possible. Résoudre des problèmes qui comptent vraiment. Laisser une trace mesurable. <strong style={{color:'#1a1614'}}>L'impact réel est ma boussole.</strong></p>
+          <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,margin:0}}>Prendre la parole. Inspirer des équipes. Construire avec les meilleures personnes. Et un jour, scaler des produits à l'échelle mondiale.</p>
 
           {/* 3 piliers */}
           <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8,marginTop:8}}>
             {[
               {emoji:'🏗️',label:'Build',desc:'Des produits qui durent'},
               {emoji:'🎤',label:'Speak',desc:'Inspirer & former'},
-              {emoji:'🇯🇵',label:'Japon',desc:'Vivre là-bas'},
+              {emoji:'🌍',label:'Impact',desc:'Toucher le monde'},
             ].map(p=>(
               <div key={p.label} style={{padding:'12px 10px',background:'rgba(124,92,231,.05)',border:'1px solid rgba(124,92,231,.18)',borderRadius:11,textAlign:'center'}}>
                 <div style={{fontSize:22,marginBottom:5}}>{p.emoji}</div>
@@ -1425,7 +1422,7 @@ function FutureContent(){
           </div>
 
           <div style={{display:'flex',gap:6,flexWrap:'wrap',marginTop:'auto'}}>
-            {['Builder de produits impactants','Speaker','Créateur de valeur','Entrepreneur','Japon 🇯🇵'].map(t=>(
+            {['Builder de produits impactants','Speaker','Créateur de valeur','Entrepreneur','Impact mondial 🌍'].map(t=>(
               <span key={t} style={{padding:'5px 12px',border:`1.5px solid ${C.purple}55`,borderRadius:100,fontSize:11,color:C.purple,fontFamily:"'JetBrains Mono',monospace",background:'rgba(124,92,231,.06)',fontWeight:600}}>{t}</span>
             ))}
           </div>
@@ -1438,7 +1435,7 @@ function FutureContent(){
               <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#5b5048',letterSpacing:'.1em',textTransform:'uppercase'}}>Image à venir</div>
             </div>
             <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'18px 20px',background:'linear-gradient(0deg,rgba(0,0,0,.78),transparent)',color:'#fff'}}>
-              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,letterSpacing:'.18em',opacity:.85,textTransform:'uppercase',marginBottom:5}}>Vision — Builder, Speaker, Japon</div>
+              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,letterSpacing:'.18em',opacity:.85,textTransform:'uppercase',marginBottom:5}}>Vision — Builder, Speaker, Impact mondial</div>
               <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:18,fontWeight:800,letterSpacing:'-.02em'}}>Inspirer la prochaine génération de builders</div>
             </div>
           </div>
