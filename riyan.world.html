@@ -2350,18 +2350,18 @@ const IS_MOBILE=(()=>{try{return window.matchMedia('(pointer:coarse)').matches||
 
 /* ── MOBILE ICON DATA ────────────────────────────────── */
 const MOB_ICONS=[
-  {id:'projets',  label:'Projets',   gradient:'linear-gradient(160deg,#1a6dff 0%,#00cfff 100%)', dock:true,  badge:true},
-  {id:'expro',    label:'Exp. Pro',  gradient:'linear-gradient(160deg,#d4400a 0%,#ff9a3c 100%)', dock:true,  badge:true},
-  {id:'skills',   label:'Skills',    gradient:'linear-gradient(160deg,#007734 0%,#30d158 100%)', dock:false, badge:null},
-  {id:'future',   label:'Mon Futur', gradient:'linear-gradient(160deg,#5e17eb 0%,#bf5af2 100%)', dock:false, badge:null},
-  {id:'parcours', label:'Parcours',  gradient:'linear-gradient(160deg,#0a5a9c 0%,#32ade6 100%)', dock:false, badge:null},
-  {id:'impact',   label:'Impact',    gradient:'linear-gradient(160deg,#b45309 0%,#fbbf24 100%)', dock:false, badge:null},
-  {id:'contact',  label:'Contact',   gradient:'linear-gradient(160deg,#1d6fa4 0%,#5ac8fa 100%)', dock:true,  badge:null},
-  {id:'bio',      label:'Bio',       gradient:'linear-gradient(160deg,#0c6e6e 0%,#40e0c8 100%)', dock:true,  badge:null},
-  {id:'tiktok',   label:'TikTok',    gradient:'linear-gradient(160deg,#010101 0%,#2b2b2b 100%)', dock:false, badge:null},
-  {id:'jeux',     label:'Jeux',      gradient:'linear-gradient(160deg,#0d5c2e 0%,#50fa7b 100%)', dock:false, badge:null},
-  {id:'films',    label:'Films',     gradient:'linear-gradient(160deg,#8b1a1a 0%,#ff6b6b 100%)', dock:false, badge:null},
-  {id:'changelog',label:'Changelog', gradient:'linear-gradient(160deg,#2c2c2e 0%,#8e8e93 100%)', dock:false, badge:null},
+  {id:'bio',      label:'Bio',       gradient:'linear-gradient(160deg,#0c6e6e 0%,#40e0c8 100%)', dock:true},
+  {id:'expro',    label:'Exp. Pro',  gradient:'linear-gradient(160deg,#d4400a 0%,#ff9a3c 100%)', dock:true},
+  {id:'projets',  label:'Projets',   gradient:'linear-gradient(160deg,#1a6dff 0%,#00cfff 100%)', dock:true},
+  {id:'future',   label:'Mon Futur', gradient:'linear-gradient(160deg,#5e17eb 0%,#bf5af2 100%)', dock:false},
+  {id:'contact',  label:'Contact',   gradient:'linear-gradient(160deg,#1d6fa4 0%,#5ac8fa 100%)', dock:true},
+  {id:'skills',   label:'Skills',    gradient:'linear-gradient(160deg,#007734 0%,#30d158 100%)', dock:false},
+  {id:'parcours', label:'Parcours',  gradient:'linear-gradient(160deg,#0a5a9c 0%,#32ade6 100%)', dock:false},
+  {id:'impact',   label:'Impact',    gradient:'linear-gradient(160deg,#b45309 0%,#fbbf24 100%)', dock:false},
+  {id:'tiktok',   label:'TikTok',    gradient:'linear-gradient(160deg,#010101 0%,#2b2b2b 100%)', dock:false},
+  {id:'jeux',     label:'Jeux',      gradient:'linear-gradient(160deg,#0d5c2e 0%,#50fa7b 100%)', dock:false},
+  {id:'films',    label:'Films',     gradient:'linear-gradient(160deg,#8b1a1a 0%,#ff6b6b 100%)', dock:false},
+  {id:'changelog',label:'Changelog', gradient:'linear-gradient(160deg,#2c2c2e 0%,#8e8e93 100%)', dock:false},
 ];
 const MOB_DOCK=MOB_ICONS.filter(i=>i.dock);
 const MOB_TITLES={projets:'Projets Persos',expro:'Expérience Pro',skills:'Skills',future:'Mon Futur',parcours:'Parcours',impact:'Impact',contact:'Contact',tiktok:'TikTok',bio:'Bio',jeux:'Jeux de ma vie',films:'Films',changelog:'Changelog'};
@@ -2486,7 +2486,6 @@ function MobIcon({icon,onTap,size=72}){
         <div style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',justifyContent:'center',filter:'drop-shadow(0 1px 3px rgba(0,0,0,.35))'}}>
           {iconEl}
         </div>
-        {icon.badge&&<div style={{position:'absolute',top:-3,right:-3,width:10,height:10,background:'#ff3b30',borderRadius:'50%',border:'2px solid rgba(8,6,20,.95)',zIndex:2}}/>}
       </div>
       <span style={{fontSize:10,color:'rgba(255,255,255,.92)',fontWeight:500,fontFamily:"-apple-system,'SF Pro Text',sans-serif",textShadow:'0 1px 4px rgba(0,0,0,.6)',letterSpacing:.08,textAlign:'center',maxWidth:size+10,lineHeight:1.2}}>{icon.label}</span>
     </div>
@@ -3106,29 +3105,72 @@ function MobContent({id}){
   }
 }
 
+/* ── MON PROFIL — INTRO PREMIER LANCEMENT ───────────── */
+function MobIntroScreen({onDone}){
+  const [leaving,setLeaving]=useState(false);
+  const go=()=>{setLeaving(true);setTimeout(onDone,420);};
+  return(
+    <div style={{position:'fixed',inset:0,zIndex:9999,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'flex-end',padding:'0 0 52px',
+      animation:leaving?'mobIntroOut .42s cubic-bezier(.4,0,1,.5) both':'mobIntroIn .55s cubic-bezier(.22,.68,0,1.2) both',overflow:'hidden'}}>
+      {/* Background — wallpaper + heavy blur */}
+      <div style={{position:'absolute',inset:0}}>
+        <img src="uploads/Logo%20divers/Wallpaper%20Iphone.%20pour%20APP.jpg" alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} onError={e=>e.currentTarget.style.display='none'}/>
+        <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,.52)',backdropFilter:'blur(24px)',WebkitBackdropFilter:'blur(24px)'}}/>
+      </div>
+      {/* Card */}
+      <div style={{position:'relative',zIndex:1,width:'100%',maxWidth:360,margin:'0 auto',padding:'0 20px'}}>
+        <div style={{background:'rgba(255,255,255,.10)',backdropFilter:'blur(40px) saturate(180%)',WebkitBackdropFilter:'blur(40px) saturate(180%)',borderRadius:28,border:'1px solid rgba(255,255,255,.22)',padding:'28px 24px 28px',boxShadow:'0 20px 60px rgba(0,0,0,.4),inset 0 1.5px 0 rgba(255,255,255,.3)'}}>
+          {/* Avatar */}
+          <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:20}}>
+            <div style={{width:64,height:64,borderRadius:'50%',overflow:'hidden',border:'2.5px solid rgba(255,255,255,.35)',flexShrink:0,boxShadow:'0 4px 16px rgba(0,0,0,.3)'}}>
+              <img src="uploads/Photo%20Pro%20Riyan%202.jpg" alt="Riyan" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center top'}} onError={e=>{e.currentTarget.parentNode.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:28px;background:rgba(255,255,255,.1)">👤</div>';}}/>
+            </div>
+            <div>
+              <div style={{color:'#fff',fontSize:20,fontWeight:800,letterSpacing:'-.03em',fontFamily:"-apple-system,'SF Pro Display',sans-serif",lineHeight:1.1}}>Riyan Besseghir</div>
+              <div style={{color:'rgba(255,255,255,.6)',fontSize:12,marginTop:3,fontFamily:"-apple-system,sans-serif"}}>Product Manager · Builder</div>
+            </div>
+          </div>
+          {/* Bullets */}
+          <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:24}}>
+            {[
+              {icon:'🎯',text:'3 ans PM — SaaS, e-commerce, IA'},
+              {icon:'🚀',text:'3 projets digitaux lancés de zéro'},
+              {icon:'💡',text:'Je transforme des frictions en produits concrets'},
+              {icon:'📍',text:'Toulouse · Disponible dès maintenant'},
+            ].map((b,i)=>(
+              <div key={i} style={{display:'flex',gap:12,alignItems:'center',padding:'11px 14px',background:'rgba(255,255,255,.07)',borderRadius:14,border:'1px solid rgba(255,255,255,.10)'}}>
+                <span style={{fontSize:18,flexShrink:0}}>{b.icon}</span>
+                <span style={{color:'rgba(255,255,255,.88)',fontSize:13,fontFamily:"-apple-system,sans-serif",lineHeight:1.4}}>{b.text}</span>
+              </div>
+            ))}
+          </div>
+          {/* CTA */}
+          <button onClick={go} style={{width:'100%',padding:'16px',borderRadius:18,background:'#fff',border:'none',color:'#1c1c1e',fontSize:16,fontWeight:700,fontFamily:"-apple-system,'SF Pro Text',sans-serif",cursor:'pointer',boxShadow:'0 8px 24px rgba(255,255,255,.18)',letterSpacing:'-.01em',WebkitTapHighlightColor:'transparent'}}>
+            Explorer le portfolio →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── MOBILE APP (iOS 26 Liquid Glass) ───────────────── */
 function MobileApp(){
   const [open,setOpen]=useState(null);
   const [openRect,setOpenRect]=useState(null);
+  const [showIntro,setShowIntro]=useState(()=>!localStorage.getItem('mob_intro_seen'));
   const openIcon=open?MOB_ICONS.find(i=>i.id===open):null;
   const now=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   const openApp=(icon,rect)=>{setOpen(icon.id);setOpenRect(rect);};
+  const doneIntro=()=>{localStorage.setItem('mob_intro_seen','1');setShowIntro(false);};
 
   return(
     <div style={{position:'fixed',inset:0,overflow:'hidden',fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif"}}>
-      {/* Wallpaper — iOS 26 deep space */}
-      <div style={{position:'absolute',inset:0,background:'linear-gradient(170deg,#06040f 0%,#0a0c1e 25%,#0e1232 50%,#080a1a 75%,#050408 100%)'}}>
-        {/* Aurora glow top-left — purple */}
-        <div style={{position:'absolute',width:'150vw',height:'120vw',borderRadius:'50%',background:'radial-gradient(ellipse,rgba(88,50,210,.22) 0%,rgba(60,30,160,.08) 40%,transparent 68%)',top:'-60%',left:'-25%',filter:'blur(60px)'}}/>
-        {/* Aurora glow bottom-right — indigo */}
-        <div style={{position:'absolute',width:'100vw',height:'100vw',borderRadius:'50%',background:'radial-gradient(ellipse,rgba(26,80,200,.15) 0%,rgba(16,50,140,.05) 50%,transparent 70%)',bottom:'-40%',right:'-20%',filter:'blur(50px)'}}/>
-        {/* Subtle mid cyan accent */}
-        <div style={{position:'absolute',width:'60vw',height:'60vw',borderRadius:'50%',background:'radial-gradient(ellipse,rgba(0,180,255,.07) 0%,transparent 65%)',top:'30%',right:'5%',filter:'blur(40px)'}}/>
-        {/* Grain overlay via SVG — iOS wallpaper texture */}
-        <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',opacity:.045}} xmlns="http://www.w3.org/2000/svg">
-          <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
-          <rect width="100%" height="100%" filter="url(#grain)"/>
-        </svg>
+      {/* Wallpaper — image iPhone */}
+      <div style={{position:'absolute',inset:0,overflow:'hidden'}}>
+        <img src="uploads/Logo%20divers/Wallpaper%20Iphone.%20pour%20APP.jpg" alt="" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center',display:'block'}} onError={e=>{e.currentTarget.style.display='none';}}/>
+        {/* Overlay sombre pour lisibilité des icons */}
+        <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,.28)'}}/>
       </div>
 
       {/* UI */}
@@ -3180,7 +3222,11 @@ function MobileApp(){
 
           {/* Icon grid 4 cols — toutes les apps */}
           <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'18px 8px',justifyItems:'center',flexShrink:0,padding:'4px 0'}}>
-            {MOB_ICONS.map(icon=><MobIcon key={icon.id} icon={icon} onTap={openApp} size={60}/>)}
+            {MOB_ICONS.map((icon,i)=>(
+              <div key={icon.id} style={{animation:`mobIconIn .5s cubic-bezier(.22,.68,0,1.2) ${60+i*45}ms both`}}>
+                <MobIcon icon={icon} onTap={openApp} size={60}/>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -3207,6 +3253,9 @@ function MobileApp(){
           <MobContent id={open}/>
         </MobWindow>
       )}
+
+      {/* Mon Profil — intro premier lancement */}
+      {showIntro&&<MobIntroScreen onDone={doneIntro}/>}
     </div>
   );
 }
