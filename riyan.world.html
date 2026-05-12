@@ -2358,9 +2358,9 @@ const MOB_ICONS=[
   {id:'parcours', emoji:'🗺️', label:'Parcours',      gradient:'linear-gradient(145deg,#1e3a8a,#60a5fa)', dock:false, badge:null, page:0},
   {id:'impact',   emoji:'📊', label:'Impact',        gradient:'linear-gradient(145deg,#78350f,#fbbf24)', dock:false, badge:null, page:0},
   {id:'contact',  emoji:'📬', label:'Contact',       gradient:'linear-gradient(145deg,#713f12,#f59e0b)', dock:true,  badge:null, page:0},
-  {id:'tiktok',   emoji:'🎵', label:'TikTok',        gradient:'linear-gradient(145deg,#881337,#f472b6)', dock:true,  badge:null, page:0},
+  {id:'bio',      emoji:'👤', label:'Bio',           gradient:'linear-gradient(145deg,#9a3412,#fb923c)', dock:true,  badge:null, page:0},
   /* page 1 — pour en savoir plus */
-  {id:'bio',      emoji:'👤', label:'Bio',           gradient:'linear-gradient(145deg,#9a3412,#fb923c)', dock:false, badge:null, page:1},
+  {id:'tiktok',   emoji:'🎵', label:'TikTok',        gradient:'linear-gradient(145deg,#881337,#f472b6)', dock:false, badge:null, page:1},
   {id:'jeux',     emoji:'🎮', label:'Jeux de ma vie',gradient:'linear-gradient(145deg,#14532d,#86efac)', dock:false, badge:null, page:1},
   {id:'films',    emoji:'🎬', label:'Films',         gradient:'linear-gradient(145deg,#7f1d1d,#fca5a5)', dock:false, badge:null, page:1},
   {id:'changelog',emoji:'📋', label:'Changelog',     gradient:'linear-gradient(145deg,#1f2937,#9ca3af)', dock:false, badge:null, page:1},
@@ -2372,7 +2372,11 @@ const MOB_TITLES={projets:'Projets Persos',expro:'Expérience Pro',skills:'Skill
 function MobIcon({icon,onTap,size=72}){
   const [press,setPress]=useState(false);
   const r=Math.round(size*0.2232);
-  const tap=()=>{setPress(true);setTimeout(()=>{setPress(false);onTap(icon);},200);};
+  const tap=(e)=>{
+    const rect=e.currentTarget.getBoundingClientRect();
+    setPress(true);
+    setTimeout(()=>{setPress(false);onTap(icon,rect);},140);
+  };
   return(
     <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:5,cursor:'pointer',userSelect:'none'}} onClick={tap}>
       <div style={{position:'relative',width:size,height:size,borderRadius:r,background:icon.gradient,
@@ -2391,14 +2395,22 @@ function MobIcon({icon,onTap,size=72}){
   );
 }
 
-/* ── MOBILE WINDOW (slide-up) ────────────────────────── */
-function MobWindow({title,onClose,children}){
+/* ── MOBILE WINDOW (iOS 26 zoom from icon) ───────────── */
+function MobWindow({title,onClose,children,origin}){
+  const [closing,setClosing]=useState(false);
+  const close=()=>{setClosing(true);setTimeout(onClose,260);};
+  const vw=window.innerWidth;
+  const vh=window.innerHeight;
+  const cx=origin?`${((origin.left+origin.width/2)/vw*100).toFixed(1)}%`:'50%';
+  const cy=origin?`${((origin.top+origin.height/2)/vh*100).toFixed(1)}%`:'50%';
   return(
-    <div style={{position:'fixed',inset:0,zIndex:2000,display:'flex',flexDirection:'column',animation:'slideUp .38s cubic-bezier(.22,.68,0,1)'}}>
+    <div style={{position:'fixed',inset:0,zIndex:2000,display:'flex',flexDirection:'column',
+      transformOrigin:`${cx} ${cy}`,
+      animation:closing?'iosClose .26s cubic-bezier(.4,0,1,.5) both':'iosOpen .42s cubic-bezier(.22,.68,0,1.2) both'}}>
       <div style={{position:'absolute',inset:0,background:'rgba(245,244,240,.97)',backdropFilter:'blur(28px)'}}/>
       <div style={{position:'relative',zIndex:1,display:'flex',flexDirection:'column',height:'100%'}}>
         <div style={{padding:'52px 20px 12px',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid rgba(0,0,0,.08)',background:'rgba(248,248,250,.94)',backdropFilter:'blur(20px)',flexShrink:0}}>
-          <button onClick={onClose} style={{display:'flex',alignItems:'center',gap:2,border:'none',background:'none',color:'#007AFF',fontSize:16,fontFamily:"'-apple-system','Inter',sans-serif",fontWeight:400,cursor:'pointer',padding:'4px 0'}}>
+          <button onClick={close} style={{display:'flex',alignItems:'center',gap:2,border:'none',background:'none',color:'#007AFF',fontSize:16,fontFamily:"'-apple-system','Inter',sans-serif",fontWeight:400,cursor:'pointer',padding:'4px 0'}}>
             <span style={{fontSize:22,lineHeight:.9}}>‹</span> Retour
           </button>
           <span style={{fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif",fontSize:17,fontWeight:600,color:'#1c1c1e'}}>{title}</span>
@@ -2920,11 +2932,12 @@ function MobContent({id}){
 /* ── MOBILE APP (iOS 26 Liquid Glass) ───────────────── */
 function MobileApp(){
   const [open,setOpen]=useState(null);
+  const [openRect,setOpenRect]=useState(null);
   const [page,setPage]=useState(0);
   const pageIcons=MOB_ICONS.filter(i=>i.page===page);
   const openIcon=open?MOB_ICONS.find(i=>i.id===open):null;
-  const METRICS=[{val:'137',label:'Tickets'},{val:'−30%',label:'Supports T1'},{val:'0→1',label:'Agent IA'},{val:'9 mois',label:'Feature Team'}];
   const now=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  const openApp=(icon,rect)=>{setOpen(icon.id);setOpenRect(rect);};
 
   return(
     <div style={{position:'fixed',inset:0,overflow:'hidden',fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif"}}>
@@ -2947,50 +2960,37 @@ function MobileApp(){
           </div>
         </div>
 
-        {/* Scrollable content */}
-        <div style={{flex:1,overflowY:'auto',overflowX:'hidden',padding:'6px 20px 0'}} className="mob-scroll">
-          {/* Hero bento widget */}
-          <div style={{marginBottom:18,padding:'18px 20px',borderRadius:22,background:'rgba(255,255,255,.10)',backdropFilter:'blur(28px)',border:'1px solid rgba(255,255,255,.18)',boxShadow:'0 8px 32px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.22)',position:'relative',overflow:'hidden'}}>
-            <div style={{position:'absolute',top:0,left:0,right:0,height:'48%',background:'linear-gradient(180deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.01) 100%)',borderRadius:'22px 22px 0 0',pointerEvents:'none'}}/>
+        {/* Non-scrollable home — fixed flex column */}
+        <div style={{flex:1,overflow:'hidden',display:'flex',flexDirection:'column',padding:'6px 20px 0'}}>
+          {/* Hero bento widget — compact */}
+          <div style={{marginBottom:10,padding:'10px 14px',borderRadius:18,background:'rgba(255,255,255,.10)',backdropFilter:'blur(28px)',border:'1px solid rgba(255,255,255,.18)',boxShadow:'0 8px 32px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.22)',position:'relative',overflow:'hidden',flexShrink:0}}>
+            <div style={{position:'absolute',top:0,left:0,right:0,height:'48%',background:'linear-gradient(180deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.01) 100%)',borderRadius:'18px 18px 0 0',pointerEvents:'none'}}/>
             <div style={{position:'relative',zIndex:1}}>
-              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'rgba(255,255,255,.52)',letterSpacing:'.2em',textTransform:'uppercase',marginBottom:8}}>riyan.world · PM & Product Builder</div>
-              <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:21,fontWeight:800,color:'#fff',lineHeight:1.18,letterSpacing:'-.03em',margin:'0 0 12px'}}>
+              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:'rgba(255,255,255,.5)',letterSpacing:'.2em',textTransform:'uppercase',marginBottom:4}}>riyan.world · PM & Product Builder</div>
+              <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800,color:'#fff',lineHeight:1.2,letterSpacing:'-.03em',margin:'0 0 7px'}}>
                 Je transforme des <span style={{color:'#ff9472'}}>frictions</span> en produits
               </h1>
-              <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
-                {['PM','Builder','Toulouse / Paris','IA Native'].map(t=>(
-                  <span key={t} style={{padding:'3px 10px',borderRadius:100,background:'rgba(255,255,255,.11)',border:'1px solid rgba(255,255,255,.16)',fontSize:10,color:'rgba(255,255,255,.78)',fontFamily:"'JetBrains Mono',monospace",backdropFilter:'blur(6px)'}}>{t}</span>
+              <div style={{display:'flex',gap:4,flexWrap:'wrap'}}>
+                {['PM','Builder','Toulouse','IA'].map(t=>(
+                  <span key={t} style={{padding:'2px 7px',borderRadius:100,background:'rgba(255,255,255,.11)',border:'1px solid rgba(255,255,255,.16)',fontSize:9,color:'rgba(255,255,255,.75)',fontFamily:"'JetBrains Mono',monospace"}}>{t}</span>
                 ))}
               </div>
             </div>
           </div>
 
           {/* Section label */}
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8.5,color:'rgba(255,255,255,.45)',letterSpacing:'.22em',textTransform:'uppercase',marginBottom:14,textAlign:'center'}}>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:'rgba(255,255,255,.42)',letterSpacing:'.22em',textTransform:'uppercase',marginBottom:10,textAlign:'center',flexShrink:0}}>
             {page===0?'À VOIR EN PRIORITÉ — RECRUTEUR':'POUR EN SAVOIR PLUS'}
           </div>
 
           {/* Icon grid 4 cols */}
-          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'16px 4px',justifyItems:'center',marginBottom:14}}>
-            {pageIcons.map(icon=><MobIcon key={icon.id} icon={icon} onTap={i=>setOpen(i.id)} size={68}/>)}
+          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'12px 4px',justifyItems:'center',flexShrink:0}}>
+            {pageIcons.map(icon=><MobIcon key={icon.id} icon={icon} onTap={openApp} size={62}/>)}
           </div>
-
-          {/* Metrics widget */}
-          <div style={{margin:'4px 0 8px',padding:'14px 12px',borderRadius:18,background:'rgba(255,255,255,.08)',backdropFilter:'blur(22px)',border:'1px solid rgba(255,255,255,.11)',display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:6,position:'relative',overflow:'hidden'}}>
-            <div style={{position:'absolute',top:0,left:0,right:0,height:'44%',background:'linear-gradient(180deg,rgba(255,255,255,.1) 0%,transparent 100%)',borderRadius:'18px 18px 0 0',pointerEvents:'none'}}/>
-            {METRICS.map((m,i)=>(
-              <div key={i} style={{textAlign:'center',position:'relative',zIndex:1}}>
-                <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:13,fontWeight:800,color:'#fff',lineHeight:1}}>{m.val}</div>
-                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:'rgba(255,255,255,.48)',marginTop:3,lineHeight:1.3,letterSpacing:'.03em'}}>{m.label}</div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{height:130}}/>
         </div>
 
         {/* Pagination dots */}
-        <div style={{display:'flex',justifyContent:'center',gap:7,paddingBottom:10,flexShrink:0}}>
+        <div style={{display:'flex',justifyContent:'center',gap:7,padding:'10px 0 8px',flexShrink:0}}>
           {[0,1].map(i=>(
             <div key={i} onClick={()=>setPage(i)} style={{width:i===page?20:7,height:7,borderRadius:100,background:i===page?'rgba(255,255,255,.88)':'rgba(255,255,255,.28)',transition:'all .3s cubic-bezier(.22,.68,0,1.2)',cursor:'pointer'}}/>
           ))}
@@ -2999,13 +2999,13 @@ function MobileApp(){
         {/* Dock */}
         <div style={{margin:'0 14px 32px',padding:'11px 14px',borderRadius:28,background:'rgba(255,255,255,.13)',backdropFilter:'blur(36px)',border:'1px solid rgba(255,255,255,.22)',display:'flex',justifyContent:'space-around',alignItems:'flex-start',flexShrink:0,boxShadow:'0 8px 36px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.26)',position:'relative',overflow:'hidden'}}>
           <div style={{position:'absolute',top:0,left:0,right:0,height:'50%',background:'linear-gradient(180deg,rgba(255,255,255,.13) 0%,transparent 100%)',borderRadius:'28px 28px 0 0',pointerEvents:'none'}}/>
-          {MOB_DOCK.map(icon=><MobIcon key={icon.id} icon={icon} onTap={i=>setOpen(i.id)} size={56}/>)}
+          {MOB_DOCK.map(icon=><MobIcon key={icon.id} icon={icon} onTap={openApp} size={56}/>)}
         </div>
       </div>
 
       {/* Window overlay */}
       {open&&openIcon&&(
-        <MobWindow title={MOB_TITLES[open]||open} onClose={()=>setOpen(null)}>
+        <MobWindow title={MOB_TITLES[open]||open} onClose={()=>{setOpen(null);setOpenRect(null);}} origin={openRect}>
           <MobContent id={open}/>
         </MobWindow>
       )}

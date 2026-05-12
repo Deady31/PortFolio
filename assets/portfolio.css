@@ -76,5 +76,7 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible{outline:2px sol
 @keyframes slideUp{0%{transform:translateY(100%)}100%{transform:translateY(0)}}
 @keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
 @keyframes iconPress{0%{transform:scale(1)}40%{transform:scale(0.88)}75%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes iosOpen{0%{transform:scale(0.06);opacity:0}18%{opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes iosClose{0%{transform:scale(1);opacity:1}100%{transform:scale(0.06);opacity:0}}
 .mob-scroll::-webkit-scrollbar{display:none}
 .mob-scroll{-ms-overflow-style:none;scrollbar-width:none}
