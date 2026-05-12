@@ -2351,8 +2351,8 @@ const IS_MOBILE=(()=>{try{return window.matchMedia('(pointer:coarse)').matches||
 /* ── MOBILE ICON DATA ────────────────────────────────── */
 const MOB_ICONS=[
   /* page 0 — priorité recruteur */
-  {id:'projets',  emoji:'📁', label:'Projets',      gradient:'linear-gradient(145deg,#4338ca,#818cf8)', dock:true,  badge:'⭐', page:0},
-  {id:'expro',    emoji:'💼', label:'Exp. Pro',      gradient:'linear-gradient(145deg,#c2410c,#fb923c)', dock:true,  badge:'⭐', page:0},
+  {id:'projets',  emoji:'📁', label:'Projets',      gradient:'linear-gradient(145deg,#4338ca,#818cf8)', dock:true,  badge:true, page:0},
+  {id:'expro',    emoji:'💼', label:'Exp. Pro',      gradient:'linear-gradient(145deg,#c2410c,#fb923c)', dock:true,  badge:true, page:0},
   {id:'skills',   emoji:'🛠️', label:'Skills',        gradient:'linear-gradient(145deg,#065f46,#34d399)', dock:false, badge:null, page:0},
   {id:'future',   emoji:'🔮', label:'Mon Futur',     gradient:'linear-gradient(145deg,#4c1d95,#a78bfa)', dock:false, badge:null, page:0},
   {id:'parcours', emoji:'🗺️', label:'Parcours',      gradient:'linear-gradient(145deg,#1e3a8a,#60a5fa)', dock:false, badge:null, page:0},
@@ -2384,7 +2384,7 @@ function MobIcon({icon,onTap,size=72}){
         {/* inner glass shine */}
         <div style={{position:'absolute',top:0,left:0,right:0,height:'46%',background:'linear-gradient(180deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,.03) 100%)',borderRadius:`${r}px ${r}px 0 0`,pointerEvents:'none'}}/>
         <span style={{position:'relative',zIndex:1,lineHeight:1}}>{icon.emoji}</span>
-        {icon.badge&&<div style={{position:'absolute',top:-5,right:-5,background:'#ff3b30',borderRadius:100,minWidth:18,height:18,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,fontWeight:700,border:'2px solid rgba(255,255,255,.85)',animation:'badgePulse 2.2s ease-in-out infinite',zIndex:2,color:'#fff'}}>{icon.badge}</div>}
+        {icon.badge&&<div style={{position:'absolute',top:-4,right:-4,width:12,height:12,background:'#ff3b30',borderRadius:'50%',border:'2px solid rgba(255,255,255,.85)',animation:'badgePulse 2.2s ease-in-out infinite',zIndex:2}}/>}
       </div>
       <span style={{fontSize:10,color:'rgba(255,255,255,.88)',fontWeight:500,fontFamily:"'-apple-system','SF Pro Text','Inter',sans-serif",textShadow:'0 1px 4px rgba(0,0,0,.45)',letterSpacing:.1,textAlign:'center',maxWidth:size+10,lineHeight:1.25}}>{icon.label}</span>
     </div>
@@ -2468,18 +2468,448 @@ function MobChangelogContent(){
     </div>
   );
 }
+/* ── MOBILE BIO ─────────────────────────────────────────── */
+function MobBioContent(){
+  return(
+    <div style={{padding:20}}>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Bio · riyan.world</div>
+      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:24,fontWeight:800,letterSpacing:'-.04em',marginBottom:16,lineHeight:1.1,color:'#1a1614'}}>Riyan, 24 ans,<br/><span style={{color:C.coral,fontStyle:'italic'}}>Product Builder</span>.</h2>
+
+      {/* Photo */}
+      <div style={{borderRadius:16,overflow:'hidden',marginBottom:16,position:'relative',aspectRatio:'4/3',background:'linear-gradient(135deg,rgba(255,107,74,.15),rgba(124,92,231,.1))'}}>
+        <img src="uploads/Photo%20Pro%20Riyan%202.jpg" alt="Riyan" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center top',display:'block'}} onError={e=>e.currentTarget.style.display='none'}/>
+        <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'10px 14px',background:'linear-gradient(0deg,rgba(0,0,0,.7),transparent)',color:'#fff'}}>
+          <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:13,fontWeight:800}}>Riyan Besseghir</div>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,opacity:.85}}>PM · BUILDER · TOULOUSE</div>
+        </div>
+      </div>
+
+      {/* Open to work */}
+      <div style={{padding:'10px 14px',background:'rgba(0,135,90,.08)',border:'1px solid rgba(0,135,90,.2)',borderRadius:10,display:'flex',alignItems:'center',gap:8,marginBottom:16}}>
+        <span style={{width:7,height:7,borderRadius:'50%',background:C.green,animation:'pulse 2s ease-in-out infinite',flexShrink:0}}/>
+        <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:C.green,fontWeight:700,letterSpacing:'.06em'}}>OPEN TO WORK</span>
+      </div>
+
+      {/* Bio text */}
+      <div style={{padding:16,background:'linear-gradient(180deg,rgba(255,107,74,.05),rgba(248,249,251,.9))',border:'1px solid rgba(255,107,74,.18)',borderRadius:14,marginBottom:16}}>
+        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,marginBottom:10}}>PM &amp; <strong style={{color:'#1a1614'}}>Builder</strong> basé à Toulouse. Pas juste un chef de produit — quelqu'un qui prototype des POCs en <strong style={{color:'#1a1614'}}>30 minutes</strong> avant d'écrire une spec.</p>
+        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,marginBottom:10}}>Maquettes <strong style={{color:'#1a1614'}}>Figma solo</strong> avant d'impliquer le designer. Je code assez pour comprendre les devs. Je ship, j'apprends, je recommence.</p>
+        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,marginBottom:12}}>Obsession : <strong style={{color:'#1a1614'}}>0→1</strong>. Transformer une friction en produit qui ship.</p>
+        <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
+          {['FR natif','EN C1','ES B2'].map(t=>(
+            <span key={t} style={{padding:'3px 9px',border:'1px solid rgba(0,0,0,.1)',borderRadius:100,fontSize:10,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",background:'rgba(0,0,0,.03)'}}>{t}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* Links */}
+      <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:16}}>
+        <a href="https://github.com/Deady31" target="_blank" data-h style={{padding:'12px 16px',background:'#1a1614',color:'#fff',borderRadius:10,fontSize:12,fontWeight:600,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+          <span>⌥ GitHub — /Deady31</span><span>↗</span>
+        </a>
+        <a href="https://www.linkedin.com/in/riyan-besseghir-8514a425b/" target="_blank" data-h style={{padding:'12px 16px',background:'#0A66C2',color:'#fff',borderRadius:10,fontSize:12,fontWeight:600,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+          <span>💼 LinkedIn</span><span>↗</span>
+        </a>
+        <a href="uploads/CV%20RIYAN%20PM%20FR.pdf" download data-h style={{padding:'12px 16px',background:C.coral,color:'#fff',borderRadius:10,fontSize:12,fontWeight:700,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between',boxShadow:'0 4px 14px rgba(255,107,74,.3)'}}>
+          <span>📄 Télécharger mon CV</span><span>↓</span>
+        </a>
+      </div>
+
+      {/* Bento traits */}
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:10}}>6 traits qui me définissent</div>
+      <div style={{display:'flex',flexDirection:'column',gap:10}}>
+        {BENTO.map((b,i)=>(
+          <div key={i} style={{padding:'14px 16px',background:b.color+'12',border:`1px solid ${b.color}33`,borderRadius:12,display:'flex',alignItems:'flex-start',gap:12}}>
+            <span style={{fontSize:22,flexShrink:0}}>{b.emoji}</span>
+            <div>
+              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:13,fontWeight:800,color:'#1a1614',marginBottom:3}}>{b.text}</div>
+              {b.hover&&<div style={{fontSize:11,color:'#5b5048',lineHeight:1.55}}>{b.hover}</div>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── MOBILE PROJETS PERSOS ───────────────────────────────── */
+function MobProjContent(){
+  return(
+    <div style={{padding:20}}>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#7c5ce7',letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Projets Personnels</div>
+      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:4,color:'#1a1614'}}>Mes <span style={{color:'#7c5ce7'}}>Projets Persos</span></h2>
+      <p style={{fontSize:12,color:'#5b5048',lineHeight:1.55,marginBottom:18}}>Web · Mobile · AI · Initiés et pilotés en solo</p>
+      <div style={{display:'flex',flexDirection:'column',gap:16}}>
+        {PROJECTS_PERSO.map(p=>(
+          <div key={p.id} style={{background:'rgba(248,249,251,.95)',border:`1.5px solid ${p.color}33`,borderRadius:16,overflow:'hidden'}}>
+            {p.img&&<div style={{height:160,overflow:'hidden',background:p.colorBg,position:'relative'}}>
+              <img src={p.img} style={{width:'100%',height:'100%',objectFit:'cover'}} alt={p.name} onError={e=>e.currentTarget.style.display='none'}/>
+              <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,transparent 40%,rgba(248,249,251,.95))'}}/>
+              <span style={{position:'absolute',top:10,left:10,padding:'4px 10px',background:'rgba(255,255,255,.95)',color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:9,borderRadius:5,fontWeight:700,border:`1px solid ${p.color}44`}}>{p.badge}</span>
+              <span style={{position:'absolute',top:10,right:10,fontSize:22}}>{p.emoji}</span>
+              {p.status&&<span style={{position:'absolute',bottom:8,left:10,padding:'3px 9px',background:p.status==='En ligne'?'rgba(34,197,94,.92)':'rgba(232,168,0,.9)',color:'#fff',fontFamily:"'JetBrains Mono',monospace",fontSize:8,borderRadius:100,fontWeight:700,display:'flex',alignItems:'center',gap:4}}>
+                <span style={{width:5,height:5,borderRadius:'50%',background:'#fff',display:'inline-block',animation:'pulse 1.8s ease-in-out infinite'}}/>
+                {p.status}
+              </span>}
+            </div>}
+            <div style={{padding:'14px 16px'}}>
+              <h3 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:17,fontWeight:800,letterSpacing:'-.02em',marginBottom:2,color:'#1a1614'}}>{p.name}</h3>
+              <div style={{fontSize:10,color:p.color,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.08em',marginBottom:8,fontWeight:600}}>{p.cat}</div>
+              <p style={{fontSize:12,color:'#5b5048',fontStyle:'italic',marginBottom:8,lineHeight:1.5}}>{p.tagline}</p>
+              <p style={{fontSize:11,color:'#7b6e65',lineHeight:1.55,marginBottom:10}}>{p.problem}</p>
+              <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:10}}>
+                {p.stack.slice(0,4).map(s=>(
+                  <span key={s} style={{padding:'2px 8px',background:'rgba(0,0,0,.04)',border:'1px solid rgba(0,0,0,.06)',borderRadius:100,fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace"}}>{s}</span>
+                ))}
+              </div>
+              <div style={{padding:'10px 12px',background:`linear-gradient(135deg,${p.color}14,${p.color}07)`,borderRadius:10,border:`1px solid ${p.color}28`}}>
+                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.14em',textTransform:'uppercase',fontWeight:700,marginBottom:4}}>Résultat</div>
+                <p style={{fontSize:11,color:'#1a1614',lineHeight:1.6,margin:0,fontWeight:500}}>{p.outcome}</p>
+              </div>
+              {p.github&&<a href={p.github} target="_blank" data-h style={{marginTop:10,display:'flex',alignItems:'center',gap:6,fontSize:11,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:700,textDecoration:'none'}}>⌥ Voir sur GitHub →</a>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── MOBILE EXP PRO ──────────────────────────────────────── */
+function MobExpProContent(){
+  return(
+    <div style={{padding:20}}>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Expérience Professionnelle</div>
+      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:16,color:'#1a1614'}}>Mon <span style={{color:C.coral}}>parcours pro</span></h2>
+
+      {/* Shippingbo header */}
+      <div style={{padding:16,background:'linear-gradient(135deg,rgba(255,107,74,.06),rgba(99,102,241,.04))',border:'1.5px solid rgba(255,107,74,.18)',borderRadius:14,marginBottom:16}}>
+        <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:12}}>
+          <img src="uploads/Logo%20divers/Shippingbo%20logo.jfif" style={{width:40,height:40,borderRadius:8,objectFit:'contain',background:'#fff',padding:4,border:'1px solid rgba(0,0,0,.08)',flexShrink:0}} alt="Shippingbo" onError={e=>e.currentTarget.style.display='none'}/>
+          <div>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800,color:'#1a1614',letterSpacing:'-.02em'}}>Shippingbo</div>
+            <div style={{fontSize:11,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",marginTop:2}}>PM/PO · 9 mois · Feature Team autonome</div>
+          </div>
+        </div>
+        <div style={{display:'flex',gap:8,justifyContent:'space-around'}}>
+          {[{n:'137',l:'tickets',c:'#ff6b4a'},{n:'−30%',l:'Tier 1',c:'#7C5CE7'},{n:'0→1',l:'agent IA',c:'#00875a'}].map((s,i)=>(
+            <div key={i} style={{textAlign:'center',flex:1,padding:'10px 8px',background:'rgba(255,255,255,.85)',borderRadius:10,border:`1px solid ${s.c}22`}}>
+              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:18,fontWeight:800,color:s.c,lineHeight:1}}>{s.n}</div>
+              <div style={{fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",marginTop:3}}>{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Feature cards */}
+      <div style={{display:'flex',flexDirection:'column',gap:14}}>
+        {PROJECTS_PRO.map(p=>(
+          <div key={p.id} style={{background:'rgba(248,249,251,.95)',border:`1.5px solid ${p.color}28`,borderRadius:14,padding:16}}>
+            <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:12}}>
+              <div style={{width:44,height:44,borderRadius:10,background:p.colorBg,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0,border:`1px solid ${p.color}33`,overflow:'hidden'}}>
+                {p.img&&p.id==='shippingbo_tiktok'
+                  ?<img src={p.img} style={{width:'100%',height:'100%',objectFit:'cover'}} onError={e=>{e.currentTarget.style.display='none';e.currentTarget.parentNode.innerHTML=p.emoji;}}/>
+                  :<span>{p.emoji}</span>}
+              </div>
+              <div style={{flex:1}}>
+                <div style={{display:'flex',alignItems:'center',gap:6,flexWrap:'wrap',marginBottom:3}}>
+                  <span style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:800,color:'#1a1614'}}>{p.name}</span>
+                  <span style={{padding:'2px 8px',background:`${p.color}15`,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:8,borderRadius:100,fontWeight:700,border:`1px solid ${p.color}33`}}>{p.cat}</span>
+                </div>
+                <p style={{fontSize:11,color:'#5b5048',fontStyle:'italic',lineHeight:1.4,margin:0}}>{p.tagline}</p>
+              </div>
+            </div>
+            <div style={{display:'flex',flexDirection:'column',gap:8}}>
+              <div style={{padding:'10px 12px',background:'rgba(248,248,250,1)',borderRadius:10,border:'1px solid rgba(26,22,20,.06)'}}>
+                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700,marginBottom:4}}>Problème</div>
+                <p style={{fontSize:11,color:'#5b5048',lineHeight:1.65,margin:0}}>{p.problem}</p>
+              </div>
+              <div style={{padding:'10px 12px',background:'rgba(248,248,250,1)',borderRadius:10,border:'1px solid rgba(26,22,20,.06)'}}>
+                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700,marginBottom:4}}>Ce que j'ai fait</div>
+                <p style={{fontSize:11,color:'#5b5048',lineHeight:1.65,margin:0}}>{p.build}</p>
+              </div>
+              <div style={{padding:'10px 12px',background:`linear-gradient(135deg,${p.color}12,${p.color}06)`,borderRadius:10,border:`1px solid ${p.color}30`}}>
+                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700,marginBottom:4}}>Résultat</div>
+                <p style={{fontSize:11,color:'#1a1614',lineHeight:1.65,margin:0,fontWeight:600}}>{p.outcome}</p>
+              </div>
+            </div>
+            <div style={{display:'flex',gap:5,flexWrap:'wrap',marginTop:10}}>
+              {p.stack.slice(0,5).map(s=>(
+                <span key={s} style={{padding:'3px 8px',background:`${p.color}10`,border:`1px solid ${p.color}20`,borderRadius:5,fontSize:8,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:600}}>{s}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── MOBILE SKILLS ───────────────────────────────────────── */
+function MobSkillsContent(){
+  return(
+    <div style={{padding:20}}>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Compétences</div>
+      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:18,color:'#1a1614'}}>Mes <span style={{color:C.coral}}>Skills</span></h2>
+      <div style={{display:'flex',flexDirection:'column',gap:12}}>
+        {SKILLS_DATA.map((cat,i)=>(
+          <div key={i} style={{background:'#fff',border:`1.5px solid ${cat.color}28`,borderRadius:14,overflow:'hidden'}}>
+            <div style={{height:3,background:`linear-gradient(90deg,${cat.color},${cat.color}66,transparent)`}}/>
+            <div style={{padding:'14px 16px'}}>
+              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
+                <div style={{width:40,height:40,borderRadius:10,background:`linear-gradient(135deg,${cat.color}1a,${cat.color}08)`,border:`1px solid ${cat.color}28`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}>{cat.icon}</div>
+                <div>
+                  <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800,color:'#1a1614',letterSpacing:'-.02em'}}>{cat.cat}</div>
+                  <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.muted,textTransform:'uppercase',letterSpacing:'.1em'}}>{cat.items.length} compétences</div>
+                </div>
+              </div>
+              <div style={{display:'flex',flexDirection:'column',gap:6}}>
+                {cat.items.map((item,j)=>(
+                  <div key={item} style={{display:'flex',alignItems:'center',gap:8}}>
+                    <div style={{width:5,height:5,borderRadius:'50%',flexShrink:0,background:`${cat.color}88`}}/>
+                    <span style={{fontSize:13,color:'#4a4040',fontFamily:"'Space Grotesk',sans-serif",fontWeight:500}}>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── MOBILE FUTUR ────────────────────────────────────────── */
+function MobFutureContent(){
+  return(
+    <div style={{padding:20}}>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.purple,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Vision</div>
+      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:24,fontWeight:800,letterSpacing:'-.04em',marginBottom:16,color:'#1a1614'}}>Mon <span style={{color:C.purple}}>Futur</span></h2>
+
+      {/* Image */}
+      <div style={{borderRadius:16,overflow:'hidden',marginBottom:16,position:'relative',height:220}}>
+        <img src="uploads/Riyan%20Spotify%20Anime.png" alt="Vision" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} onError={e=>e.currentTarget.style.display='none'}/>
+        <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'12px 16px',background:'linear-gradient(0deg,rgba(0,0,0,.75),transparent)',color:'#fff'}}>
+          <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800}}>Inspirer la prochaine génération de builders</div>
+        </div>
+      </div>
+
+      {/* Text */}
+      <div style={{display:'flex',flexDirection:'column',gap:12,marginBottom:16}}>
+        <p style={{fontSize:14,color:'#1a1614',lineHeight:1.75,fontWeight:500,margin:0}}>Ma mission : <strong style={{color:C.purple}}>contribuer à des produits qui impactent le plus grand nombre.</strong> Pas juste livrer des features — aider à construire des choses qui changent concrètement la vie de millions de personnes.</p>
+        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,margin:0}}>Prendre la parole. Inspirer des équipes. Construire avec les meilleures personnes. <strong style={{color:'#1a1614'}}>L'impact réel est ma boussole.</strong></p>
+      </div>
+
+      {/* 3 pillars */}
+      <div style={{display:'flex',gap:8,marginBottom:16}}>
+        {[{emoji:'🏗️',label:'Build',desc:'Des produits qui durent'},{emoji:'🎤',label:'Speak',desc:'Inspirer & former'},{emoji:'🌍',label:'Impact',desc:'Toucher le monde'}].map(p=>(
+          <div key={p.label} style={{flex:1,padding:'12px 8px',background:'rgba(124,92,231,.05)',border:'1px solid rgba(124,92,231,.18)',borderRadius:11,textAlign:'center'}}>
+            <div style={{fontSize:22,marginBottom:4}}>{p.emoji}</div>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:800,color:C.purple,marginBottom:2}}>{p.label}</div>
+            <div style={{fontSize:10,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",lineHeight:1.4}}>{p.desc}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Tags */}
+      <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+        {['Builder de produits impactants','Speaker','Créateur de valeur','Entrepreneur','Impact mondial 🌍'].map(t=>(
+          <span key={t} style={{padding:'5px 12px',border:`1.5px solid ${C.purple}55`,borderRadius:100,fontSize:11,color:C.purple,fontFamily:"'JetBrains Mono',monospace",background:'rgba(124,92,231,.06)',fontWeight:600}}>{t}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── MOBILE IMPACT ───────────────────────────────────────── */
+function MobImpactContent(){
+  return(
+    <div style={{padding:20}}>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Impact · chiffres réels</div>
+      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:16,color:'#1a1614'}}>Ce que j'ai <span style={{color:C.coral}}>livré</span></h2>
+      <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:16}}>
+        {IMPACT.map((m,i)=>(
+          <div key={i} style={{background:'#fff',border:`1px solid ${m.color}33`,borderRadius:14,padding:'16px',display:'flex',alignItems:'center',gap:14,boxShadow:`0 2px 8px ${m.color}11`}}>
+            <div style={{fontSize:28,flexShrink:0}}>{m.icon}</div>
+            <div style={{flex:1}}>
+              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:26,fontWeight:800,color:m.color,lineHeight:1,marginBottom:2}}>{m.value}</div>
+              <div style={{fontSize:13,fontWeight:600,color:'#1a1614',marginBottom:2}}>{m.label}</div>
+              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'#5b5048',lineHeight:1.5}}>{m.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* Case study */}
+      <div style={{background:'linear-gradient(135deg,rgba(255,107,74,.08),rgba(99,102,241,.05))',border:'1px solid rgba(255,107,74,.2)',borderRadius:14,padding:16}}>
+        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Case · Shippingbo · 2024–2025</div>
+        <h3 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:16,fontWeight:800,letterSpacing:'-.03em',marginBottom:12,color:'#1a1614'}}>Feature Team IA — Agent logistique</h3>
+        <div style={{display:'flex',flexDirection:'column',gap:8}}>
+          {[{l:'Vision',t:'Chatbot passif → agent capable d\'exécuter des actions',c:'#ff6b4a'},{l:'Delivery',t:'Coordination front/back, US, DoD, sprints 2 semaines',c:'#7C5CE7'},{l:'Impact',t:'−30% tickets Tier 1 dès la bêta. TikTok Shop API.',c:'#00875a'}].map((b,i)=>(
+            <div key={i} style={{background:'#fff',borderRadius:10,padding:'12px 14px',borderLeft:`3px solid ${b.c}`}}>
+              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:b.c,letterSpacing:'.12em',fontWeight:700,marginBottom:4}}>{b.l.toUpperCase()}</div>
+              <p style={{fontSize:12,color:'#5b5048',lineHeight:1.55,margin:0}}>{b.t}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── MOBILE CONTACT ──────────────────────────────────────── */
+function MobContactContent(){
+  const [form,setForm]=React.useState({name:'',email:'',msg:''});
+  const [sent,setSent]=React.useState(false);
+  const [sending,setSending]=React.useState(false);
+  const [copied,setCopied]=React.useState(false);
+  const [error,setError]=React.useState('');
+  const copyEmail=()=>{
+    navigator.clipboard.writeText('riyan.besseghir@gmail.com').then(()=>{setCopied(true);setTimeout(()=>setCopied(false),2400);}).catch(()=>{});
+  };
+  const handleSubmit=async e=>{
+    e.preventDefault();
+    if(!form.name||!form.email||!form.msg)return;
+    setSending(true);setError('');
+    try{
+      const res=await fetch('https://formsubmit.co/ajax/riyan.besseghir@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:form.name,email:form.email,message:form.msg,_subject:`Portfolio · Message de ${form.name}`,_captcha:'false',_template:'table'})});
+      const data=await res.json();
+      if(data.success==='true'||data.success===true||res.ok){setSent(true);setSending(false);setTimeout(()=>{setSent(false);setForm({name:'',email:'',msg:''});},5000);}
+      else throw new Error(data.message||'Erreur envoi');
+    }catch(err){
+      const subject=encodeURIComponent(`Portfolio · Message de ${form.name}`);
+      const body=encodeURIComponent(`Bonjour Riyan,\n\n${form.msg}\n\n—\nEnvoyé par : ${form.name}\nEmail : ${form.email}`);
+      window.open(`mailto:riyan.besseghir@gmail.com?subject=${subject}&body=${body}`,'_blank');
+      setSending(false);setError('Envoi direct indisponible — votre client mail s\'est ouvert.');
+    }
+  };
+  const inp={background:'#fff',border:'1px solid rgba(0,0,0,.12)',borderRadius:10,padding:'12px 14px',fontSize:14,color:'#1a1614',fontFamily:'Inter,sans-serif',width:'100%',outline:'none',boxSizing:'border-box'};
+  return(
+    <div style={{padding:20}}>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Contact</div>
+      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:28,fontWeight:800,letterSpacing:'-.04em',marginBottom:6,color:'#1a1614'}}>On <span style={{color:C.coral,fontStyle:'italic'}}>parle</span> ?</h2>
+      <p style={{fontSize:13,color:'#5b5048',lineHeight:1.7,marginBottom:16}}>PM/PO junior disponible — Toulouse, Paris, Remote.</p>
+
+      {/* Links */}
+      <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:16}}>
+        <button data-h onClick={copyEmail} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 14px',border:`1px solid ${copied?'rgba(0,135,90,.45)':'rgba(0,0,0,.08)'}`,borderRadius:11,cursor:'pointer',background:copied?'rgba(0,135,90,.06)':'rgba(248,249,251,.9)',width:'100%',fontFamily:'inherit'}}>
+          <div style={{display:'flex',alignItems:'center',gap:10}}>
+            <div style={{fontSize:14,width:32,height:32,background:copied?'rgba(0,135,90,.12)':'rgba(0,0,0,.06)',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center'}}>{copied?'✓':'✉️'}</div>
+            <div style={{fontSize:13,fontWeight:600,color:copied?'#00875a':'#1a1614'}}>{copied?'Copié !':'riyan.besseghir@gmail.com'}</div>
+          </div>
+          <span style={{color:copied?'#00875a':'#5b5048',fontSize:13}}>{copied?'✓':'📋'}</span>
+        </button>
+        {[{icon:'💼',name:'LinkedIn — /riyan-besseghir',href:'https://www.linkedin.com/in/riyan-besseghir-8514a425b/'},{icon:'⌥',name:'GitHub — /Deady31',href:'https://github.com/Deady31'},{icon:'📄',name:'Télécharger mon CV (PDF)',href:'uploads/CV%20RIYAN%20PM%20FR.pdf',download:true}].map(l=>(
+          <a key={l.name} href={l.href} {...(l.download?{download:true}:{target:'_blank'})} data-h style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 14px',border:'1px solid rgba(0,0,0,.08)',borderRadius:11,cursor:'pointer',background:'rgba(248,249,251,.9)',color:'inherit',textDecoration:'none'}}>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <div style={{fontSize:14,width:32,height:32,background:'rgba(0,0,0,.06)',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center'}}>{l.icon}</div>
+              <div style={{fontSize:13,fontWeight:600,color:'#1a1614'}}>{l.name}</div>
+            </div>
+            <span style={{color:'#5b5048',fontSize:14}}>↗</span>
+          </a>
+        ))}
+      </div>
+      <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:20}}>
+        {['Open to work','CDI','Freelance','Toulouse','Paris','Remote'].map(t=>(
+          <span key={t} style={{padding:'4px 10px',border:'1px solid rgba(0,0,0,.1)',borderRadius:100,fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#5b5048',background:'rgba(255,255,255,.6)'}}>{t}</span>
+        ))}
+      </div>
+
+      {/* Form */}
+      <div style={{background:'rgba(248,249,251,.9)',border:'1px solid rgba(0,0,0,.08)',borderRadius:14,padding:16}}>
+        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.15em',textTransform:'uppercase',marginBottom:14}}>Envoyer un message</div>
+        {sent?(
+          <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:12,padding:'20px 0'}}>
+            <div style={{fontSize:42}}>✅</div>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:16,fontWeight:700,color:'#1a1614'}}>Message envoyé !</div>
+            <p style={{fontSize:12,color:'#5b5048',textAlign:'center',lineHeight:1.6}}>Je te réponds sous 24h.</p>
+          </div>
+        ):(
+          <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:10}}>
+            <input required value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} placeholder="Nom" style={inp}/>
+            <input required type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} placeholder="Email" style={inp}/>
+            <textarea required value={form.msg} onChange={e=>setForm(f=>({...f,msg:e.target.value}))} placeholder="Votre message..." rows={5} style={{...inp,resize:'vertical',minHeight:110}}/>
+            {error&&<div style={{fontSize:11,color:'#b34a2a',background:'rgba(255,107,74,.08)',border:'1px solid rgba(255,107,74,.25)',borderRadius:8,padding:'8px 12px',lineHeight:1.5}}>⚠ {error}</div>}
+            <button type="submit" data-h disabled={sending} style={{padding:'13px 24px',background:sending?'#5b5048':C.coral,color:'#fff',border:'none',borderRadius:100,fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:700,boxShadow:'0 4px 18px rgba(255,107,74,.3)'}}>
+              {sending?'Envoi...':'Envoyer →'}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── MOBILE TIKTOK ───────────────────────────────────────── */
+function MobTikTokContent(){
+  return(
+    <div style={{background:'linear-gradient(135deg,#1a1614 0%,#2a2025 100%)',minHeight:'100%',padding:20}}>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#FF0050',letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>TikTok · @deady</div>
+      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:24,fontWeight:800,letterSpacing:'-.04em',marginBottom:16,lineHeight:1.1,color:'#fff'}}>Pop Culture<br/><span style={{color:'#FF0050'}}>Journalism</span></h2>
+      {/* Phone mockup */}
+      <div style={{display:'flex',justifyContent:'center',marginBottom:20}}>
+        <div style={{width:200,height:380,background:'#0a0a0a',borderRadius:32,padding:6,boxShadow:'0 20px 60px rgba(0,0,0,.6),inset 0 0 0 1.5px #2a2a2a',position:'relative'}}>
+          <div style={{position:'absolute',top:10,left:'50%',transform:'translateX(-50%)',width:70,height:18,background:'#000',borderRadius:12,zIndex:10}}/>
+          <div style={{width:'100%',height:'100%',background:'#000',borderRadius:26,overflow:'hidden'}}>
+            <img src="uploads/Logo%20divers/Screen%20Tiktok%20Deady.png" alt="TikTok Deady" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center top'}} onError={e=>e.currentTarget.style.display='none'}/>
+          </div>
+        </div>
+      </div>
+      <p style={{fontSize:14,color:'rgba(255,255,255,.8)',lineHeight:1.75,marginBottom:12}}>Compte TikTok dédié au journalisme de la culture POP — gaming, anime, cinéma. Scripts, tournage, montage solo.</p>
+      <p style={{fontSize:13,color:'rgba(255,255,255,.65)',lineHeight:1.75,marginBottom:18}}>Une école du <strong style={{color:'#fff'}}>storytelling court-format</strong> et de la vulgarisation — directement utile pour pitcher en PM.</p>
+      <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+        {['Storytelling','Scripting','Vulgarisation','Solo','Culture POP','Gaming','Anime','Cinéma'].map(t=>(
+          <span key={t} style={{padding:'5px 12px',border:'1px solid rgba(255,0,80,.5)',borderRadius:100,fontSize:11,color:'#FF0050',fontFamily:"'JetBrains Mono',monospace",background:'rgba(255,0,80,.08)',fontWeight:600}}>{t}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── MOBILE PARCOURS ─────────────────────────────────────── */
+function MobParcoursContent(){
+  const [active,setActive]=React.useState(null);
+  return(
+    <div style={{padding:20}}>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Parcours · 2007 → 2026</div>
+      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:6,color:'#1a1614'}}>Mon <span style={{color:C.coral}}>histoire</span></h2>
+      <p style={{fontSize:12,color:'#5b5048',lineHeight:1.6,marginBottom:18}}>Appuyez sur une étape pour voir le détail.</p>
+      <div style={{display:'flex',flexDirection:'column',gap:10}}>
+        {TL_EVENTS.map((e,i)=>{
+          const isA=active===i;
+          return(
+            <div key={i} data-h onClick={()=>setActive(isA?null:i)} style={{background:isA?'#fff':'rgba(248,249,251,.9)',border:`1.5px solid ${isA?e.color+'55':'rgba(0,0,0,.07)'}`,borderRadius:14,overflow:'hidden',boxShadow:isA?`0 8px 24px rgba(0,0,0,.08),0 0 0 1px ${e.color}22`:'none',cursor:'pointer',transition:'background .25s,border-color .25s,box-shadow .25s'}}>
+              <div style={{padding:'14px 16px',display:'flex',alignItems:'center',gap:12}}>
+                <div style={{width:44,height:44,borderRadius:'50%',background:isA?e.color:'#fff',border:`2.5px solid ${e.color}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0,boxShadow:isA?`0 6px 18px ${e.color}55`:'0 2px 8px rgba(0,0,0,.08)',transition:'background .25s,box-shadow .25s'}}>{e.emoji}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:e.color,fontWeight:800,letterSpacing:'.04em',marginBottom:2}}>{e.year}</div>
+                  <div style={{fontSize:14,fontWeight:800,color:'#1a1614',fontFamily:"'Space Grotesk',sans-serif",letterSpacing:'-.02em'}}>{e.title}</div>
+                </div>
+                <span style={{fontSize:12,color:e.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:700,transition:'transform .25s',transform:isA?'rotate(180deg)':'rotate(0deg)'}}>▼</span>
+              </div>
+              {isA&&<div style={{padding:'0 16px 14px'}}>
+                <p style={{fontSize:13,color:'#5b5048',lineHeight:1.65,margin:'0 0 10px'}}>{e.text}</p>
+                <p style={{fontSize:12,color:'#5b5048',lineHeight:1.75,margin:0,padding:'12px 14px',background:`${e.color}10`,borderRadius:10,borderLeft:`2.5px solid ${e.color}`}}>{e.detail}</p>
+              </div>}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ── MOBILE CONTENT ROUTER ───────────────────────────────── */
 function MobContent({id}){
-  const w={boxSizing:'border-box',width:'100%'};
   switch(id){
-    case 'bio':      return <div style={w}><BioContent/></div>;
-    case 'projets':  return <div style={w}><ProjPersoContent onOpen={()=>{}}/></div>;
-    case 'expro':    return <div style={w}><ExpProContent onOpen={()=>{}}/></div>;
-    case 'skills':   return <div style={w}><SkillsContent/></div>;
-    case 'future':   return <div style={w}><FutureContent/></div>;
-    case 'parcours': return <div style={w}><TimelineContent/></div>;
-    case 'impact':   return <div style={w}><ImpactContent/></div>;
-    case 'contact':  return <div style={w}><ContactContent/></div>;
-    case 'tiktok':   return <div style={w}><TikTokContent/></div>;
+    case 'bio':      return <MobBioContent/>;
+    case 'projets':  return <MobProjContent/>;
+    case 'expro':    return <MobExpProContent/>;
+    case 'skills':   return <MobSkillsContent/>;
+    case 'future':   return <MobFutureContent/>;
+    case 'parcours': return <MobParcoursContent/>;
+    case 'impact':   return <MobImpactContent/>;
+    case 'contact':  return <MobContactContent/>;
+    case 'tiktok':   return <MobTikTokContent/>;
     case 'jeux':     return <MobGamesContent/>;
     case 'films':    return <MobFilmsContent/>;
     case 'changelog':return <MobChangelogContent/>;
