@@ -1,7 +1,7 @@
 /**
  * Production build:
  *
- *  1. Extract the <script type="text/babel"> block from portfolio_upgraded.html.
+ *  1. Extract the <script type="text/babel"> block from riyan.world.html.
  *  2. Transpile JSX -> plain JS with @babel/core (preset-env + preset-react).
  *  3. Minify the JS with terser (mangles names, drops comments, compresses).
  *  4. Strip the @babel/standalone CDN <script> (we no longer need runtime Babel).
@@ -20,7 +20,7 @@ const { minify: minifyHTML } = require('html-minifier-terser');
 
 const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
-const SOURCE = path.join(ROOT, 'portfolio_upgraded.html');
+const SOURCE = path.join(ROOT, 'riyan.world.html');
 
 // Whitelist of files actually referenced by the portfolio.
 // Anything outside this list stays out of the public deployment.
@@ -179,7 +179,7 @@ async function build() {
   console.log('Minifying HTML');
   html = await minifyHTML(html, HTML_MINIFY_OPTIONS);
 
-  await fs.promises.writeFile(path.join(DIST, 'portfolio_upgraded.html'), html);
+  await fs.promises.writeFile(path.join(DIST, 'riyan.world.html'), html);
 
   const ratio = ((1 - html.length / srcSize) * 100).toFixed(1);
   console.log(
