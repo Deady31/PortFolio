@@ -36,6 +36,7 @@ const ASSETS = [
 
   // Photos & background
   'uploads/jpan wpper.jpg',
+  'uploads/Logo divers/Wallpaper Iphone. pour APP.jpg',
   'uploads/Photo Pro Riyan 2.jpg',
   'uploads/Riyan Spotify Anime.png',
 
