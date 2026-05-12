@@ -81,5 +81,6 @@ button:focus-visible,a:focus-visible,[role=button]:focus-visible{outline:2px sol
 @keyframes mobIconIn{0%{opacity:0;transform:scale(0.45) translateY(18px)}65%{transform:scale(1.05) translateY(-2px)}100%{opacity:1;transform:scale(1) translateY(0)}}
 @keyframes mobIntroIn{0%{opacity:0;transform:translateY(50px) scale(.95)}60%{transform:translateY(-3px) scale(1.01)}100%{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes mobIntroOut{0%{opacity:1;transform:scale(1) translateY(0)}100%{opacity:0;transform:scale(1.06) translateY(-20px)}}
+@keyframes mobSlideRight{0%{opacity:0;transform:translateX(36px)}60%{transform:translateX(-3px)}100%{opacity:1;transform:translateX(0)}}
 .mob-scroll::-webkit-scrollbar{display:none}
 .mob-scroll{-ms-overflow-style:none;scrollbar-width:none}
