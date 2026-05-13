@@ -2522,121 +2522,147 @@ function MobWindow({title,onClose,children,origin}){
 
 /* ── MOBILE CONTENT ROUTER ───────────────────────────── */
 function MobGamesContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Jeux · Ma vie</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.03em',marginBottom:16,color:'#1a1614'}}>Ce qui m'a <span style={{color:C.coral}}>formé</span></h2>
-      {GAMES.map(g=>(
-        <div key={g.id} style={{marginBottom:14,padding:16,background:'rgba(248,249,251,.95)',border:'1px solid rgba(0,0,0,.07)',borderRadius:16}}>
-          <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:10}}>
-            <img src={g.img} alt={g.name} style={{width:46,height:46,borderRadius:12,objectFit:'cover',flexShrink:0}} onError={e=>e.currentTarget.style.opacity='.25'}/>
-            <div>
-              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:800,color:'#1a1614'}}>{g.name}</div>
-              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:g.color,marginTop:2}}>{g.since} · {g.years}</div>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      <div style={{background:'#fff',padding:'24px 20px 16px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>Jeux · Ma vie</div>
+        <h2 style={{fontFamily:SF,fontSize:28,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.1,marginBottom:0,color:'#1d1d1f'}}>Ce qui m'a formé</h2>
+      </div>
+      <div style={{padding:'12px 16px 32px',display:'flex',flexDirection:'column',gap:12}}>
+        {GAMES.map(g=>(
+          <div key={g.id} style={{background:'#fff',border:'1px solid #e0e0e0',borderRadius:18,overflow:'hidden'}}>
+            <div style={{padding:'16px',display:'flex',alignItems:'center',gap:14,borderBottom:'1px solid #f0f0f0'}}>
+              <img src={g.img} alt={g.name} style={{width:52,height:52,borderRadius:12,objectFit:'cover',flexShrink:0,boxShadow:'rgba(0,0,0,.22) 3px 5px 30px 0'}} onError={e=>e.currentTarget.style.opacity='.15'}/>
+              <div>
+                <div style={{fontFamily:SF,fontSize:17,fontWeight:600,color:'#1d1d1f',letterSpacing:'-0.374px'}}>{g.name}</div>
+                <div style={{fontFamily:SFT,fontSize:12,color:'#6e6e73',marginTop:2}}>{g.since} · {g.years}</div>
+              </div>
+            </div>
+            <div style={{padding:'14px 16px'}}>
+              <p style={{fontFamily:SFT,fontSize:15,color:'#6e6e73',lineHeight:1.47,margin:0,letterSpacing:'-0.224px'}}>{g.synopsis}</p>
             </div>
           </div>
-          <p style={{fontSize:12,color:'#5b5048',lineHeight:1.7,margin:0,whiteSpace:'pre-line'}}>{g.synopsis}</p>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
 function MobFilmsContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#E50914',letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Films · Top 5</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.03em',marginBottom:16,color:'#1a1614'}}>Mes <span style={{color:'#E50914'}}>films</span> fétiches</h2>
-      {FILMS.map((f,i)=>(
-        <div key={i} style={{display:'flex',gap:14,marginBottom:14,padding:14,background:'rgba(248,249,251,.95)',border:'1px solid rgba(0,0,0,.07)',borderRadius:14}}>
-          <img src={f.img} alt={f.title} style={{width:52,height:74,borderRadius:8,objectFit:'cover',boxShadow:'0 4px 12px rgba(0,0,0,.2)',flexShrink:0}} onError={e=>e.currentTarget.style.opacity='.25'}/>
-          <div style={{display:'flex',flexDirection:'column',justifyContent:'center',gap:3}}>
-            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800,color:'#1a1614'}}>{f.title}</div>
-            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'#5b5048'}}>{f.director} · {f.year}</div>
-            <div style={{color:f.color,fontSize:13,marginTop:2}}>{f.note}</div>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      <div style={{background:'#fff',padding:'24px 20px 16px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>Films · Top 5</div>
+        <h2 style={{fontFamily:SF,fontSize:28,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.1,marginBottom:0,color:'#1d1d1f'}}>Mes films fétiches</h2>
+      </div>
+      <div style={{padding:'12px 16px 32px',display:'flex',flexDirection:'column',gap:12}}>
+        {FILMS.map((f,i)=>(
+          <div key={i} style={{background:'#fff',border:'1px solid #e0e0e0',borderRadius:18,padding:'16px',display:'flex',gap:14,alignItems:'flex-start'}}>
+            <img src={f.img} alt={f.title} style={{width:56,height:80,borderRadius:10,objectFit:'cover',boxShadow:'rgba(0,0,0,.22) 3px 5px 30px 0',flexShrink:0}} onError={e=>e.currentTarget.style.opacity='.15'}/>
+            <div style={{flex:1}}>
+              <div style={{fontFamily:SF,fontSize:17,fontWeight:600,color:'#1d1d1f',letterSpacing:'-0.374px',marginBottom:4}}>{f.title}</div>
+              <div style={{fontFamily:SFT,fontSize:12,color:'#6e6e73',marginBottom:8}}>{f.director} · {f.year}</div>
+              <div style={{fontFamily:SFT,fontSize:15,color:'#0066cc',letterSpacing:'-0.224px'}}>{f.note}</div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
 function MobChangelogContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Changelog · riyan.world</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.03em',marginBottom:16,color:'#1a1614'}}>Historique <span style={{color:C.coral}}>versions</span></h2>
-      {CHANGELOG.map((v,vi)=>(
-        <div key={vi} style={{marginBottom:16,padding:16,background:'rgba(248,249,251,.95)',border:'1px solid rgba(0,0,0,.07)',borderRadius:14}}>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
-            <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:13,fontWeight:800,color:C.coral}}>{v.version}</span>
-            <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'#5b5048'}}>{v.date}</span>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      <div style={{background:'#fff',padding:'24px 20px 16px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>Changelog · riyan.world</div>
+        <h2 style={{fontFamily:SF,fontSize:28,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.1,marginBottom:0,color:'#1d1d1f'}}>Historique versions</h2>
+      </div>
+      <div style={{padding:'12px 16px 32px',display:'flex',flexDirection:'column',gap:12}}>
+        {CHANGELOG.map((v,vi)=>(
+          <div key={vi} style={{background:'#fff',border:'1px solid #e0e0e0',borderRadius:18,overflow:'hidden'}}>
+            <div style={{padding:'14px 16px',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid #f0f0f0'}}>
+              <span style={{fontFamily:SF,fontSize:17,fontWeight:600,color:'#0066cc',letterSpacing:'-0.374px'}}>{v.version}</span>
+              <span style={{fontFamily:SFT,fontSize:12,color:'#6e6e73'}}>{v.date}</span>
+            </div>
+            <ul style={{margin:0,padding:'12px 16px 14px',paddingLeft:32}}>
+              {v.items.map((item,ii)=><li key={ii} style={{fontFamily:SFT,fontSize:14,color:'#6e6e73',lineHeight:1.47,marginBottom:4,letterSpacing:'-0.224px'}}>{item}</li>)}
+            </ul>
           </div>
-          <ul style={{margin:0,paddingLeft:14}}>
-            {v.items.map((item,ii)=><li key={ii} style={{fontSize:12,color:'#5b5048',lineHeight:1.75,marginBottom:2}}>{item}</li>)}
-          </ul>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
 /* ── MOBILE BIO ─────────────────────────────────────────── */
 function MobBioContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Bio · riyan.world</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:24,fontWeight:800,letterSpacing:'-.04em',marginBottom:16,lineHeight:1.1,color:'#1a1614'}}>Riyan, 24 ans,<br/><span style={{color:C.coral,fontStyle:'italic'}}>Product Builder</span>.</h2>
-
-      {/* Photo */}
-      <div style={{borderRadius:16,overflow:'hidden',marginBottom:16,position:'relative',aspectRatio:'4/3',background:'linear-gradient(135deg,rgba(255,107,74,.15),rgba(124,92,231,.1))'}}>
-        <img src="uploads/Photo%20Pro%20Riyan%202.jpg" alt="Riyan" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center top',display:'block'}} onError={e=>e.currentTarget.style.display='none'}/>
-        <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'10px 14px',background:'linear-gradient(0deg,rgba(0,0,0,.7),transparent)',color:'#fff'}}>
-          <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:13,fontWeight:800}}>Riyan Besseghir</div>
-          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,opacity:.85}}>PM · BUILDER · TOULOUSE</div>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      {/* Hero photo tile — light */}
+      <div style={{background:'#fff',marginBottom:2}}>
+        <div style={{aspectRatio:'3/2',overflow:'hidden',position:'relative'}}>
+          <img src="uploads/Photo%20Pro%20Riyan%202.jpg" alt="Riyan" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center top',display:'block'}} onError={e=>e.currentTarget.style.display='none'}/>
+        </div>
+        <div style={{padding:'24px 20px 20px'}}>
+          <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>AI Product Manager · Toulouse</div>
+          <h1 style={{fontFamily:SF,fontSize:40,fontWeight:600,letterSpacing:'-0.28px',lineHeight:1.07,marginBottom:12,color:'#1d1d1f'}}>Riyan Besseghir</h1>
+          <p style={{fontFamily:SFT,fontSize:17,fontWeight:400,lineHeight:1.47,letterSpacing:'-0.374px',color:'#6e6e73',margin:'0 0 16px'}}>PM & Builder. Pas juste chef de produit — quelqu'un qui prototype des POCs en 30 minutes avant d'écrire une spec.</p>
+          <div style={{display:'inline-flex',alignItems:'center',gap:6,padding:'5px 14px',background:'rgba(52,199,89,.1)',border:'1px solid rgba(52,199,89,.3)',borderRadius:9999}}>
+            <div style={{width:7,height:7,borderRadius:'50%',background:'#34c759',animation:'pulse 2s ease-in-out infinite',flexShrink:0}}/>
+            <span style={{fontFamily:SFT,fontSize:13,fontWeight:600,color:'#34c759'}}>Open to work</span>
+          </div>
         </div>
       </div>
 
-      {/* Open to work */}
-      <div style={{padding:'10px 14px',background:'rgba(0,135,90,.08)',border:'1px solid rgba(0,135,90,.2)',borderRadius:10,display:'flex',alignItems:'center',gap:8,marginBottom:16}}>
-        <span style={{width:7,height:7,borderRadius:'50%',background:C.green,animation:'pulse 2s ease-in-out infinite',flexShrink:0}}/>
-        <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:C.green,fontWeight:700,letterSpacing:'.06em'}}>OPEN TO WORK</span>
-      </div>
-
-      {/* Bio text */}
-      <div style={{padding:16,background:'linear-gradient(180deg,rgba(255,107,74,.05),rgba(248,249,251,.9))',border:'1px solid rgba(255,107,74,.18)',borderRadius:14,marginBottom:16}}>
-        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,marginBottom:10}}>PM &amp; <strong style={{color:'#1a1614'}}>Builder</strong> basé à Toulouse. Pas juste un chef de produit — quelqu'un qui prototype des POCs en <strong style={{color:'#1a1614'}}>30 minutes</strong> avant d'écrire une spec.</p>
-        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,marginBottom:10}}>Maquettes <strong style={{color:'#1a1614'}}>Figma solo</strong> avant d'impliquer le designer. Je code assez pour comprendre les devs. Je ship, j'apprends, je recommence.</p>
-        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,marginBottom:12}}>Obsession : <strong style={{color:'#1a1614'}}>0→1</strong>. Transformer une friction en produit qui ship.</p>
-        <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
+      {/* Dark pitch tile */}
+      <div style={{background:'#272729',padding:'32px 20px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'rgba(255,255,255,.45)',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:12}}>Identité</div>
+        <p style={{fontFamily:SF,fontSize:21,fontWeight:600,lineHeight:1.19,letterSpacing:'0.231px',color:'#fff',marginBottom:16}}>Je transforme des frictions en produits.</p>
+        <p style={{fontFamily:SFT,fontSize:15,color:'rgba(255,255,255,.65)',lineHeight:1.47,letterSpacing:'-0.224px',marginBottom:16}}>Obsession 0→1. Maquettes Figma solo. Je code assez pour comprendre les devs. Je ship, j'apprends, je recommence.</p>
+        <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
           {['FR natif','EN C1','ES B2'].map(t=>(
-            <span key={t} style={{padding:'3px 9px',border:'1px solid rgba(0,0,0,.1)',borderRadius:100,fontSize:10,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",background:'rgba(0,0,0,.03)'}}>{t}</span>
+            <span key={t} style={{padding:'5px 14px',background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.12)',borderRadius:9999,fontFamily:SFT,fontSize:13,color:'rgba(255,255,255,.75)'}}>{t}</span>
           ))}
         </div>
       </div>
 
-      {/* Links */}
-      <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:16}}>
-        <a href="https://github.com/Deady31" target="_blank" data-h style={{padding:'12px 16px',background:'#1a1614',color:'#fff',borderRadius:10,fontSize:12,fontWeight:600,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-          <span>⌥ GitHub — /Deady31</span><span>↗</span>
-        </a>
-        <a href="https://www.linkedin.com/in/riyan-besseghir-8514a425b/" target="_blank" data-h style={{padding:'12px 16px',background:'#0A66C2',color:'#fff',borderRadius:10,fontSize:12,fontWeight:600,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-          <span>💼 LinkedIn</span><span>↗</span>
-        </a>
-        <a href="uploads/CV%20RIYAN%20PM%20FR.pdf" download data-h style={{padding:'12px 16px',background:C.coral,color:'#fff',borderRadius:10,fontSize:12,fontWeight:700,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between',boxShadow:'0 4px 14px rgba(255,107,74,.3)'}}>
-          <span>📄 Télécharger mon CV</span><span>↓</span>
-        </a>
+      {/* Links tile */}
+      <div style={{background:'#fff',padding:'20px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:14}}>Liens</div>
+        <div style={{border:'1px solid #e0e0e0',borderRadius:18,overflow:'hidden'}}>
+          <a href="https://github.com/Deady31" target="_blank" data-h style={{padding:'14px 16px',background:'#fff',color:'#1d1d1f',textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid #f0f0f0'}}>
+            <span style={{fontFamily:SFT,fontSize:17,fontWeight:400,letterSpacing:'-0.374px'}}>GitHub — /Deady31</span>
+            <span style={{color:'#0066cc',fontSize:17}}>↗</span>
+          </a>
+          <a href="https://www.linkedin.com/in/riyan-besseghir-8514a425b/" target="_blank" data-h style={{padding:'14px 16px',background:'#fff',color:'#1d1d1f',textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid #f0f0f0'}}>
+            <span style={{fontFamily:SFT,fontSize:17,fontWeight:400,letterSpacing:'-0.374px'}}>LinkedIn</span>
+            <span style={{color:'#0066cc',fontSize:17}}>↗</span>
+          </a>
+          <a href="uploads/CV%20RIYAN%20PM%20FR.pdf" download data-h style={{padding:'14px 16px',background:'#fff',color:'#0066cc',textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+            <span style={{fontFamily:SFT,fontSize:17,fontWeight:400,letterSpacing:'-0.374px'}}>Télécharger mon CV</span>
+            <span style={{fontSize:17}}>↓</span>
+          </a>
+        </div>
       </div>
 
-      {/* Bento traits */}
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:10}}>6 traits qui me définissent</div>
-      <div style={{display:'flex',flexDirection:'column',gap:10}}>
-        {BENTO.map((b,i)=>(
-          <div key={i} style={{padding:'14px 16px',background:b.color+'12',border:`1px solid ${b.color}33`,borderRadius:12,display:'flex',alignItems:'flex-start',gap:12}}>
-            <span style={{fontSize:22,flexShrink:0}}>{b.emoji}</span>
-            <div>
-              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:13,fontWeight:800,color:'#1a1614',marginBottom:3}}>{b.text}</div>
-              {b.hover&&<div style={{fontSize:11,color:'#5b5048',lineHeight:1.55}}>{b.hover}</div>}
+      {/* Traits — 2-col bento grid */}
+      <div style={{padding:'20px 16px 32px'}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:14}}>6 traits</div>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+          {BENTO.map((b,i)=>(
+            <div key={i} style={{padding:'16px',background:'#fff',border:'1px solid #e0e0e0',borderRadius:18}}>
+              <div style={{fontSize:24,marginBottom:8}}>{b.emoji}</div>
+              <div style={{fontFamily:SF,fontSize:14,fontWeight:600,color:'#1d1d1f',marginBottom:4,letterSpacing:'-0.224px'}}>{b.text}</div>
+              {b.hover&&<div style={{fontFamily:SFT,fontSize:12,color:'#6e6e73',lineHeight:1.47}}>{b.hover}</div>}
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -2645,38 +2671,37 @@ function MobBioContent(){
 /* ── MOBILE PROJECT DETAIL ───────────────────────────────── */
 function MobProjDetail({p,onBack}){
   const [idx,setIdx]=useState(0);
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   const shots=(p.screenshots&&p.screenshots.length)?p.screenshots:[p.img].filter(Boolean);
   const prev=()=>setIdx(i=>(i-1+shots.length)%shots.length);
   const next=()=>setIdx(i=>(i+1)%shots.length);
   return(
-    <div>
-      {/* Back button */}
-      <div style={{padding:'14px 16px 10px',borderBottom:'1px solid rgba(0,0,0,.06)',display:'flex',alignItems:'center',gap:8,background:'rgba(248,248,250,.98)',flexShrink:0}}>
-        <button onClick={onBack} data-h style={{display:'flex',alignItems:'center',gap:4,border:'none',background:'none',color:'#7c5ce7',fontSize:14,fontWeight:600,cursor:'pointer',padding:0,fontFamily:"'-apple-system','Inter',sans-serif"}}>
-          <span style={{fontSize:20,lineHeight:.9}}>‹</span> Projets
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      <div style={{padding:'14px 16px',background:'#fff',borderBottom:'1px solid #f0f0f0',display:'flex',alignItems:'center',gap:8}}>
+        <button onClick={onBack} data-h style={{display:'flex',alignItems:'center',gap:4,border:'none',background:'none',color:'#0066cc',fontSize:17,fontFamily:SFT,cursor:'pointer',padding:0,WebkitTapHighlightColor:'transparent'}}>
+          <svg width="10" height="17" viewBox="0 0 10 17" fill="none" style={{marginRight:2}}><path d="M8.5 1.5L1.5 8.5L8.5 15.5" stroke="#0066cc" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          Projets
         </button>
       </div>
 
-      {/* Carousel */}
       {shots.length>0&&(
-        <div style={{background:'#0d0b10',position:'relative',userSelect:'none'}}>
-          <div style={{position:'relative',width:'100%',height:240,overflow:'hidden'}}>
-            <img key={shots[idx]} src={shots[idx]} alt={`screen ${idx+1}`}
-              style={{width:'100%',height:'100%',objectFit:'contain',display:'block',animation:'fadeIn .2s ease'}}
-              onError={e=>e.currentTarget.style.opacity='.15'}/>
-            <div style={{position:'absolute',bottom:10,right:12,padding:'3px 9px',background:'rgba(0,0,0,.65)',borderRadius:100,fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'rgba(255,255,255,.8)',backdropFilter:'blur(4px)'}}>{idx+1}/{shots.length}</div>
+        <div style={{background:'#000',position:'relative',userSelect:'none'}}>
+          <div style={{position:'relative',width:'100%',height:260,overflow:'hidden'}}>
+            <img key={shots[idx]} src={shots[idx]} alt={`screen ${idx+1}`} style={{width:'100%',height:'100%',objectFit:'contain',display:'block',animation:'fadeIn .2s ease'}} onError={e=>e.currentTarget.style.opacity='.15'}/>
+            <div style={{position:'absolute',bottom:12,right:14,padding:'4px 10px',background:'rgba(0,0,0,.65)',borderRadius:9999,fontFamily:SFT,fontSize:11,color:'rgba(255,255,255,.8)',backdropFilter:'blur(4px)'}}>{idx+1}/{shots.length}</div>
             {shots.length>1&&(
               <>
-                <button onClick={prev} style={{position:'absolute',left:8,top:'50%',transform:'translateY(-50%)',width:36,height:36,borderRadius:'50%',background:'rgba(0,0,0,.55)',border:'1px solid rgba(255,255,255,.18)',color:'#fff',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>‹</button>
-                <button onClick={next} style={{position:'absolute',right:8,top:'50%',transform:'translateY(-50%)',width:36,height:36,borderRadius:'50%',background:'rgba(0,0,0,.55)',border:'1px solid rgba(255,255,255,.18)',color:'#fff',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>›</button>
+                <button onClick={prev} style={{position:'absolute',left:10,top:'50%',transform:'translateY(-50%)',width:36,height:36,borderRadius:'50%',background:'rgba(210,210,215,.64)',border:'none',color:'#1d1d1f',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>‹</button>
+                <button onClick={next} style={{position:'absolute',right:10,top:'50%',transform:'translateY(-50%)',width:36,height:36,borderRadius:'50%',background:'rgba(210,210,215,.64)',border:'none',color:'#1d1d1f',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>›</button>
               </>
             )}
           </div>
           {shots.length>1&&(
-            <div style={{display:'flex',gap:6,overflowX:'auto',padding:'8px 12px',scrollbarWidth:'none'}}>
+            <div style={{display:'flex',gap:6,overflowX:'auto',padding:'10px 14px',scrollbarWidth:'none',background:'#1a1a1a'}}>
               {shots.map((s,i)=>(
-                <div key={i} onClick={()=>setIdx(i)} style={{flexShrink:0,width:72,height:48,borderRadius:6,overflow:'hidden',cursor:'pointer',border:`2px solid ${i===idx?p.color:'rgba(255,255,255,.12)'}`,transition:'border-color .18s',background:'#1a1820'}}>
-                  <img src={s} alt={`thumb ${i+1}`} style={{width:'100%',height:'100%',objectFit:'cover',opacity:i===idx?1:.6}} onError={e=>e.currentTarget.style.display='none'}/>
+                <div key={i} onClick={()=>setIdx(i)} style={{flexShrink:0,width:72,height:48,borderRadius:6,overflow:'hidden',cursor:'pointer',border:`2px solid ${i===idx?'#0066cc':'rgba(255,255,255,.15)'}`,transition:'border-color .18s',background:'#0a0a0a'}}>
+                  <img src={s} alt={`thumb ${i+1}`} style={{width:'100%',height:'100%',objectFit:'cover',opacity:i===idx?1:.55}} onError={e=>e.currentTarget.style.display='none'}/>
                 </div>
               ))}
             </div>
@@ -2684,35 +2709,45 @@ function MobProjDetail({p,onBack}){
         </div>
       )}
 
-      {/* Content */}
-      <div style={{padding:'16px 16px 32px'}}>
-        <div style={{height:3,background:`linear-gradient(90deg,${p.color},${p.color}44,transparent)`,marginBottom:14,borderRadius:2}}/>
-        <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
-          <span style={{fontSize:26}}>{p.emoji}</span>
-          <div>
-            <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:20,fontWeight:800,color:'#1a1614',letterSpacing:'-.03em',margin:0}}>{p.name}</h2>
-            <div style={{fontSize:10,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:700,letterSpacing:'.08em'}}>{p.cat}</div>
+      <div style={{padding:'20px 16px 32px'}}>
+        {/* Header card */}
+        <div style={{background:'#fff',border:'1px solid #e0e0e0',borderRadius:18,padding:'20px 16px',marginBottom:12}}>
+          <div style={{display:'flex',alignItems:'flex-start',gap:12,marginBottom:12}}>
+            <span style={{fontSize:28,lineHeight:1}}>{p.emoji}</span>
+            <div style={{flex:1}}>
+              <h2 style={{fontFamily:SF,fontSize:22,fontWeight:600,color:'#1d1d1f',letterSpacing:'-0.374px',margin:'0 0 4px'}}>{p.name}</h2>
+              <div style={{fontFamily:SFT,fontSize:12,color:'#6e6e73',marginBottom:8}}>{p.cat}</div>
+              {p.status&&<span style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 12px',background:p.status==='En ligne'?'rgba(52,199,89,.1)':'rgba(232,168,0,.1)',border:p.status==='En ligne'?'1px solid rgba(52,199,89,.3)':'1px solid rgba(232,168,0,.3)',borderRadius:9999,fontFamily:SFT,fontSize:11,fontWeight:600,color:p.status==='En ligne'?'#34c759':'#e8a800'}}>
+                <span style={{width:5,height:5,borderRadius:'50%',background:p.status==='En ligne'?'#34c759':'#e8a800',display:'inline-block'}}/>
+                {p.status}
+              </span>}
+            </div>
           </div>
-          {p.status&&<span style={{marginLeft:'auto',padding:'3px 10px',background:p.status==='En ligne'?'rgba(34,197,94,.12)':'rgba(232,168,0,.12)',color:p.status==='En ligne'?'#16a34a':'#b45309',fontFamily:"'JetBrains Mono',monospace",fontSize:8,borderRadius:100,fontWeight:700,border:`1px solid ${p.status==='En ligne'?'rgba(34,197,94,.3)':'rgba(232,168,0,.3)'}`}}>{p.status}</span>}
+          <p style={{fontFamily:SFT,fontSize:15,color:'#6e6e73',lineHeight:1.47,letterSpacing:'-0.224px',margin:0}}>{p.tagline}</p>
         </div>
-        <p style={{fontSize:13,color:'#5b5048',fontStyle:'italic',lineHeight:1.6,marginBottom:14}}>{p.tagline}</p>
 
-        {[{l:'Problème',t:p.problem,c:p.color},{l:'Ce que j\'ai fait',t:p.build,c:p.color},{l:'Résultat',t:p.outcome,c:p.color,highlight:true}].map((b,i)=>b.t&&(
-          <div key={i} style={{marginBottom:10,padding:'12px 14px',background:b.highlight?`linear-gradient(135deg,${p.color}14,${p.color}07)`:'rgba(248,249,251,1)',borderRadius:12,border:`1px solid ${b.highlight?p.color+'30':'rgba(0,0,0,.06)'}`,borderLeft:b.highlight?`3px solid ${p.color}`:'none'}}>
-            <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:b.c,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700,marginBottom:5}}>{b.l}</div>
-            <p style={{fontSize:12,color:b.highlight?'#1a1614':'#5b5048',lineHeight:1.65,margin:0,fontWeight:b.highlight?600:400}}>{b.t}</p>
-          </div>
-        ))}
+        {/* Problem / Build / Outcome — alternating tiles */}
+        <div style={{display:'flex',flexDirection:'column',gap:2,marginBottom:12}}>
+          {[{l:'Problème',t:p.problem,dark:false},{l:'Ce que j\'ai fait',t:p.build,dark:false},{l:'Résultat',t:p.outcome,dark:true}].map((b,i)=>b.t&&(
+            <div key={i} style={{background:b.dark?'#272729':'#fff',border:b.dark?'none':'1px solid #e0e0e0',borderRadius:18,padding:'18px 16px'}}>
+              <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:b.dark?'rgba(255,255,255,.45)':'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>{b.l}</div>
+              <p style={{fontFamily:SFT,fontSize:15,color:b.dark?'rgba(255,255,255,.85)':'#1d1d1f',lineHeight:1.47,letterSpacing:'-0.224px',margin:0,fontWeight:b.dark?600:400}}>{b.t}</p>
+            </div>
+          ))}
+        </div>
 
-        <div style={{display:'flex',gap:5,flexWrap:'wrap',marginTop:4,marginBottom:14}}>
+        {/* Stack chips */}
+        <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:16}}>
           {p.stack.map(s=>(
-            <span key={s} style={{padding:'3px 9px',background:`${p.color}10`,border:`1px solid ${p.color}22`,borderRadius:6,fontSize:9,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:600}}>{s}</span>
+            <span key={s} style={{padding:'5px 12px',background:'#f5f5f7',border:'1px solid #e0e0e0',borderRadius:9999,fontFamily:SFT,fontSize:12,color:'#6e6e73'}}>{s}</span>
           ))}
         </div>
 
         {p.github&&(
-          <a href={p.github} target="_blank" data-h style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'12px 20px',background:'#1a1614',color:'#fff',borderRadius:12,fontSize:13,fontWeight:700,fontFamily:"'JetBrains Mono',monospace",textDecoration:'none',boxShadow:'0 4px 16px rgba(0,0,0,.18)'}}>
-            ⌥ Voir sur GitHub →
+          <a href={p.github} target="_blank" data-h style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,padding:'14px 28px',background:'#0066cc',color:'#fff',borderRadius:9999,fontFamily:SFT,fontSize:17,fontWeight:400,letterSpacing:'-0.374px',textDecoration:'none',WebkitTapHighlightColor:'transparent'}}
+            onTouchStart={e=>e.currentTarget.style.transform='scale(0.95)'}
+            onTouchEnd={e=>e.currentTarget.style.transform='scale(1)'}>
+            Voir sur GitHub →
           </a>
         )}
       </div>
@@ -2723,38 +2758,41 @@ function MobProjDetail({p,onBack}){
 /* ── MOBILE PROJETS PERSOS ───────────────────────────────── */
 function MobProjContent(){
   const [selected,setSelected]=useState(null);
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   if(selected) return <MobProjDetail p={selected} onBack={()=>setSelected(null)}/>;
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#7c5ce7',letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Projets Personnels</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:4,color:'#1a1614'}}>Mes <span style={{color:'#7c5ce7'}}>Projets Persos</span></h2>
-      <p style={{fontSize:12,color:'#5b5048',lineHeight:1.55,marginBottom:18}}>Web · Mobile · AI · Initiés et pilotés en solo</p>
-      <div style={{display:'flex',flexDirection:'column',gap:14}}>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      <div style={{background:'#fff',padding:'24px 20px 20px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>Projets personnels</div>
+        <h2 style={{fontFamily:SF,fontSize:34,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.1,marginBottom:6,color:'#1d1d1f'}}>Mes Projets Persos</h2>
+        <p style={{fontFamily:SFT,fontSize:15,color:'#6e6e73',lineHeight:1.47,letterSpacing:'-0.224px',margin:0}}>Web · Mobile · AI · Solo</p>
+      </div>
+      <div style={{padding:'12px 16px 32px',display:'flex',flexDirection:'column',gap:12}}>
         {PROJECTS_PERSO.map(p=>(
           <button key={p.id} data-h onClick={()=>setSelected(p)}
-            style={{background:'rgba(248,249,251,.95)',border:`1.5px solid ${p.color}33`,borderRadius:16,overflow:'hidden',cursor:'pointer',textAlign:'left',padding:0,display:'flex',flexDirection:'column',transition:'transform .18s,box-shadow .18s',boxShadow:'0 2px 8px rgba(0,0,0,.05)'}}
+            style={{background:'#fff',border:'1px solid #e0e0e0',borderRadius:18,overflow:'hidden',cursor:'pointer',textAlign:'left',padding:0,display:'block',width:'100%',WebkitTapHighlightColor:'transparent'}}
             onTouchStart={e=>e.currentTarget.style.transform='scale(.98)'}
             onTouchEnd={e=>e.currentTarget.style.transform='scale(1)'}>
-            {p.img&&<div style={{height:140,overflow:'hidden',background:p.colorBg,position:'relative',flexShrink:0}}>
-              <img src={p.img} style={{width:'100%',height:'100%',objectFit:'cover'}} alt={p.name} onError={e=>e.currentTarget.style.display='none'}/>
-              <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,transparent 40%,rgba(248,249,251,.9))'}}/>
-              <span style={{position:'absolute',top:10,left:10,padding:'4px 10px',background:'rgba(255,255,255,.95)',color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:9,borderRadius:5,fontWeight:700,border:`1px solid ${p.color}44`}}>{p.badge}</span>
-              <span style={{position:'absolute',top:10,right:10,fontSize:22}}>{p.emoji}</span>
-              {p.status&&<span style={{position:'absolute',bottom:8,left:10,padding:'3px 9px',background:p.status==='En ligne'?'rgba(34,197,94,.92)':'rgba(232,168,0,.9)',color:'#fff',fontFamily:"'JetBrains Mono',monospace",fontSize:8,borderRadius:100,fontWeight:700,display:'flex',alignItems:'center',gap:4}}>
+            {p.img&&<div style={{height:160,overflow:'hidden',background:p.colorBg||'#f5f5f7',position:'relative'}}>
+              <img src={p.img} style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} alt={p.name} onError={e=>e.currentTarget.style.display='none'}/>
+              <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.35))'}}/>
+              {p.status&&<span style={{position:'absolute',top:12,left:12,padding:'4px 12px',background:p.status==='En ligne'?'rgba(52,199,89,.92)':'rgba(232,168,0,.9)',color:'#fff',fontFamily:SFT,fontSize:11,fontWeight:600,borderRadius:9999,display:'flex',alignItems:'center',gap:4}}>
                 <span style={{width:5,height:5,borderRadius:'50%',background:'#fff',display:'inline-block'}}/>
                 {p.status}
               </span>}
+              <span style={{position:'absolute',top:12,right:12,fontSize:22}}>{p.emoji}</span>
             </div>}
-            <div style={{padding:'12px 14px'}}>
-              <h3 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:16,fontWeight:800,letterSpacing:'-.02em',marginBottom:2,color:'#1a1614'}}>{p.name}</h3>
-              <div style={{fontSize:9,color:p.color,fontFamily:"'JetBrains Mono',monospace",letterSpacing:'.08em',marginBottom:6,fontWeight:600}}>{p.cat}</div>
-              <p style={{fontSize:12,color:'#5b5048',fontStyle:'italic',lineHeight:1.45,marginBottom:8}}>{p.tagline}</p>
-              <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:8}}>
+            <div style={{padding:'16px'}}>
+              <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:4}}>{p.cat}</div>
+              <h3 style={{fontFamily:SF,fontSize:19,fontWeight:600,letterSpacing:'-0.374px',marginBottom:6,color:'#1d1d1f'}}>{p.name}</h3>
+              <p style={{fontFamily:SFT,fontSize:14,color:'#6e6e73',lineHeight:1.47,letterSpacing:'-0.224px',margin:'0 0 10px'}}>{p.tagline}</p>
+              <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:10}}>
                 {p.stack.slice(0,3).map(s=>(
-                  <span key={s} style={{padding:'2px 7px',background:'rgba(0,0,0,.04)',border:'1px solid rgba(0,0,0,.06)',borderRadius:100,fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace"}}>{s}</span>
+                  <span key={s} style={{padding:'3px 10px',background:'#f5f5f7',border:'1px solid #e0e0e0',borderRadius:9999,fontFamily:SFT,fontSize:11,color:'#6e6e73'}}>{s}</span>
                 ))}
               </div>
-              <div style={{fontSize:11,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:700}}>Voir le case study →</div>
+              <div style={{fontFamily:SFT,fontSize:14,color:'#0066cc',letterSpacing:'-0.224px'}}>Voir le case study →</div>
             </div>
           </button>
         ))}
@@ -2765,65 +2803,49 @@ function MobProjContent(){
 
 /* ── MOBILE EXP PRO ──────────────────────────────────────── */
 function MobExpProContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Expérience Professionnelle</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:16,color:'#1a1614'}}>Mon <span style={{color:C.coral}}>parcours pro</span></h2>
-
-      {/* Shippingbo header */}
-      <div style={{padding:16,background:'linear-gradient(135deg,rgba(255,107,74,.06),rgba(99,102,241,.04))',border:'1.5px solid rgba(255,107,74,.18)',borderRadius:14,marginBottom:16}}>
-        <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:12}}>
-          <img src="uploads/Logo%20divers/Shippingbo%20logo.jfif" style={{width:40,height:40,borderRadius:8,objectFit:'contain',background:'#fff',padding:4,border:'1px solid rgba(0,0,0,.08)',flexShrink:0}} alt="Shippingbo" onError={e=>e.currentTarget.style.display='none'}/>
-          <div>
-            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800,color:'#1a1614',letterSpacing:'-.02em'}}>Shippingbo</div>
-            <div style={{fontSize:11,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",marginTop:2}}>PM/PO · 10 mois · Feature Team autonome</div>
-          </div>
-        </div>
-        <div style={{display:'flex',gap:8,justifyContent:'space-around'}}>
-          {[{n:'137',l:'tickets',c:'#ff6b4a'},{n:'−30%',l:'Tier 1',c:'#7C5CE7'},{n:'0→1',l:'agent IA',c:'#00875a'}].map((s,i)=>(
-            <div key={i} style={{textAlign:'center',flex:1,padding:'10px 8px',background:'rgba(255,255,255,.85)',borderRadius:10,border:`1px solid ${s.c}22`}}>
-              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:18,fontWeight:800,color:s.c,lineHeight:1}}>{s.n}</div>
-              <div style={{fontSize:9,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",marginTop:3}}>{s.l}</div>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      {/* Dark hero tile */}
+      <div style={{background:'#272729',padding:'32px 20px 28px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'rgba(255,255,255,.45)',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:12}}>Expérience · Shippingbo</div>
+        <h2 style={{fontFamily:SF,fontSize:34,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.07,marginBottom:20,color:'#fff'}}>PM/PO · 10 mois</h2>
+        <div style={{display:'flex',gap:8}}>
+          {[{n:'137',l:'tickets'},{n:'4',l:'AI features'},{n:'−30%',l:'Tier 1'}].map((s,i)=>(
+            <div key={i} style={{flex:1,background:'rgba(255,255,255,.08)',borderRadius:14,padding:'14px 10px',textAlign:'center',border:'1px solid rgba(255,255,255,.1)'}}>
+              <div style={{fontFamily:SF,fontSize:22,fontWeight:600,color:'#fff',lineHeight:1,marginBottom:4}}>{s.n}</div>
+              <div style={{fontFamily:SFT,fontSize:11,color:'rgba(255,255,255,.5)'}}>{s.l}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Feature cards */}
-      <div style={{display:'flex',flexDirection:'column',gap:14}}>
+      <div style={{padding:'12px 16px 32px',display:'flex',flexDirection:'column',gap:12}}>
         {PROJECTS_PRO.map(p=>(
-          <div key={p.id} style={{background:'rgba(248,249,251,.95)',border:`1.5px solid ${p.color}28`,borderRadius:14,padding:16}}>
-            <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:12}}>
-              <div style={{width:44,height:44,borderRadius:10,background:p.colorBg,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0,border:`1px solid ${p.color}33`,overflow:'hidden'}}>
+          <div key={p.id} style={{background:'#fff',border:'1px solid #e0e0e0',borderRadius:18,overflow:'hidden'}}>
+            <div style={{padding:'16px',display:'flex',gap:12,alignItems:'flex-start',borderBottom:'1px solid #f0f0f0'}}>
+              <div style={{width:44,height:44,borderRadius:11,background:'#f5f5f7',border:'1px solid #e0e0e0',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0,overflow:'hidden'}}>
                 {p.img&&p.id==='shippingbo_tiktok'
                   ?<img src={p.img} style={{width:'100%',height:'100%',objectFit:'cover'}} onError={e=>{e.currentTarget.style.display='none';e.currentTarget.parentNode.innerHTML=p.emoji;}}/>
                   :<span>{p.emoji}</span>}
               </div>
               <div style={{flex:1}}>
-                <div style={{display:'flex',alignItems:'center',gap:6,flexWrap:'wrap',marginBottom:3}}>
-                  <span style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:800,color:'#1a1614'}}>{p.name}</span>
-                  <span style={{padding:'2px 8px',background:`${p.color}15`,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontSize:8,borderRadius:100,fontWeight:700,border:`1px solid ${p.color}33`}}>{p.cat}</span>
-                </div>
-                <p style={{fontSize:11,color:'#5b5048',fontStyle:'italic',lineHeight:1.4,margin:0}}>{p.tagline}</p>
+                <div style={{fontFamily:SF,fontSize:17,fontWeight:600,color:'#1d1d1f',letterSpacing:'-0.374px',marginBottom:4}}>{p.name}</div>
+                <span style={{display:'inline-flex',padding:'3px 10px',background:'#f5f5f7',border:'1px solid #e0e0e0',borderRadius:9999,fontFamily:SFT,fontSize:11,color:'#6e6e73',marginBottom:6}}>{p.cat}</span>
+                <p style={{fontFamily:SFT,fontSize:13,color:'#6e6e73',lineHeight:1.47,margin:0}}>{p.tagline}</p>
               </div>
             </div>
-            <div style={{display:'flex',flexDirection:'column',gap:8}}>
-              <div style={{padding:'10px 12px',background:'rgba(248,248,250,1)',borderRadius:10,border:'1px solid rgba(26,22,20,.06)'}}>
-                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700,marginBottom:4}}>Problème</div>
-                <p style={{fontSize:11,color:'#5b5048',lineHeight:1.65,margin:0}}>{p.problem}</p>
+            {[{l:'Problème',t:p.problem,dark:false},{l:'Ce que j\'ai fait',t:p.build,dark:false},{l:'Résultat',t:p.outcome,dark:true}].map((b,i,a)=>(
+              <div key={i} style={{padding:'12px 16px',borderBottom:i<a.length-1?'1px solid #f0f0f0':'none',background:b.dark?'#f5f5f7':'#fff'}}>
+                <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:4}}>{b.l}</div>
+                <p style={{fontFamily:SFT,fontSize:13,color:b.dark?'#1d1d1f':'#6e6e73',lineHeight:1.47,margin:0,fontWeight:b.dark?600:400}}>{b.t}</p>
               </div>
-              <div style={{padding:'10px 12px',background:'rgba(248,248,250,1)',borderRadius:10,border:'1px solid rgba(26,22,20,.06)'}}>
-                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700,marginBottom:4}}>Ce que j'ai fait</div>
-                <p style={{fontSize:11,color:'#5b5048',lineHeight:1.65,margin:0}}>{p.build}</p>
-              </div>
-              <div style={{padding:'10px 12px',background:`linear-gradient(135deg,${p.color}12,${p.color}06)`,borderRadius:10,border:`1px solid ${p.color}30`}}>
-                <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:8,color:p.color,letterSpacing:'.15em',textTransform:'uppercase',fontWeight:700,marginBottom:4}}>Résultat</div>
-                <p style={{fontSize:11,color:'#1a1614',lineHeight:1.65,margin:0,fontWeight:600}}>{p.outcome}</p>
-              </div>
-            </div>
-            <div style={{display:'flex',gap:5,flexWrap:'wrap',marginTop:10}}>
+            ))}
+            <div style={{display:'flex',gap:5,flexWrap:'wrap',padding:'12px 16px',borderTop:'1px solid #f0f0f0'}}>
               {p.stack.slice(0,5).map(s=>(
-                <span key={s} style={{padding:'3px 8px',background:`${p.color}10`,border:`1px solid ${p.color}20`,borderRadius:5,fontSize:8,color:p.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:600}}>{s}</span>
+                <span key={s} style={{padding:'3px 10px',background:'#f5f5f7',border:'1px solid #e0e0e0',borderRadius:9999,fontFamily:SFT,fontSize:11,color:'#6e6e73'}}>{s}</span>
               ))}
             </div>
           </div>
@@ -2835,30 +2857,28 @@ function MobExpProContent(){
 
 /* ── MOBILE SKILLS ───────────────────────────────────────── */
 function MobSkillsContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Compétences</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:18,color:'#1a1614'}}>Mes <span style={{color:C.coral}}>Skills</span></h2>
-      <div style={{display:'flex',flexDirection:'column',gap:12}}>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      <div style={{background:'#fff',padding:'24px 20px 20px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>Compétences</div>
+        <h2 style={{fontFamily:SF,fontSize:34,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.1,marginBottom:0,color:'#1d1d1f'}}>Mes Skills</h2>
+      </div>
+      <div style={{padding:'12px 16px 32px',display:'flex',flexDirection:'column',gap:12}}>
         {SKILLS_DATA.map((cat,i)=>(
-          <div key={i} style={{background:'#fff',border:`1.5px solid ${cat.color}28`,borderRadius:14,overflow:'hidden'}}>
-            <div style={{height:3,background:`linear-gradient(90deg,${cat.color},${cat.color}66,transparent)`}}/>
-            <div style={{padding:'14px 16px'}}>
-              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
-                <div style={{width:40,height:40,borderRadius:10,background:`linear-gradient(135deg,${cat.color}1a,${cat.color}08)`,border:`1px solid ${cat.color}28`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}>{cat.icon}</div>
-                <div>
-                  <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800,color:'#1a1614',letterSpacing:'-.02em'}}>{cat.cat}</div>
-                  <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.muted,textTransform:'uppercase',letterSpacing:'.1em'}}>{cat.items.length} compétences</div>
-                </div>
+          <div key={i} style={{background:'#fff',border:'1px solid #e0e0e0',borderRadius:18,overflow:'hidden'}}>
+            <div style={{padding:'16px',display:'flex',alignItems:'center',gap:12,borderBottom:'1px solid #f0f0f0'}}>
+              <div style={{width:40,height:40,borderRadius:10,background:'#f5f5f7',border:'1px solid #e0e0e0',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0}}>{cat.icon}</div>
+              <div>
+                <div style={{fontFamily:SF,fontSize:17,fontWeight:600,color:'#1d1d1f',letterSpacing:'-0.374px'}}>{cat.cat}</div>
+                <div style={{fontFamily:SFT,fontSize:12,color:'#6e6e73'}}>{cat.items.length} compétences</div>
               </div>
-              <div style={{display:'flex',flexDirection:'column',gap:6}}>
-                {cat.items.map((item,j)=>(
-                  <div key={item} style={{display:'flex',alignItems:'center',gap:8}}>
-                    <div style={{width:5,height:5,borderRadius:'50%',flexShrink:0,background:`${cat.color}88`}}/>
-                    <span style={{fontSize:13,color:'#4a4040',fontFamily:"'Space Grotesk',sans-serif",fontWeight:500}}>{item}</span>
-                  </div>
-                ))}
-              </div>
+            </div>
+            <div style={{padding:'14px 16px',display:'flex',flexWrap:'wrap',gap:6}}>
+              {cat.items.map(item=>(
+                <span key={item} style={{padding:'5px 14px',background:'#f5f5f7',border:'1px solid #e0e0e0',borderRadius:9999,fontFamily:SFT,fontSize:13,color:'#1d1d1f'}}>{item}</span>
+              ))}
             </div>
           </div>
         ))}
@@ -2869,40 +2889,44 @@ function MobSkillsContent(){
 
 /* ── MOBILE FUTUR ────────────────────────────────────────── */
 function MobFutureContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.purple,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Vision</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:24,fontWeight:800,letterSpacing:'-.04em',marginBottom:16,color:'#1a1614'}}>Mon <span style={{color:C.purple}}>Futur</span></h2>
-
-      {/* Image */}
-      <div style={{borderRadius:16,overflow:'hidden',marginBottom:16,position:'relative',height:220}}>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      {/* Hero image — full bleed */}
+      <div style={{position:'relative',height:300,overflow:'hidden',background:'#272729'}}>
         <img src="uploads/Riyan%20Spotify%20Anime.png" alt="Vision" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} onError={e=>e.currentTarget.style.display='none'}/>
-        <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'12px 16px',background:'linear-gradient(0deg,rgba(0,0,0,.75),transparent)',color:'#fff'}}>
-          <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:15,fontWeight:800}}>Inspirer la prochaine génération de builders</div>
+        <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(0,0,0,.05) 0%,rgba(39,39,41,.9) 100%)'}}/>
+        <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'24px 20px'}}>
+          <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'rgba(255,255,255,.45)',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>Vision</div>
+          <h2 style={{fontFamily:SF,fontSize:28,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.1,color:'#fff',margin:0}}>Mon Futur</h2>
         </div>
       </div>
 
-      {/* Text */}
-      <div style={{display:'flex',flexDirection:'column',gap:12,marginBottom:16}}>
-        <p style={{fontSize:14,color:'#1a1614',lineHeight:1.75,fontWeight:500,margin:0}}>Ma mission : <strong style={{color:C.purple}}>contribuer à des produits qui impactent le plus grand nombre.</strong> Pas juste livrer des features — aider à construire des choses qui changent concrètement la vie de millions de personnes.</p>
-        <p style={{fontSize:13,color:'#5b5048',lineHeight:1.75,margin:0}}>Prendre la parole. Inspirer des équipes. Construire avec les meilleures personnes. <strong style={{color:'#1a1614'}}>L'impact réel est ma boussole.</strong></p>
+      {/* Body tile — light */}
+      <div style={{background:'#fff',padding:'24px 20px',marginBottom:2}}>
+        <p style={{fontFamily:SF,fontSize:21,fontWeight:600,lineHeight:1.19,letterSpacing:'0.231px',color:'#1d1d1f',marginBottom:12}}>Contribuer à des produits qui impactent le plus grand nombre.</p>
+        <p style={{fontFamily:SFT,fontSize:15,color:'#6e6e73',lineHeight:1.47,letterSpacing:'-0.224px',margin:'0 0 10px'}}>Pas juste livrer des features — aider à construire des choses qui changent concrètement la vie de millions de personnes.</p>
+        <p style={{fontFamily:SFT,fontSize:15,color:'#6e6e73',lineHeight:1.47,letterSpacing:'-0.224px',margin:0}}>L'impact réel est ma boussole.</p>
       </div>
 
-      {/* 3 pillars */}
-      <div style={{display:'flex',gap:8,marginBottom:16}}>
-        {[{emoji:'🏗️',label:'Build',desc:'Des produits qui durent'},{emoji:'🎤',label:'Speak',desc:'Inspirer & former'},{emoji:'🌍',label:'Impact',desc:'Toucher le monde'}].map(p=>(
-          <div key={p.label} style={{flex:1,padding:'12px 8px',background:'rgba(124,92,231,.05)',border:'1px solid rgba(124,92,231,.18)',borderRadius:11,textAlign:'center'}}>
-            <div style={{fontSize:22,marginBottom:4}}>{p.emoji}</div>
-            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:12,fontWeight:800,color:C.purple,marginBottom:2}}>{p.label}</div>
-            <div style={{fontSize:10,color:'#5b5048',fontFamily:"'JetBrains Mono',monospace",lineHeight:1.4}}>{p.desc}</div>
-          </div>
-        ))}
+      {/* 3 pillars — dark tile */}
+      <div style={{background:'#272729',padding:'24px 20px',marginBottom:2}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:10}}>
+          {[{emoji:'🏗️',label:'Build',desc:'Des produits qui durent'},{emoji:'🎤',label:'Speak',desc:'Inspirer & former'},{emoji:'🌍',label:'Impact',desc:'Toucher le monde'}].map(p=>(
+            <div key={p.label} style={{padding:'16px 10px',background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.1)',borderRadius:14,textAlign:'center'}}>
+              <div style={{fontSize:24,marginBottom:8}}>{p.emoji}</div>
+              <div style={{fontFamily:SF,fontSize:13,fontWeight:600,color:'#fff',marginBottom:4}}>{p.label}</div>
+              <div style={{fontFamily:SFT,fontSize:11,color:'rgba(255,255,255,.5)',lineHeight:1.4}}>{p.desc}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Tags */}
-      <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+      <div style={{padding:'20px 16px 32px',display:'flex',gap:6,flexWrap:'wrap'}}>
         {['Builder de produits impactants','Speaker','Créateur de valeur','Entrepreneur','Impact mondial 🌍'].map(t=>(
-          <span key={t} style={{padding:'5px 12px',border:`1.5px solid ${C.purple}55`,borderRadius:100,fontSize:11,color:C.purple,fontFamily:"'JetBrains Mono',monospace",background:'rgba(124,92,231,.06)',fontWeight:600}}>{t}</span>
+          <span key={t} style={{padding:'6px 16px',border:'1px solid #e0e0e0',borderRadius:9999,fontFamily:SFT,fontSize:13,color:'#0066cc',background:'#fff'}}>{t}</span>
         ))}
       </div>
     </div>
@@ -2911,34 +2935,50 @@ function MobFutureContent(){
 
 /* ── MOBILE IMPACT ───────────────────────────────────────── */
 function MobImpactContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Impact · chiffres réels</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:16,color:'#1a1614'}}>Ce que j'ai <span style={{color:C.coral}}>livré</span></h2>
-      <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:16}}>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      {/* Hero */}
+      <div style={{background:'#fff',padding:'24px 20px 20px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>Impact · Chiffres réels</div>
+        <h2 style={{fontFamily:SF,fontSize:34,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.1,color:'#1d1d1f',marginBottom:6}}>Ce que j'ai livré</h2>
+        <p style={{fontFamily:SFT,fontSize:15,color:'#6e6e73',lineHeight:1.47,letterSpacing:'-0.224px',margin:0}}>Métriques extraites de projets livrés en production.</p>
+      </div>
+
+      {/* Impact rows — hairline-divided list */}
+      <div style={{background:'#fff',marginBottom:2}}>
         {IMPACT.map((m,i)=>(
-          <div key={i} style={{background:'#fff',border:`1px solid ${m.color}33`,borderRadius:14,padding:'16px',display:'flex',alignItems:'center',gap:14,boxShadow:`0 2px 8px ${m.color}11`}}>
-            <div style={{fontSize:28,flexShrink:0}}>{m.icon}</div>
-            <div style={{flex:1}}>
-              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:26,fontWeight:800,color:m.color,lineHeight:1,marginBottom:2}}>{m.value}</div>
-              <div style={{fontSize:13,fontWeight:600,color:'#1a1614',marginBottom:2}}>{m.label}</div>
-              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:'#5b5048',lineHeight:1.5}}>{m.sub}</div>
+          <div key={i} style={{padding:'16px 20px',display:'flex',alignItems:'center',gap:16,borderBottom:i<IMPACT.length-1?'1px solid #e0e0e0':'none'}}>
+            <div style={{fontSize:26,width:36,flexShrink:0,textAlign:'center'}}>{m.icon}</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontFamily:SFT,fontSize:13,color:'#6e6e73',letterSpacing:'-0.08px',marginBottom:2}}>{m.label}</div>
+              <div style={{fontFamily:SFT,fontSize:11,color:'#aeaeb2',lineHeight:1.4,letterSpacing:'-0.08px'}}>{m.sub}</div>
             </div>
+            <div style={{fontFamily:SF,fontSize:28,fontWeight:600,color:'#1d1d1f',letterSpacing:'-0.374px',flexShrink:0}}>{m.value}</div>
           </div>
         ))}
       </div>
-      {/* Case study */}
-      <div style={{background:'linear-gradient(135deg,rgba(255,107,74,.08),rgba(99,102,241,.05))',border:'1px solid rgba(255,107,74,.2)',borderRadius:14,padding:16}}>
-        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Case · Shippingbo · 2024–2025</div>
-        <h3 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:16,fontWeight:800,letterSpacing:'-.03em',marginBottom:12,color:'#1a1614'}}>Feature Team IA — Agent logistique</h3>
-        <div style={{display:'flex',flexDirection:'column',gap:8}}>
-          {[{l:'Vision',t:'Chatbot passif → agent capable d\'exécuter des actions',c:'#ff6b4a'},{l:'Delivery',t:'Coordination front/back, US, DoD, sprints 2 semaines',c:'#7C5CE7'},{l:'Impact',t:'−30% tickets Tier 1 dès la bêta. TikTok Shop API.',c:'#00875a'}].map((b,i)=>(
-            <div key={i} style={{background:'#fff',borderRadius:10,padding:'12px 14px',borderLeft:`3px solid ${b.c}`}}>
-              <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:b.c,letterSpacing:'.12em',fontWeight:700,marginBottom:4}}>{b.l.toUpperCase()}</div>
-              <p style={{fontSize:12,color:'#5b5048',lineHeight:1.55,margin:0}}>{b.t}</p>
+
+      {/* Case study — dark tile */}
+      <div style={{background:'#272729',margin:'0 0 2px',padding:'24px 20px'}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'rgba(255,255,255,.5)',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>Case Study · Shippingbo · 2024–2025</div>
+        <h3 style={{fontFamily:SF,fontSize:21,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.15,color:'#f5f5f7',marginBottom:16}}>Feature Team IA — Agent logistique</h3>
+        <div style={{display:'flex',flexDirection:'column',gap:2}}>
+          {[{l:'Vision',t:"Chatbot passif → agent capable d'exécuter des actions"},{l:'Delivery',t:'Coordination front/back, US, DoD, sprints 2 semaines'},{l:'Impact',t:'−30% tickets Tier 1 dès la bêta. TikTok Shop API.'}].map((b,i)=>(
+            <div key={i} style={{background:'rgba(255,255,255,.06)',borderRadius:12,padding:'14px 16px',borderBottom:i<2?'1px solid rgba(255,255,255,.08)':'none',borderRadius:i===0?'12px 12px 0 0':i===2?'0 0 12px 12px':'0'}}>
+              <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'rgba(255,255,255,.45)',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:6}}>{b.l}</div>
+              <p style={{fontFamily:SFT,fontSize:14,color:'rgba(255,255,255,.85)',lineHeight:1.47,letterSpacing:'-0.224px',margin:0}}>{b.t}</p>
             </div>
           ))}
         </div>
+      </div>
+
+      {/* CTA */}
+      <div style={{background:'#fff',padding:'20px',display:'flex',justifyContent:'center'}}>
+        <a href="#" data-h style={{display:'inline-flex',alignItems:'center',gap:8,padding:'12px 28px',background:'#0066cc',color:'#fff',borderRadius:9999,fontFamily:SFT,fontSize:15,fontWeight:600,letterSpacing:'-0.224px',textDecoration:'none',boxShadow:'rgba(0,0,0,.22) 3px 5px 30px'}}>
+          Voir mes projets →
+        </a>
       </div>
     </div>
   );
@@ -2946,6 +2986,8 @@ function MobImpactContent(){
 
 /* ── MOBILE CONTACT ──────────────────────────────────────── */
 function MobContactContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   const [form,setForm]=React.useState({name:'',email:'',msg:''});
   const [sent,setSent]=React.useState(false);
   const [sending,setSending]=React.useState(false);
@@ -2967,58 +3009,66 @@ function MobContactContent(){
       const subject=encodeURIComponent(`Portfolio · Message de ${form.name}`);
       const body=encodeURIComponent(`Bonjour Riyan,\n\n${form.msg}\n\n—\nEnvoyé par : ${form.name}\nEmail : ${form.email}`);
       window.open(`mailto:riyan.besseghir@gmail.com?subject=${subject}&body=${body}`,'_blank');
-      setSending(false);setError('Envoi direct indisponible — votre client mail s\'est ouvert.');
+      setSending(false);setError("Envoi direct indisponible — votre client mail s'est ouvert.");
     }
   };
-  const inp={background:'#fff',border:'1px solid rgba(0,0,0,.12)',borderRadius:10,padding:'12px 14px',fontSize:14,color:'#1a1614',fontFamily:'Inter,sans-serif',width:'100%',outline:'none',boxSizing:'border-box'};
+  const inp={background:'#fff',border:'1px solid #e0e0e0',borderRadius:12,padding:'13px 16px',fontSize:15,color:'#1d1d1f',fontFamily:SFT,width:'100%',outline:'none',boxSizing:'border-box',letterSpacing:'-0.224px'};
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Contact</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:28,fontWeight:800,letterSpacing:'-.04em',marginBottom:6,color:'#1a1614'}}>On <span style={{color:C.coral,fontStyle:'italic'}}>parle</span> ?</h2>
-      <p style={{fontSize:13,color:'#5b5048',lineHeight:1.7,marginBottom:16}}>PM/PO junior disponible — Toulouse, Paris, Remote.</p>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      {/* Hero */}
+      <div style={{background:'#fff',padding:'24px 20px 20px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>Contact</div>
+        <h2 style={{fontFamily:SF,fontSize:34,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.1,color:'#1d1d1f',marginBottom:6}}>On parle ?</h2>
+        <p style={{fontFamily:SFT,fontSize:15,color:'#6e6e73',lineHeight:1.47,letterSpacing:'-0.224px',margin:0}}>PM/PO junior disponible — Toulouse, Paris, Remote.</p>
+      </div>
 
-      {/* Links */}
-      <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:16}}>
-        <button data-h onClick={copyEmail} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 14px',border:`1px solid ${copied?'rgba(0,135,90,.45)':'rgba(0,0,0,.08)'}`,borderRadius:11,cursor:'pointer',background:copied?'rgba(0,135,90,.06)':'rgba(248,249,251,.9)',width:'100%',fontFamily:'inherit'}}>
-          <div style={{display:'flex',alignItems:'center',gap:10}}>
-            <div style={{fontSize:14,width:32,height:32,background:copied?'rgba(0,135,90,.12)':'rgba(0,0,0,.06)',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center'}}>{copied?'✓':'✉️'}</div>
-            <div style={{fontSize:13,fontWeight:600,color:copied?'#00875a':'#1a1614'}}>{copied?'Copié !':'riyan.besseghir@gmail.com'}</div>
+      {/* Disponibilité pills */}
+      <div style={{background:'#fff',padding:'14px 20px',marginBottom:2,display:'flex',gap:6,flexWrap:'wrap'}}>
+        {['Open to work','CDI','Freelance','Toulouse','Paris','Remote'].map(t=>(
+          <span key={t} style={{padding:'5px 12px',border:'1px solid #0066cc',borderRadius:9999,fontFamily:SFT,fontSize:12,color:'#0066cc',letterSpacing:'-0.08px'}}>{t}</span>
+        ))}
+      </div>
+
+      {/* Liens — liste hairline */}
+      <div style={{background:'#fff',marginBottom:2}}>
+        <button data-h onClick={copyEmail} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 20px',border:'none',borderBottom:'1px solid #e0e0e0',cursor:'pointer',background:copied?'rgba(52,199,89,.06)':'#fff',width:'100%',fontFamily:'inherit'}}>
+          <div style={{display:'flex',alignItems:'center',gap:12}}>
+            <div style={{width:36,height:36,background:copied?'rgba(52,199,89,.12)':'#f0f0f0',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16}}>{copied?'✓':'✉️'}</div>
+            <div style={{fontFamily:SFT,fontSize:15,fontWeight:500,color:copied?'#34c759':'#1d1d1f',letterSpacing:'-0.224px'}}>{copied?'Copié !':'riyan.besseghir@gmail.com'}</div>
           </div>
-          <span style={{color:copied?'#00875a':'#5b5048',fontSize:13}}>{copied?'✓':'📋'}</span>
+          <span style={{fontFamily:SFT,fontSize:13,color:'#aeaeb2'}}>📋</span>
         </button>
-        {[{icon:'💼',name:'LinkedIn — /riyan-besseghir',href:'https://www.linkedin.com/in/riyan-besseghir-8514a425b/'},{icon:'⌥',name:'GitHub — /Deady31',href:'https://github.com/Deady31'},{icon:'📄',name:'Télécharger mon CV (PDF)',href:'uploads/CV%20RIYAN%20PM%20FR.pdf',download:true}].map(l=>(
-          <a key={l.name} href={l.href} {...(l.download?{download:true}:{target:'_blank'})} data-h style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 14px',border:'1px solid rgba(0,0,0,.08)',borderRadius:11,cursor:'pointer',background:'rgba(248,249,251,.9)',color:'inherit',textDecoration:'none'}}>
-            <div style={{display:'flex',alignItems:'center',gap:10}}>
-              <div style={{fontSize:14,width:32,height:32,background:'rgba(0,0,0,.06)',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center'}}>{l.icon}</div>
-              <div style={{fontSize:13,fontWeight:600,color:'#1a1614'}}>{l.name}</div>
+        {[{icon:'💼',name:'LinkedIn',sub:'/riyan-besseghir',href:'https://www.linkedin.com/in/riyan-besseghir-8514a425b/'},{icon:'⌥',name:'GitHub',sub:'/Deady31',href:'https://github.com/Deady31'},{icon:'📄',name:'Télécharger CV',sub:'PDF · FR',href:'uploads/CV%20RIYAN%20PM%20FR.pdf',download:true}].map((l,i,arr)=>(
+          <a key={l.name} href={l.href} {...(l.download?{download:true}:{target:'_blank'})} data-h style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'14px 20px',borderBottom:i<arr.length-1?'1px solid #e0e0e0':'none',color:'inherit',textDecoration:'none',background:'#fff'}}>
+            <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <div style={{width:36,height:36,background:'#f0f0f0',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16}}>{l.icon}</div>
+              <div>
+                <div style={{fontFamily:SFT,fontSize:15,fontWeight:500,color:'#1d1d1f',letterSpacing:'-0.224px'}}>{l.name}</div>
+                <div style={{fontFamily:SFT,fontSize:12,color:'#aeaeb2',letterSpacing:'-0.08px'}}>{l.sub}</div>
+              </div>
             </div>
-            <span style={{color:'#5b5048',fontSize:14}}>↗</span>
+            <span style={{fontFamily:SFT,fontSize:17,color:'#0066cc'}}>›</span>
           </a>
         ))}
       </div>
-      <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:20}}>
-        {['Open to work','CDI','Freelance','Toulouse','Paris','Remote'].map(t=>(
-          <span key={t} style={{padding:'4px 10px',border:'1px solid rgba(0,0,0,.1)',borderRadius:100,fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#5b5048',background:'rgba(255,255,255,.6)'}}>{t}</span>
-        ))}
-      </div>
 
-      {/* Form */}
-      <div style={{background:'rgba(248,249,251,.9)',border:'1px solid rgba(0,0,0,.08)',borderRadius:14,padding:16}}>
-        <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.15em',textTransform:'uppercase',marginBottom:14}}>Envoyer un message</div>
+      {/* Formulaire */}
+      <div style={{background:'#fff',padding:'20px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:16}}>Envoyer un message</div>
         {sent?(
-          <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:12,padding:'20px 0'}}>
-            <div style={{fontSize:42}}>✅</div>
-            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:16,fontWeight:700,color:'#1a1614'}}>Message envoyé !</div>
-            <p style={{fontSize:12,color:'#5b5048',textAlign:'center',lineHeight:1.6}}>Je te réponds sous 24h.</p>
+          <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:12,padding:'24px 0'}}>
+            <div style={{fontSize:44}}>✅</div>
+            <div style={{fontFamily:SF,fontSize:21,fontWeight:600,color:'#1d1d1f',letterSpacing:'-0.374px'}}>Message envoyé !</div>
+            <p style={{fontFamily:SFT,fontSize:14,color:'#6e6e73',textAlign:'center',lineHeight:1.47,letterSpacing:'-0.224px',margin:0}}>Je te réponds sous 24h.</p>
           </div>
         ):(
           <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:10}}>
             <input required value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} placeholder="Nom" style={inp}/>
             <input required type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} placeholder="Email" style={inp}/>
             <textarea required value={form.msg} onChange={e=>setForm(f=>({...f,msg:e.target.value}))} placeholder="Votre message..." rows={5} style={{...inp,resize:'vertical',minHeight:110}}/>
-            {error&&<div style={{fontSize:11,color:'#b34a2a',background:'rgba(255,107,74,.08)',border:'1px solid rgba(255,107,74,.25)',borderRadius:8,padding:'8px 12px',lineHeight:1.5}}>⚠ {error}</div>}
-            <button type="submit" data-h disabled={sending} style={{padding:'13px 24px',background:sending?'#5b5048':C.coral,color:'#fff',border:'none',borderRadius:100,fontFamily:"'Space Grotesk',sans-serif",fontSize:14,fontWeight:700,boxShadow:'0 4px 18px rgba(255,107,74,.3)'}}>
-              {sending?'Envoi...':'Envoyer →'}
+            {error&&<div style={{fontFamily:SFT,fontSize:13,color:'#ff3b30',background:'rgba(255,59,48,.06)',border:'1px solid rgba(255,59,48,.2)',borderRadius:10,padding:'10px 14px',lineHeight:1.47}}>⚠ {error}</div>}
+            <button type="submit" data-h disabled={sending} style={{padding:'14px 24px',background:sending?'#aeaeb2':'#0066cc',color:'#fff',border:'none',borderRadius:9999,fontFamily:SFT,fontSize:15,fontWeight:600,letterSpacing:'-0.224px',boxShadow:'rgba(0,0,0,.22) 3px 5px 30px',cursor:'pointer'}}>
+              {sending?'Envoi en cours…':'Envoyer →'}
             </button>
           </form>
         )}
@@ -3029,24 +3079,37 @@ function MobContactContent(){
 
 /* ── MOBILE TIKTOK ───────────────────────────────────────── */
 function MobTikTokContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   return(
-    <div style={{background:'linear-gradient(135deg,#1a1614 0%,#2a2025 100%)',minHeight:'100%',padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:'#FF0050',letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>TikTok · @deady</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:24,fontWeight:800,letterSpacing:'-.04em',marginBottom:16,lineHeight:1.1,color:'#fff'}}>Pop Culture<br/><span style={{color:'#FF0050'}}>Journalism</span></h2>
+    <div style={{background:'#000',minHeight:'100%'}}>
+      {/* Hero dark tile */}
+      <div style={{background:'#1c1c1e',padding:'24px 20px 20px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'rgba(255,255,255,.45)',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>TikTok · @deady</div>
+        <h2 style={{fontFamily:SF,fontSize:34,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.1,color:'#f5f5f7',marginBottom:6}}>Pop Culture<br/>Journalism</h2>
+        <p style={{fontFamily:SFT,fontSize:15,color:'rgba(255,255,255,.6)',lineHeight:1.47,letterSpacing:'-0.224px',margin:0}}>Scripts, tournage, montage solo — 100% indépendant.</p>
+      </div>
+
       {/* Phone mockup */}
-      <div style={{display:'flex',justifyContent:'center',marginBottom:20}}>
-        <div style={{width:200,height:380,background:'#0a0a0a',borderRadius:32,padding:6,boxShadow:'0 20px 60px rgba(0,0,0,.6),inset 0 0 0 1.5px #2a2a2a',position:'relative'}}>
-          <div style={{position:'absolute',top:10,left:'50%',transform:'translateX(-50%)',width:70,height:18,background:'#000',borderRadius:12,zIndex:10}}/>
-          <div style={{width:'100%',height:'100%',background:'#000',borderRadius:26,overflow:'hidden'}}>
+      <div style={{background:'#1c1c1e',padding:'8px 20px 24px',marginBottom:2,display:'flex',justifyContent:'center'}}>
+        <div style={{width:196,height:374,background:'#0a0a0a',borderRadius:34,padding:5,boxShadow:'0 24px 64px rgba(0,0,0,.8),inset 0 0 0 1.5px #2a2a2a',position:'relative'}}>
+          <div style={{position:'absolute',top:10,left:'50%',transform:'translateX(-50%)',width:68,height:17,background:'#000',borderRadius:12,zIndex:10}}/>
+          <div style={{width:'100%',height:'100%',background:'#111',borderRadius:28,overflow:'hidden'}}>
             <img src="uploads/Logo%20divers/Screen%20Tiktok%20Deady.png" alt="TikTok Deady" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center top'}} onError={e=>e.currentTarget.style.display='none'}/>
           </div>
         </div>
       </div>
-      <p style={{fontSize:14,color:'rgba(255,255,255,.8)',lineHeight:1.75,marginBottom:12}}>Compte TikTok dédié au journalisme de la culture POP — gaming, anime, cinéma. Scripts, tournage, montage solo.</p>
-      <p style={{fontSize:13,color:'rgba(255,255,255,.65)',lineHeight:1.75,marginBottom:18}}>Une école du <strong style={{color:'#fff'}}>storytelling court-format</strong> et de la vulgarisation — directement utile pour pitcher en PM.</p>
-      <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+
+      {/* Description — white tile sur fond sombre */}
+      <div style={{background:'#1c1c1e',padding:'20px',marginBottom:2}}>
+        <p style={{fontFamily:SFT,fontSize:15,color:'rgba(255,255,255,.85)',lineHeight:1.47,letterSpacing:'-0.224px',margin:'0 0 10px'}}>Compte dédié au journalisme de la culture POP — gaming, anime, cinéma.</p>
+        <p style={{fontFamily:SFT,fontSize:14,color:'rgba(255,255,255,.55)',lineHeight:1.47,letterSpacing:'-0.224px',margin:0}}>Une école du <span style={{color:'#f5f5f7',fontWeight:500}}>storytelling court-format</span> directement utile pour pitcher en PM.</p>
+      </div>
+
+      {/* Tags */}
+      <div style={{background:'#1c1c1e',padding:'16px 20px',display:'flex',flexWrap:'wrap',gap:8}}>
         {['Storytelling','Scripting','Vulgarisation','Solo','Culture POP','Gaming','Anime','Cinéma'].map(t=>(
-          <span key={t} style={{padding:'5px 12px',border:'1px solid rgba(255,0,80,.5)',borderRadius:100,fontSize:11,color:'#FF0050',fontFamily:"'JetBrains Mono',monospace",background:'rgba(255,0,80,.08)',fontWeight:600}}>{t}</span>
+          <span key={t} style={{padding:'6px 14px',border:'1px solid rgba(255,255,255,.2)',borderRadius:9999,fontFamily:SFT,fontSize:13,color:'rgba(255,255,255,.75)',letterSpacing:'-0.08px'}}>{t}</span>
         ))}
       </div>
     </div>
@@ -3055,29 +3118,40 @@ function MobTikTokContent(){
 
 /* ── MOBILE PARCOURS ─────────────────────────────────────── */
 function MobParcoursContent(){
+  const SF="-apple-system,'SF Pro Display','Inter',sans-serif";
+  const SFT="-apple-system,'SF Pro Text','Inter',sans-serif";
   const [active,setActive]=React.useState(null);
   return(
-    <div style={{padding:20}}>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:C.coral,letterSpacing:'.18em',textTransform:'uppercase',marginBottom:8}}>Parcours · 2007 → 2026</div>
-      <h2 style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:22,fontWeight:800,letterSpacing:'-.04em',marginBottom:6,color:'#1a1614'}}>Mon <span style={{color:C.coral}}>histoire</span></h2>
-      <p style={{fontSize:12,color:'#5b5048',lineHeight:1.6,marginBottom:18}}>Appuyez sur une étape pour voir le détail.</p>
-      <div style={{display:'flex',flexDirection:'column',gap:10}}>
+    <div style={{background:'#f5f5f7',minHeight:'100%'}}>
+      {/* Hero */}
+      <div style={{background:'#fff',padding:'24px 20px 20px',marginBottom:2}}>
+        <div style={{fontFamily:SFT,fontSize:11,fontWeight:600,color:'#6e6e73',letterSpacing:'.04em',textTransform:'uppercase',marginBottom:8}}>Parcours · 2007 → 2026</div>
+        <h2 style={{fontFamily:SF,fontSize:34,fontWeight:600,letterSpacing:'-0.374px',lineHeight:1.1,color:'#1d1d1f',marginBottom:6}}>Mon histoire</h2>
+        <p style={{fontFamily:SFT,fontSize:15,color:'#6e6e73',lineHeight:1.47,letterSpacing:'-0.224px',margin:0}}>Appuyez sur une étape pour voir le détail.</p>
+      </div>
+
+      {/* Timeline accordion */}
+      <div style={{background:'#fff',marginBottom:16}}>
         {TL_EVENTS.map((e,i)=>{
           const isA=active===i;
           return(
-            <div key={i} data-h onClick={()=>setActive(isA?null:i)} style={{background:isA?'#fff':'rgba(248,249,251,.9)',border:`1.5px solid ${isA?e.color+'55':'rgba(0,0,0,.07)'}`,borderRadius:14,overflow:'hidden',boxShadow:isA?`0 8px 24px rgba(0,0,0,.08),0 0 0 1px ${e.color}22`:'none',cursor:'pointer',transition:'background .25s,border-color .25s,box-shadow .25s'}}>
-              <div style={{padding:'14px 16px',display:'flex',alignItems:'center',gap:12}}>
-                <div style={{width:44,height:44,borderRadius:'50%',background:isA?e.color:'#fff',border:`2.5px solid ${e.color}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0,boxShadow:isA?`0 6px 18px ${e.color}55`:'0 2px 8px rgba(0,0,0,.08)',transition:'background .25s,box-shadow .25s'}}>{e.emoji}</div>
-                <div style={{flex:1}}>
-                  <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:e.color,fontWeight:800,letterSpacing:'.04em',marginBottom:2}}>{e.year}</div>
-                  <div style={{fontSize:14,fontWeight:800,color:'#1a1614',fontFamily:"'Space Grotesk',sans-serif",letterSpacing:'-.02em'}}>{e.title}</div>
+            <div key={i} style={{borderBottom:i<TL_EVENTS.length-1?'1px solid #e0e0e0':'none'}}>
+              <button data-h onClick={()=>setActive(isA?null:i)} style={{display:'flex',alignItems:'center',gap:14,padding:'16px 20px',width:'100%',background:'transparent',border:'none',cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
+                <div style={{width:42,height:42,borderRadius:'50%',background:isA?'#0066cc':'#f0f0f0',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0,transition:'background .2s',boxShadow:isA?'rgba(0,0,0,.22) 3px 5px 30px':'none'}}>{e.emoji}</div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontFamily:SFT,fontSize:12,fontWeight:600,color:isA?'#0066cc':'#aeaeb2',letterSpacing:'.02em',marginBottom:2}}>{e.year}</div>
+                  <div style={{fontFamily:SFT,fontSize:15,fontWeight:500,color:'#1d1d1f',letterSpacing:'-0.224px',lineHeight:1.3}}>{e.title}</div>
                 </div>
-                <span style={{fontSize:12,color:e.color,fontFamily:"'JetBrains Mono',monospace",fontWeight:700,transition:'transform .25s',transform:isA?'rotate(180deg)':'rotate(0deg)'}}>▼</span>
-              </div>
-              {isA&&<div style={{padding:'0 16px 14px'}}>
-                <p style={{fontSize:13,color:'#5b5048',lineHeight:1.65,margin:'0 0 10px'}}>{e.text}</p>
-                <p style={{fontSize:12,color:'#5b5048',lineHeight:1.75,margin:0,padding:'12px 14px',background:`${e.color}10`,borderRadius:10,borderLeft:`2.5px solid ${e.color}`}}>{e.detail}</p>
-              </div>}
+                <span style={{fontFamily:SFT,fontSize:18,color:'#aeaeb2',transition:'transform .2s',transform:isA?'rotate(90deg)':'rotate(0deg)',display:'inline-block',flexShrink:0}}>›</span>
+              </button>
+              {isA&&(
+                <div style={{padding:'0 20px 18px 76px'}}>
+                  <p style={{fontFamily:SFT,fontSize:14,color:'#1d1d1f',lineHeight:1.47,letterSpacing:'-0.224px',margin:'0 0 10px'}}>{e.text}</p>
+                  <div style={{background:'#f5f5f7',borderRadius:12,padding:'12px 16px',borderLeft:'3px solid #0066cc'}}>
+                    <p style={{fontFamily:SFT,fontSize:13,color:'#6e6e73',lineHeight:1.47,letterSpacing:'-0.08px',margin:0}}>{e.detail}</p>
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}
